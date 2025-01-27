@@ -1,6 +1,7 @@
 @extends('layouts.templates')
-
+{{-- @extends disini berfungsi untuk memanggil template navbar yang terletak pada folder layouts --}}
 @section('content')
+{{-- menampilkan pada bagian atas --}}
       <div class="profile-cover text-center">
          <img class="img-fluid" src="img/company-profile.jpg" alt="">
       </div>
@@ -59,6 +60,7 @@
                               </p>
                            </div>
                         </div>
+                        {{-- menampilkan overview --}}
                         <div class="box shadow-sm border rounded bg-white mb-3">
                            <div class="box-title border-bottom p-3">
                               <h6 class="m-0">Overview</h6>
@@ -99,6 +101,7 @@
                               </table>
                            </div>
                         </div>
+                        {{-- menampilkan bagian lokasi --}}
                         <div class="box shadow-sm border rounded bg-white mb-3">
                            <div class="box-title border-bottom p-3">
                               <h6 class="m-0">Locations</h6>
@@ -129,6 +132,7 @@
                            </div>
                         </div>
                      </div>
+                     {{-- tampilan bagian update --}}
                      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="box shadow-sm border rounded bg-white mb-3 osahan-post">
                            <div class="p-3 d-flex align-items-center border-bottom osahan-post-header">
@@ -193,10 +197,12 @@
                            </div>
                         </div>
                      </div>
+                     {{-- tampilan bagian jobs --}}
                      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                         <div class="box shadow-sm border rounded bg-white p-3">
                            <div class="row">
                               <div class="col-md-6">
+                                 {{-- ketika di klik akan teralihkan ke halaman job profile --}}
                                  <a href="{{route('job-profile')}}">
                                     <div class="border job-item mb-3">
                                        <div class="d-flex align-items-center p-3 job-item-header">
@@ -413,6 +419,7 @@
                            </div>
                         </div>
                      </div>
+                     {{-- tampilan life --}}
                      <div class="tab-pane fade" id="type" role="tabpanel" aria-labelledby="type-tab">
                         <div class="box shadow-sm border rounded bg-white mb-3">
                            <div class="box-title border-bottom p-3">
@@ -437,6 +444,7 @@
                            </div>
                         </div>
                      </div>
+                        {{-- tampilan reviews --}}
                      <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="type-tab">
                         <div class="box shadow-sm border rounded bg-white mb-3">
                            <div class="box-title border-bottom p-3">
@@ -518,6 +526,7 @@
                      <div class="p-5">
                         <img src="img/clogo.png" class="img-fluid" alt="Responsive image">
                      </div>
+                     {{-- overview pada bagian kiri --}}
                      <div class="p-3 border-top border-bottom">
                         <h6 class="font-weight-bold text-dark mb-1 mt-0">Overview</h6>
                         <p class="mb-0 text-muted">Google’s mission is to organize the world‘s information and make it universally accessible and useful.
@@ -545,6 +554,7 @@
                      </div>
                   </div>
                </aside>
+               {{-- membuat similar page --}}
                <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
                   <div class="box shadow-sm border rounded bg-white mb-3">
                      <div class="box-title border-bottom p-3">
@@ -613,6 +623,7 @@
                         </div>
                      </div>
                   </div>
+                  {{-- tampilan sebelah kanan --}}
                   <div class="box shadow-sm border rounded bg-white mb-3">
                      <div class="box-title border-bottom p-3">
                         <h6 class="m-0">People also viewed</h6>
