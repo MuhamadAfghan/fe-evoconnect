@@ -1,3 +1,4 @@
+{{-- halaman profile --}}
 @extends('layouts.templates')
 
 @section('content')
@@ -22,6 +23,7 @@
                            <p class="mb-0 text-black-50 small">Views</p>
                         </div>
                      </div>
+                     {{-- menyambungkan ke halaman login --}}
                      <div class="overflow-hidden border-top">
                         <a class="font-weight-bold p-3 d-block" href="{{ route('sign-in') }}"> Log Out </a>
                      </div>
@@ -236,6 +238,7 @@
                         <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
                      </div>
                   </div>
+                  {{-- menyambungkan ke halaman job profile --}}
                   <a href="{{route('job-profile')}}">
                      <div class="shadow-sm border rounded bg-white job-item mb-3">
                         <div class="d-flex align-items-center p-3 job-item-header">
@@ -262,6 +265,7 @@
                         </div>
                      </div>
                   </a>
+                  {{-- manyambungkan ke halaman job profile --}}
                   <a href="{{route('job-profile')}}">
                      <div class="shadow-sm border rounded bg-white job-item mb-3">
                         <div class="d-flex align-items-center p-3 job-item-header">

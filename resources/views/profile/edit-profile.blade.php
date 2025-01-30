@@ -1,3 +1,4 @@
+{{-- halaman edit profile --}}
 @extends('layouts.templates')
 
 @section('content')
