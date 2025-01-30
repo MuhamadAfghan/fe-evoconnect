@@ -27,6 +27,7 @@
                            <div class="p-3">
                               <div class="row">
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -60,6 +61,7 @@
                                     </a>
                                  </div>
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -92,6 +94,7 @@
                                     </a>
                                  </div>
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -124,6 +127,7 @@
                                     </a>
                                  </div>
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -155,6 +159,7 @@
                                     </a>
                                  </div>
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -187,6 +192,7 @@
                                     </a>
                                  </div>
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -218,6 +224,7 @@
                                     </a>
                                  </div>
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -250,6 +257,7 @@
                                     </a>
                                  </div>
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">
@@ -281,6 +289,7 @@
                                     </a>
                                  </div>
                                  <div class="col-md-4">
+                                    {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                     <a href="{{route('profile')}}">
                                        <div class="border network-item rounded mb-3">
                                           <div class="p-3 d-flex align-items-center network-item-header">

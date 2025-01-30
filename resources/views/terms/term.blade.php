@@ -103,8 +103,11 @@
       <!-- Bootstrap core JavaScript -->
       <script src="vendor/jquery/jquery.min.js"></script>
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      {{-- untuk mendukung fitur Bootstrap seperti modal dan dropdown. --}}
       <!-- slick Slider JS-->
+      {{-- untuk menambahkan fitur slider (meskipun tidak terlihat penggunaannya di kode ini). --}}
       <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
       <!-- Custom scripts for all pages-->
       <script src="js/osahan.js"></script>
+      {{-- adalah file custom yang mungkin berisi script tambahan untuk fitur spesifik halaman ini. --}}
 @endsection
