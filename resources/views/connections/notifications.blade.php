@@ -1,3 +1,4 @@
+{{-- halaman notifikasi --}}
 @extends('layouts.templates')
 
 @section('content')
@@ -245,7 +246,7 @@
                      <img src="img/job1.png" class="img-fluid" alt="Responsive image">
                      <div class="p-3 border-bottom">
                         <h6 class="font-weight-bold text-dark">Notifications</h6>
-                        <p class="mb-0 text-muted">You’re all caught up! Check back later for new notifications
+                        <p class="mb-0 text-muted">You're all caught up! Check back later for new notifications
                         </p>
                      </div>
                      <div class="p-3">
@@ -280,6 +281,7 @@
                         <h6 class="m-0">Similar Jobs
                         </h6>
                      </div>
+                     {{-- menyambungkan ke halaman job profile --}}
                      <div class="box-body p-3">
                         <a href="{{route('job-profile')}}">
                            <div class="shadow-sm border rounded bg-white job-item mb-3">
@@ -305,6 +307,7 @@
                               </div>
                            </div>
                         </a>
+                        {{-- menyambungkan ke halaman job profile --}}
                         <a href="{{route('job-profile')}}">
                            <div class="shadow-sm border rounded bg-white job-item">
                               <div class="d-flex align-items-center p-3 job-item-header">
