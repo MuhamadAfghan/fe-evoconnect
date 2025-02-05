@@ -48,7 +48,7 @@ class AuthController extends Controller
             'lastname' => $request->lastname,
             'email' => $request->email,
             // 'phone' => $request->phone,
-            'phone' => '083808383191',
+            'phone' => rand(1000000000, 9999999999),
             'password' => bcrypt($request->password),
         ]);
 

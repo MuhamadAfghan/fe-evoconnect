@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConnectController;
+use App\Http\Controllers\ConnectionController;
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -11,7 +12,7 @@ Route::middleware('auth')->group(function () {
         return view('home');
     })->name('home');
 
-    Route::get('/connect', [ConnectController::class, 'connect'])->name('connect.index');
+    Route::get('/connect', [ConnectionController::class, 'index'])->name('connect.index');
 
     Route::get('/message', [ConnectController::class, 'message'])->name('messages');
     Route::get('/notification', [ConnectController::class, 'notification'])->name('notifications');
