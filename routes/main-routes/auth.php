@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ConnectController::class, 'profile'])->name('profile');
     Route::get('/company-profile', [ConnectController::class, 'companyProfile'])->name('company-profile');
     Route::get('/job-profile', [ConnectController::class, 'jobProfile'])->name('job-profile');
-    Route::get('/not-found', [ConnectController::class, 'notFound'])->name('not-found');
+    // Route::get('/not-found', [ConnectController::class, 'notFound'])->name('not-found');
 
     Route::get('/coming-soon', [ConnectController::class, 'comingSoon'])->name('coming-soon');
     Route::get('/maintenance', [ConnectController::class, 'maintenance'])->name('maintenance');

@@ -92,8 +92,8 @@
                                     class="feather-message-circle mr-1"></i> Messages</a>
                             <a class="dropdown-item" href="{{ route('notifications') }}"><i
                                     class="feather-bell mr-1"></i> Notifications</a>
-                            <a class="dropdown-item" href="{{ route('not-found') }}"><i
-                                    class="feather-alert-triangle mr-1"></i> 404 Not Found</a>
+                            {{-- <a class="dropdown-item" href="{{ route('not-found') }}"><i
+                                    class="feather-alert-triangle mr-1"></i> 404 Not Found</a> --}}
                             <a class="dropdown-item" href="{{ route('faq') }}"><i
                                     class="feather-help-circle mr-1"></i>
                                 FAQ</a>

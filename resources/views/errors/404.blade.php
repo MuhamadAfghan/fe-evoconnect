@@ -1,4 +1,4 @@
-@extends('layouts.templates')
+@extends('errors.templates')
 
 @section('content')
     <div class="vh-100">
