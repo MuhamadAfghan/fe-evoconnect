@@ -51,7 +51,7 @@
                             <div class="d-flex align-item-center py-3">
                                 <a href="{{ route('login') }}">Sign In</a>
                                 <span class="ml-auto"> New to EVOConnect? <a class="font-weight-bold"
-                                        href="{{ route('sign-up') }}">Join now</a></span>
+                                        href="{{ route('register') }}">Join now</a></span>
                             </div>
                         </form>
                     </div>

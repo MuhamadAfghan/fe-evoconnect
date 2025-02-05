@@ -38,15 +38,19 @@
                             <h5 class="font-weight-bold mt-3">Join EVOConnect</h5>
                             <p class="text-muted">Make the most of your professional life</p>
                         </div>
-                        <form action="{{ route('home') }}">
+                        <form action="{{ route('register') }}" method="POST">
+                            @csrf
                             <div class="form-row">
                                 <div class="col">
                                     <div class="form-group">
                                         <label class="mb-1">First name</label>
                                         <div class="position-relative icon-form-control">
                                             <i class="feather-user position-absolute"></i>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" name="firstname">
                                         </div>
+                                        @if ($errors->has('firstname'))
+                                            <span class="text-danger">{{ $errors->first('firstname') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col">
@@ -54,8 +58,11 @@
                                         <label class="mb-1">Last name</label>
                                         <div class="position-relative icon-form-control">
                                             <i class="feather-user position-absolute"></i>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" name="lastname">
                                         </div>
+                                        @if ($errors->has('lastname'))
+                                            <span class="text-danger">{{ $errors->first('lastname') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -63,15 +70,22 @@
                                 <label class="mb-1">Email</label>
                                 <div class="position-relative icon-form-control">
                                     <i class="feather-at-sign position-absolute"></i>
-                                    <input type="email" class="form-control">
+                                    <input type="email" class="form-control" name="email">
                                 </div>
+                                @if ($errors->has('email'))
+                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label class="mb-1">Password (6 or more characters)</label>
                                 <div class="position-relative icon-form-control">
                                     <i class="feather-unlock position-absolute"></i>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" name="password">
                                 </div>
+
+                                @if ($errors->has('password'))
+                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label class="mb-1">You agree to the EVOConnect <a href="{{ route('terms.term') }}"
@@ -107,6 +121,36 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    {{-- alert section --}}
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('warning'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Warning!</strong> {{ session('warning') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     </div>
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>

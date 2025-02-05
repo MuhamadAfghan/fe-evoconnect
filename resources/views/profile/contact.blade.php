@@ -182,7 +182,9 @@
                                     <label class="mb-1">YOUR NAME <small class="text-danger">*</small></label>
                                     <div class="position-relative icon-form-control">
                                         <i class="feather-user position-absolute"></i>
-                                        <input placeholder="Gurdeep EVOConnect" type="text" class="form-control">
+                                        <input
+                                            placeholder="{{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}"
+                                            type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +193,8 @@
                                     <label class="mb-1">YOUR EMAIL ADDRESS <small class="text-danger">*</small></label>
                                     <div class="position-relative icon-form-control">
                                         <i class="feather-mail position-absolute"></i>
-                                        <input placeholder="iamosahan@gmail.com" type="text" class="form-control">
+                                        <input placeholder="{{ auth()->user()->email }}" type="text"
+                                            class="form-control">
                                     </div>
                                 </div>
                             </div>

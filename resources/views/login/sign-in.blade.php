@@ -53,26 +53,33 @@
                         </div>
                         <!-- Form login ini digunakan untuk autentikasi pengguna -->
                         {{-- Route ini -({{route('home')}})- digunakan untuk mengarahkan pengguna ke halaman home --}}
-                        <form action="{{ route('home') }}">
+                        <form action="{{ route('login.store') }}" method="POST">
+                            @csrf
                             <!-- Input untuuk email atau nomor telepon -->
                             <div class="form-group">
                                 <label class="mb-1">Email or Phone</label>
                                 <div class="position-relative icon-form-control">
                                     <i class="feather-user position-absolute"></i>
-                                    <input type="email" class="form-control">
+                                    <input type="email" class="form-control" name="email">
                                 </div>
+                                @if ($errors->has('email'))
+                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                @endif
                             </div>
                             <!-- Input untuk password -->
                             <div class="form-group">
                                 <label class="mb-1">Password</label>
                                 <div class="position-relative icon-form-control">
                                     <i class="feather-unlock position-absolute"></i>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" name="password">
                                 </div>
+                                @if ($errors->has('password'))
+                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                @endif
                             </div>
                             <!-- Untuk Checkbox remember password -->
                             <div class="custom-control custom-checkbox mb-3">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1" name="remember">
                                 <label class="custom-control-label" for="customCheck1">Remember password</label>
                             </div>
                             <!-- Tombol ketika kita ingin submit form login -->
@@ -103,13 +110,43 @@
                                 <a href="{{ route('forgot-password') }}">Forgot password?</a>
                                 {{-- Route ketika kita tidak mempunyai akun dan harus membuatnya terlebih dahulu, route ini akan mengarahkan ke file sign-up --}}
                                 <span class="ml-auto"> New to EVOConnect? <a class="font-weight-bold"
-                                        href="{{ route('sign-up') }}">Join now</a></span>
+                                        href="{{ route('register') }}">Join now</a></span>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    {{-- alert section --}}
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('warning'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Warning!</strong> {{ session('warning') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     </div>
 
     <!-- JavaScript inti Bootstrap -->
