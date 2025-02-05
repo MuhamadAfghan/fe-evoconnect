@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('connects', function (Blueprint $table) {
-            $table->id();
+        Schema::create('request_connections', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('to_user_id')->constrained('users');
+            $table->foreignUuid('from_user_id')->constrained('users');
+            $table->enum('status', ['pending', 'accepted', 'rejected']);
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('connects');
+        Schema::dropIfExists('request_connections');
     }
 };
