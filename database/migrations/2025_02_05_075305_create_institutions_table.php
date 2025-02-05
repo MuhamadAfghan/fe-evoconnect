@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('company_size');
             $table->string('headquarters');
             $table->string('type');
+            $table->string('specialitist');
             $table->date('founded_year');
-            $table->timestamps('specialitists');
+            $table->timestamps();
         });
     }
 

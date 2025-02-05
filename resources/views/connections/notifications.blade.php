@@ -326,7 +326,17 @@
                     {{-- button alert --}}
                     <button type="button" class="btn btn-lg btn-block btn-danger mb-3"> <i class="feather-bell"></i> Set
                         alert for jobs </button>
-                    @if (session('success')) && !session('noti')
+                    @if (session('success') && !session('notification_disable'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                        @endif
+
+                        @if (session('error') && !session('notification_disable'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                            @endif
+                        </div>
                         {{-- end alert --}}
                         <div class="box mb-3 rounded border bg-white shadow-sm">
                             <div class="box-title border-bottom p-3">

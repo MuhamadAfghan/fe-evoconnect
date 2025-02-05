@@ -76,7 +76,7 @@
                             <div class="border-bottom p-3">
                                 <h6 class="font-weight-bold text-dark">Osahan Solutions</h6>
                                 <p class="text-muted mb-0">Looking for talent?</p>
-                            </div>
+                            </div>      
                             <div class="p-3">
                                 <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
                             </div>
