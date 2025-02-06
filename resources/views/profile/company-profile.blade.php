@@ -17,9 +17,11 @@
                             <p class="text-muted mb-0"> Internet | Mountain View, CA | 14,128,005 followers</p>
                         </div>
                         <div class="profile-right ml-auto">
-                            <button type="button" class="btn btn-light mr-2"> <i class="feather-external-link"></i> Visit
-                                website </button>
-                            <button type="button" class="btn btn-primary"> <i class="feather-plus"></i> Follow </button>
+                            <a href="https://www.google.co.id/?hl=id" target="_blank" class="btn btn-light mr-2"><i class="feather-external-link"></i> Visit
+                                website 
+                            </a>
+                            <button type="button" class="btn btn-primary" onclick="toggleFollowPrimary(this)">
+                                <i class="feather-plus"></i> Follow                            
                         </div>
                     </div>
                 </div>
@@ -86,7 +88,7 @@
                                         <tbody>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Website</th>
-                                                <td class="p-3"><a href="#">www.google.com</a></td>
+                                                <td class="p-3"><a href="https://www.google.co.id/?hl=id">www.google.com</a></td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Industry</th>
@@ -187,7 +189,7 @@
                                             class="feather-heart text-danger"></i> 16</a>
                                     <a href="#" class="text-secondary mr-3"><i class="feather-message-square"></i>
                                         8</a>
-                                    <a href="#" class="text-secondary mr-3"><i class=""></i> 2</a>
+                                    {{-- <a href="#" class="text-secondary mr-3"><i class=""></i> 2</a> --}}
                                 </div>
                                 <div class="p-3">
                                     <button type="button" class="btn btn-outline-primary btn-sm mr-1">Awesome!!</button>
@@ -221,7 +223,7 @@
                                             class="feather-heart text-danger"></i> 16</a>
                                     <a href="#" class="text-secondary mr-3"><i class="feather-message-square"></i>
                                         8</a>
-                                    <a href="#" class="text-secondary mr-3"><i class=""></i> 2</a>
+                                    {{-- <a href="#" class="text-secondary mr-3"><i class=""></i> 2</a> --}}
                                 </div>
                                 <div class="d-flex align-items-top border-bottom osahan-post-comment p-3">
                                     <div class="dropdown-list-image mr-3">
@@ -777,7 +779,7 @@
                                     </button>
                                 </span>
                             </div>
-                            <div class="d-flex align-items-center osahan-post-header people-list mb-3">
+                            {{-- <div class="d-flex align-items-center osahan-post-header people-list mb-3">
                                 <div class="dropdown-list-image mr-3">
                                     <img class="rounded-circle" src="img/l2.png" alt="">
                                 </div>
@@ -840,7 +842,7 @@
                                         <i class="feather-plus"></i> Follow
                                     </button>
                                 </span>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     {{-- tampilan sebelah kanan --}}
@@ -862,7 +864,7 @@
                                     <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
                                 </span>
                             </div>
-                            <div class="d-flex align-items-center osahan-post-header people-list mb-3">
+                            {{-- <div class="d-flex align-items-center osahan-post-header people-list mb-3">
                                 <div class="dropdown-list-image mr-3">
                                     <img class="rounded-circle" src="img/p9.png" alt="">
                                 </div>
@@ -913,7 +915,7 @@
                                 <span class="ml-auto">
                                     <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
                                 </span>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="box ads-box mb-3 rounded border bg-white text-center shadow-sm">
@@ -957,6 +959,21 @@
                 button.innerHTML = '<i class="feather-check"></i> Followed';
                 button.classList.add('btn-success', 'followed');
                 button.classList.remove('btn-light');
+            }
+        }
+    </script>
+    <script>
+        function toggleFollowPrimary(button) {
+            if (button.classList.contains('followed')) {
+                // Jika sudah diikuti, ubah kembali ke "Follow"
+                button.innerHTML = '<i class="feather-plus"></i> Follow';
+                button.classList.remove('btn-success', 'followed'); // Hapus warna hijau dan status followed
+                button.classList.add('btn-primary'); // Tambahkan warna biru
+            } else {
+                // Jika belum diikuti, ubah menjadi "Followed"
+                button.innerHTML = '<i class="feather-check"></i> Followed';
+                button.classList.add('btn-success', 'followed'); // Tambahkan warna hijau dan status followed
+                button.classList.remove('btn-primary'); // Hapus warna biru
             }
         }
     </script>
