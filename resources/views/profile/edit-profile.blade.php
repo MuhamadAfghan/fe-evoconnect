@@ -107,10 +107,11 @@
                                             </label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="name"
-                                                    value="Gurdeep EVOConnect" placeholder="Enter your name"
-                                                    aria-label="Enter your name" required=""
-                                                    aria-describedby="nameLabel" data-msg="Please enter your name."
-                                                    data-error-class="u-has-error" data-success-class="u-has-success">
+                                                    value="{{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}"
+                                                    placeholder="Enter your name" aria-label="Enter your name"
+                                                    required="" aria-describedby="nameLabel"
+                                                    data-msg="Please enter your name." data-error-class="u-has-error"
+                                                    data-success-class="u-has-success">
                                                 <small class="form-text text-muted">Displayed on your public profile,
                                                     notifications and other places.</small>
                                             </div>
@@ -367,7 +368,8 @@
                                             </label>
                                             <div class="form-group">
                                                 <input type="email" class="form-control" name="email"
-                                                    value="iamosahan@gmail.com" placeholder="Enter your email address"
+                                                    value="{{ auth()->user()->email }}"
+                                                    placeholder="Enter your email address"
                                                     aria-label="Enter your email address" required=""
                                                     aria-describedby="emailLabel"
                                                     data-msg="Please enter a valid email address."

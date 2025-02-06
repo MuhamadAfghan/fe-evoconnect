@@ -50,7 +50,7 @@
                         </div>
                         <div class="border-top d-flex align-items-center p-3">
                             <!-- <div class="mr-auto"><a href="#" class="text-link small"><i class="feather-map-pin"></i>
-                                            Add Location</a></div> -->
+                                                            Add Location</a></div> -->
                             <div class="flex-shrink-1">
                                 <button type="button" class="btn btn-primary btn-sm">Post Status</button>
                             </div>
@@ -62,7 +62,7 @@
                                 <img class="rounded-circle" src="img/p5.png" alt="">
                                 <div class="status-indicator bg-success"></div>
                             </div>
-                            <div class="font-weight-bold">2
+                            <div class="font-weight-bold">
                                 <div class="text-truncate">Tobia Crivellari</div>
                                 <div class="small text-gray-500">Product Designer at askbootstrap</div>
                             </div>
@@ -244,7 +244,8 @@
                     <div class="box profile-box mb-3 rounded border bg-white text-center shadow-sm">
                         <div class="border-bottom px-3 py-4">
                             <img src="img/p1.png" class="img-fluid rounded-circle mt-2" alt="Responsive image">
-                            <h5 class="font-weight-bold text-dark mb-1 mt-4">Gurdeep EVOConnect</h5>
+                            <h5 class="font-weight-bold text-dark mb-1 mt-4">
+                                {{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}</h5>
                             <p class="text-muted mb-0">UI / UX Designer</p>
                         </div>
                         <div class="d-flex">
@@ -281,15 +282,15 @@
                         </div>
                     </div>
                     <!-- <div class="box ads-box mb-3 rounded bg-white text-center shadow-sm">
-                                                <img src="img/job1.png" class="img-fluid" alt="Responsive image">
-                                                <div class="border-bottom p-3">
-                                                    <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
-                                                    <p class="text-muted mb-0">Looking for talent?</p>
-                                                </div>
-                                                <div class="p-3">
-                                                    <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
-                                                </div>
-                                            </div> -->
+                                                                <img src="img/job1.png" class="img-fluid" alt="Responsive image">
+                                                                <div class="border-bottom p-3">
+                                                                    <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
+                                                                    <p class="text-muted mb-0">Looking for talent?</p>
+                                                                </div>
+                                                                <div class="p-3">
+                                                                    <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
+                                                                </div>
+                                                            </div> -->
                 </aside>
                 <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="box mb-3 rounded border bg-white shadow-sm">

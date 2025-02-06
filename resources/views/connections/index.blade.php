@@ -31,55 +31,63 @@
                                 aria-labelledby="home-tab">
                                 <div class="p-3">
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            {{-- rute profile untuk mengarahkan user ke halaman profile --}}
-                                            <div class="network-item mb-3 rounded border">
-                                                <div class="d-flex align-items-center network-item-header p-3">
-                                                    <div class="dropdown-list-image mr-3">
-                                                        <img class="rounded-circle" src="img/p1.png" alt="">
-                                                    </div>
-                                                    <div class="font-weight-bold">
-                                                        <h6 class="font-weight-bold text-dark mb-0">Sophia Lee</h6>
-                                                        <div class="small text-black-50">Photographer at Photography</div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="d-flex align-items-center border-top border-bottom network-item-body p-3">
-                                                    <div class="overlap-rounded-circle">
-                                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                            data-placement="top" title="Sophia Lee" src="img/p1.png"
-                                                            alt="">
-                                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                            data-placement="top" title="John Doe" src="img/p2.png"
-                                                            alt="">
-                                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                            data-placement="top" title="Julia Cox" src="img/p3.png"
-                                                            alt="">
-                                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                            data-placement="top" title="Robert Cook" src="img/p4.png"
-                                                            alt="">
-                                                        <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                            data-placement="top" title="Sophia Lee" src="img/p5.png"
-                                                            alt="">
-                                                    </div>
-                                                    <span class="font-weight-bold small text-primary">4 mutual
-                                                        connections</span>
-                                                </div>
-                                                <div class="network-item-footer d-flex py-3 text-center">
-                                                    <div class="col-6 pl-3 pr-1">
-                                                        <button type="button"
-                                                            class="btn btn-primary btn-sm btn-block connect-btn"> Connect
-                                                        </button>
-                                                    </div>
-                                                    {{-- <div class="col-6 pl-1 pr-3">
+                                        @foreach ($users as $user)
+                                            <div class="col-md-4">
+                                                {{-- rute profile untuk mengarahkan user ke halaman profile --}}
+                                                <a href="{{ route('profile') }}">
+                                                    <div class="network-item mb-3 rounded border">
+                                                        <div class="d-flex align-items-center network-item-header p-3">
+                                                            <div class="dropdown-list-image mr-3">
+                                                                <img class="rounded-circle" src="img/p1.png" alt="">
+                                                            </div>
+                                                            <div class="font-weight-bold">
+                                                                <h6 class="font-weight-bold text-dark mb-0">
+                                                                    {{ $user->firstname . ' ' . $user->lastname }}</h6>
+                                                                <div class="small text-black-50">Photographer at Photography
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="d-flex align-items-center border-top border-bottom network-item-body p-3">
+                                                            <div class="overlap-rounded-circle">
+                                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
+                                                                    data-placement="top"
+                                                                    title="{{ $user->firstname . ' ' . $user->lastname }}"
+                                                                    src="img/p1.png" alt="">
+                                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
+                                                                    data-placement="top" title="John Doe" src="img/p2.png"
+                                                                    alt="">
+                                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
+                                                                    data-placement="top" title="Julia Cox" src="img/p3.png"
+                                                                    alt="">
+                                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
+                                                                    data-placement="top" title="Robert Cook"
+                                                                    src="img/p4.png" alt="">
+                                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
+                                                                    data-placement="top"
+                                                                    title="{{ $user->firstname . ' ' . $user->lastname }}"
+                                                                    src="img/p5.png" alt="">
+                                                            </div>
+                                                            <span class="font-weight-bold small text-primary">4 mutual
+                                                                connections</span>
+                                                        </div>
+                                                        <div class="network-item-footer d-flex py-3 text-center">
+                                                            <div class="col-6 pl-3 pr-1">
+                                                                <button type="button"
+                                                                    class="btn btn-primary btn-sm btn-block connect-btn">
+                                                                    Connect
+                                                                </button>
+                                                            </div>
+                                                            {{-- <div class="col-6 pl-1 pr-3">
                                                         <button type="button"
                                                             class="btn btn-outline-primary btn-sm btn-block follow-btn">
                                                             Follow </button>
                                                     </div> --}}
-                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
                                             </div>
-                                            </a>
-                                        </div>
+                                        @endforeach
                                         <!-- Repeat for other profiles -->
                                     </div>
                                 </div>

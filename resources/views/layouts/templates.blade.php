@@ -92,8 +92,8 @@
                                     class="feather-message-circle mr-1"></i> Messages</a>
                             <a class="dropdown-item" href="{{ route('notifications') }}"><i
                                     class="feather-bell mr-1"></i> Notifications</a>
-                            <a class="dropdown-item" href="{{ route('not-found') }}"><i
-                                    class="feather-alert-triangle mr-1"></i> 404 Not Found</a>
+                            {{-- <a class="dropdown-item" href="{{ route('not-found') }}"><i
+                                    class="feather-alert-triangle mr-1"></i> 404 Not Found</a> --}}
                             <a class="dropdown-item" href="{{ route('faq') }}"><i
                                     class="feather-help-circle mr-1"></i>
                                 FAQ</a>
@@ -119,7 +119,8 @@
                                 Components</a>
                             <a class="dropdown-item" href="{{ route('login') }}"><i class="feather-log-in mr-1"></i>
                                 Sign In</a>
-                            <a class="dropdown-item" href="{{ route('sign-up') }}"><i class="feather-lock mr-1"></i>
+                            <a class="dropdown-item" href="{{ route('register') }}"><i
+                                    class="feather-lock mr-1"></i>
                                 Sign Up</a>
                         </div>
                     </li>
@@ -247,7 +248,9 @@
                                 <div class="status-indicator bg-success"></div>
                             </div>
                             <div class="font-weight-bold">
-                                <div class="text-truncate">Gurdeep EVOConnect</div>
+                                <div class="text-truncate">
+                                    {{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}
+                                </div>
                                 <div class="small text-gray-500">UI/UX Designer</div>
                             </div>
                         </div>
@@ -257,8 +260,13 @@
                         <a class="dropdown-item" href="{{ route('edit-profile') }}"><i
                                 class="feather-user mr-1"></i> Edit Profile</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('login') }}"><i class="feather-log-out mr-1"></i>
-                            Logout</a>
+                        {{-- <a class="dropdown-item" href="{{ route('login') }}"><i class="feather-log-out mr-1"></i>
+                            Logout</a> --}}
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="dropdown-item" type="submit"><i class="feather-log-out mr-1"></i>
+                                Logout</button>
+                        </form>
                     </div>
                 </li>
             </ul>
@@ -267,6 +275,36 @@
 
     <div class="container mt-5">
         @yield('content')
+    </div>
+
+
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('warning'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Warning!</strong> {{ session('warning') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     </div>
 
 </body>
