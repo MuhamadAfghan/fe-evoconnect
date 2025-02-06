@@ -21,7 +21,8 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4">
                             <div class="box blog-card mb-3 rounded border-0 bg-white shadow-sm">
-                                <a href="#"><img class="card-img-top" src="img/blog/1.png" alt="Card image cap">
+                                <a href="{{ Route('blog-single') }}"><img class="card-img-top" src="img/blog/1.png"
+                                        alt="Card image cap">
                                     <div class="card-body">
                                         <span~ class="badge badge-success">House/Villa</span~>
                                         <h6 class="text-dark">Possimus aut mollitia eum ipsum</h6>

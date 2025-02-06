@@ -40,31 +40,15 @@
                         </div>
                         <form action="{{ route('register') }}" method="POST">
                             @csrf
-                            <div class="form-row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="mb-1">First name</label>
-                                        <div class="position-relative icon-form-control">
-                                            <i class="feather-user position-absolute"></i>
-                                            <input type="text" class="form-control" name="firstname">
-                                        </div>
-                                        @if ($errors->has('firstname'))
-                                            <span class="text-danger">{{ $errors->first('firstname') }}</span>
-                                        @endif
-                                    </div>
+                            <div class="form-group">
+                                <label class="mb-1">Name</label>
+                                <div class="position-relative icon-form-control">
+                                    <i class="feather-user position-absolute"></i>
+                                    <input type="text" class="form-control" name="name">
                                 </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label class="mb-1">Last name</label>
-                                        <div class="position-relative icon-form-control">
-                                            <i class="feather-user position-absolute"></i>
-                                            <input type="text" class="form-control" name="lastname">
-                                        </div>
-                                        @if ($errors->has('lastname'))
-                                            <span class="text-danger">{{ $errors->first('lastname') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
+                                @if ($errors->has('name'))
+                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label class="mb-1">Email</label>
@@ -96,19 +80,15 @@
                             </button>
                             <div class="border-bottom mt-3 pb-3 text-center">
                                 <p class="small text-muted">Or login with</p>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <button type="button" class="btn btn-sm btn-outline-instagram btn-block"><i
-                                                class="feather-instagram"></i> Instagram</button>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="button" class="btn btn-sm btn-outline-linkedin btn-block"><i
-                                                class="feather-linkedin"></i> Linkedin</button>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="button" class="btn btn-sm btn-outline-facebook btn-block"><i
-                                                class="feather-facebook"></i> Facebook</button>
-                                    </div>
+                                <div class="mt-4 flex items-center justify-end align-middle">
+
+                                    <a href="{{ route('auth.google') }}">
+
+                                        <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
+                                            style="margin-left: 3em;">
+
+                                    </a>
+
                                 </div>
                             </div>
                             <div class="d-flex align-item-center py-3">

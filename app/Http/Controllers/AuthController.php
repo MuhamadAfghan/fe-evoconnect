@@ -35,8 +35,7 @@ class AuthController extends Controller
     public function storeRegister(Request $request)
     {
         $request->validate([
-            'firstname' => 'required',
-            'lastname' => 'required',
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             // 'phone' => 'required|numeric|unique:users',
             'password' => 'required|min:6',
@@ -44,8 +43,7 @@ class AuthController extends Controller
 
         // return $request;
         $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
+            'name' => $request->name,
             'email' => $request->email,
             // 'phone' => $request->phone,
             'phone' => rand(1000000000, 9999999999),

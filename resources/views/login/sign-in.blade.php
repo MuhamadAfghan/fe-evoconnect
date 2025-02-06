@@ -89,17 +89,15 @@
                             <div class="border-bottom mt-3 pb-3 text-center">
                                 <p class="small text-muted">Or login with</p>
                                 <div class="row">
-                                    <div class="col-4">
-                                        <button type="button" class="btn btn-sm btn-outline-instagram btn-block"><i
-                                                class="feather-instagram"></i> Instagram</button>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="button" class="btn btn-sm btn-outline-linkedin btn-block"><i
-                                                class="feather-linkedin"></i> Linkedin</button>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="button" class="btn btn-sm btn-outline-facebook btn-block"><i
-                                                class="feather-facebook"></i> Facebook</button>
+                                    <div class="mt-4 flex items-center justify-end align-middle">
+
+                                        <a href="{{ route('auth.google') }}">
+
+                                            <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
+                                                style="margin-left: 3em;">
+
+                                        </a>
+
                                     </div>
                                 </div>
                             </div>
@@ -109,8 +107,8 @@
                                 {{-- Route ketika kita lupa password dan akan mengarahkan ke file forgot-password --}}
                                 <a href="{{ route('forgot-password') }}">Forgot password?</a>
                                 {{-- Route ketika kita tidak mempunyai akun dan harus membuatnya terlebih dahulu, route ini akan mengarahkan ke file sign-up --}}
-                                <span class="ml-auto"> New to EVOConnect? <a class="font-weight-bold"
-                                        href="{{ route('register') }}">Join now</a></span>
+                                <span class="ml-auto"> Create an account? <a class="font-weight-bold"
+                                        href="{{ route('register') }}">click here</a></span>
                             </div>
                         </form>
                     </div>

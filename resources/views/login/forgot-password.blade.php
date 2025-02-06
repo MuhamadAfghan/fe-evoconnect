@@ -50,8 +50,8 @@
                             </button>
                             <div class="d-flex align-item-center py-3">
                                 <a href="{{ route('login') }}">Sign In</a>
-                                <span class="ml-auto"> New to EVOConnect? <a class="font-weight-bold"
-                                        href="{{ route('register') }}">Join now</a></span>
+                                <span class="ml-auto"><a class="font-weight-bold" href="{{ route('register') }}">Create
+                                        an account?</a></span>
                             </div>
                         </form>
                     </div>

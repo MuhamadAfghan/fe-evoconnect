@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiFormatter;
-use App\Models\Blog;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
-class BlogController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class BlogController extends Controller
     {
         $perPage = $request->per_page ?? 10;
         $page = $request->page ?? 1;
-        $blogs = Blog::latest()->simplePaginate($perPage, ['*'], 'page', $page);
+        $blogs = Post::where('visibility')->latest()->simplePaginate($perPage, ['*'], 'page', $page);
 
         return ApiFormatter::sendResponse('success', 200, 'Blogs retrieved successfully.', $blogs);
     }
@@ -33,20 +33,25 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
+        $validated = $request->validate([
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'image' => 'nullable|string',
+            'type' => 'required|in:article,story',
+            'content' => 'required|string',
+            'visibility' => 'required|in:public,private,only_connection'
         ]);
 
-        $blog = Blog::create($request->all());
+        $validated['user_id'] = auth()->id();
 
-        return ApiFormatter::sendResponse('success', 201, 'Blog created successfully.', $blog);
+        $post = Post::create($validated);
+
+        return ApiFormatter::sendResponse('success', 201, 'Blog created successfully.', $post);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Blog $blog)
+    public function show(Post $post)
     {
         //
     }
@@ -54,7 +59,7 @@ class BlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Blog $blog)
+    public function edit(Post $post)
     {
         //
     }
@@ -62,7 +67,7 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Blog $blog)
+    public function update(Request $request, Post $post)
     {
         //
     }
@@ -70,7 +75,7 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Blog $blog)
+    public function destroy(Post $post)
     {
         //
     }

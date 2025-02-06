@@ -9,15 +9,26 @@
                 <aside class="col-md-4">
                     <div class="profile-box mb-3 w-10 rounded border bg-white text-center">
                         <div class="d-flex align-items-center p-4">
-                            <img src="img/p13.png" class="img-fluid rounded-circle" alt="Responsive image">
+                            <img src="{{ auth()->user()->profile_photo_url }}" class="img-fluid rounded-circle"
+                                alt="Responsive image">
                             <div class="p-4">
-                                <label data-toggle="tooltip" data-placement="top" data-original-title="Upload New Picture"
-                                    class="btn btn-info m-0" for="fileAttachmentBtn">
-                                    <i class="feather-image"></i>
-                                    <input id="fileAttachmentBtn" name="file-attachment" type="file" class="d-none">
-                                </label>
-                                <button data-toggle="tooltip" data-placement="top" data-original-title="Delete"
-                                    type="submit" class="btn btn-danger"><i class="feather-trash-2"></i></button>
+                                <form action="{{ route('profile.update.photo') }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <label data-toggle="tooltip" data-placement="top"
+                                        data-original-title="Upload New Picture" class="btn btn-info m-0"
+                                        for="fileAttachmentBtn">
+                                        <i class="feather-image"></i>
+                                        <input id="fileAttachmentBtn" name="profile_photo" type="file" class="d-none"
+                                            onchange="this.form.submit()">
+                                    </label>
+                                </form>
+                                <form action="{{ route('profile.delete.photo') }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button data-toggle="tooltip" data-placement="top" data-original-title="Delete"
+                                        type="submit" class="btn btn-danger"><i class="feather-trash-2"></i></button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -32,7 +43,7 @@
                                 <div class="form-group mb-4">
                                     <label class="mb-1">BIO</label>
                                     <div class="position-relative">
-                                        <textarea class="form-control" rows="4" name="text" placeholder="Enter Bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor :)</textarea>
+                                        <textarea class="form-control" rows="4" name="text" placeholder="Enter Bio"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group mb-0">
@@ -107,11 +118,10 @@
                                             </label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="name"
-                                                    value="{{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}"
-                                                    placeholder="Enter your name" aria-label="Enter your name"
-                                                    required="" aria-describedby="nameLabel"
-                                                    data-msg="Please enter your name." data-error-class="u-has-error"
-                                                    data-success-class="u-has-success">
+                                                    value="{{ auth()->user()->name }}" placeholder="Enter your name"
+                                                    aria-label="Enter your name" required=""
+                                                    aria-describedby="nameLabel" data-msg="Please enter your name."
+                                                    data-error-class="u-has-error" data-success-class="u-has-success">
                                                 <small class="form-text text-muted">Displayed on your public profile,
                                                     notifications and other places.</small>
                                             </div>
@@ -126,8 +136,8 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="username"
-                                                    value="iamosahan" placeholder="Enter your username"
+                                                <input type="text" class="form-control"
+                                                    name="username"placeholder="Enter your username"
                                                     aria-label="Enter your username" required=""
                                                     aria-describedby="usernameLabel"
                                                     data-msg="Please enter your username." data-error-class="u-has-error"
@@ -305,7 +315,7 @@
                                                     <option value="birthYearSelect1983">1983</option>
                                                     <option value="birthYearSelect1984">1984</option>
                                                     <option value="birthYearSelect1985">1985</option>
-                                                    <option value="birthYearSelect1986" selected="selected">1986</option>
+                                                    <option value="birthYearSelect1986">1986</option>
                                                     <option value="birthYearSelect1987">1987</option>
                                                     <option value="birthYearSelect1988">1988</option>
                                                     <option value="birthYearSelect1989">1989</option>
@@ -427,9 +437,8 @@
                                             </label>
                                             <div class="form-group">
                                                 <input class="form-control" type="url" name="website"
-                                                    value="https://askbootstrap.com/" placeholder="Enter your website"
-                                                    aria-label="Enter your website" required=""
-                                                    aria-describedby="websiteLabel"
+                                                    placeholder="Enter your website" aria-label="Enter your website"
+                                                    required="" aria-describedby="websiteLabel"
                                                     data-msg="Password enter a valid website"
                                                     data-error-class="u-has-error" data-success-class="u-has-success">
                                                 <small class="form-text text-muted">Your home page, blog or company site,
@@ -449,7 +458,7 @@
                                             </label>
                                             <div class="form-group">
                                                 <input class="form-control" type="tel" name="phoneNumber"
-                                                    value="+91 85680 79956" placeholder="Enter your phone number"
+                                                    placeholder="Enter your phone number"
                                                     aria-label="Enter your phone number" required=""
                                                     aria-describedby="phoneNumberLabel"
                                                     data-msg="Please enter a valid phone number"
@@ -472,7 +481,7 @@
                                             <div class="form-group">
                                                 <select class="custom-select">
                                                     <option value="">Select language</option>
-                                                    <option value="languageSelect1" selected="">English</option>
+                                                    <option value="languageSelect1">English</option>
                                                     <option value="languageSelect2">Français</option>
                                                     <option value="languageSelect3">Deutsch</option>
                                                     <option value="languageSelect4">Português</option>
@@ -535,12 +544,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3 text-right">
-                        <a class="font-weight-bold btn btn-link rounded p-3" href="#"> &nbsp;&nbsp;&nbsp;&nbsp;
-                            Cancel &nbsp;&nbsp;&nbsp;&nbsp; </a>
-                        <a class="font-weight-bold btn btn-primary rounded p-3" href="#"> &nbsp;&nbsp;&nbsp;&nbsp;
-                            Sava Chenges &nbsp;&nbsp;&nbsp;&nbsp; </a>
-                    </div>
+                    <form action="{{ route('profile.update') }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3 text-right">
+                            <a class="font-weight-bold btn btn-link rounded p-3" href="#"> &nbsp;&nbsp;&nbsp;&nbsp;
+                                Cancel &nbsp;&nbsp;&nbsp;&nbsp; </a>
+                            <button type="submit" class="font-weight-bold btn btn-primary rounded p-3">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                Save Changes &nbsp;&nbsp;&nbsp;&nbsp; </button>
+                        </div>
+                    </form>
                 </main>
             </div>
         </div>

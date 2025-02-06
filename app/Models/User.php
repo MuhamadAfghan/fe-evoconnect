@@ -7,12 +7,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUuids;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -20,11 +25,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'firstname',
-        'lastname',
+        'name',
         'email',
         'phone',
         'password',
+        'google_id',
+        'photo',
+        'provider',
     ];
 
     /**
@@ -45,4 +52,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = [
+        'profile_photo_url',
+    ];
+
+    public function getProfileImage()
+    {
+        if ($this->provider == 'google') {
+            return $this->photo;
+        } elseif ($this->photo) {
+            return asset('storage/' . $this->photo);
+        }
+        return 'https://ui-avatars.com/api/?name=' . $this->name;
+    }
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        return $this->profile_photo_path ? Storage::url($this->profile_photo_path) : asset('img/p13.png');
+    }
 }

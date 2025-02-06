@@ -2,6 +2,16 @@
 @extends('layouts.templates')
 
 @section('content')
+    @if (session('success') && !session('notification_disable'))
+        div class="alert alert-success">
+        {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error') && !session('notification_disable'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+    @endif
     <div class="py-4">
         <div class="container">
             <div class="row">
@@ -326,177 +336,163 @@
                     {{-- button alert --}}
                     <button type="button" class="btn btn-lg btn-block btn-danger mb-3"> <i class="feather-bell"></i> Set
                         alert for jobs </button>
-                    @if (session('success') && !session('notification_disable'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                        @endif
-
-                        @if (session('error') && !session('notification_disable'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                            @endif
-                        </div>
-                        {{-- end alert --}}
-                        <div class="box mb-3 rounded border bg-white shadow-sm">
-                            <div class="box-title border-bottom p-3">
-                                <h6 class="m-0">Similar Jobs
-                                </h6>
-                            </div>
-                            {{-- menyambungkan ke halaman job profile --}}
-                            <div class="box-body p-3">
-                                <a href="{{ route('job-profile') }}">
-                                    <div class="job-item mb-3 rounded border bg-white shadow-sm">
-                                        <div class="d-flex align-items-center job-item-header p-3">
-                                            <div class="mr-2 overflow-hidden">
-                                                <h6 class="font-weight-bold text-dark text-truncate mb-0">Product Director
-                                                </h6>
-                                                <div class="text-truncate text-primary">Spotify Inc.</div>
-                                                <div class="small text-gray-500"><i class="feather-map-pin"></i> India,
-                                                    Punjab
-                                                </div>
-                                            </div>
-                                            <img class="img-fluid ml-auto" src="img/l3.png" alt="">
-                                        </div>
-                                        <div class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                            <div class="overlap-rounded-circle">
-                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                    data-placement="top" title="" src="img/p9.png" alt=""
-                                                    data-original-title="Sophia Lee">
-                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                    data-placement="top" title="" src="img/p10.png" alt=""
-                                                    data-original-title="John Doe">
-                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                    data-placement="top" title="" src="img/p11.png" alt=""
-                                                    data-original-title="Julia Cox">
-                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                    data-placement="top" title="" src="img/p12.png" alt=""
-                                                    data-original-title="Robert Cook">
-                                            </div>
-                                            <span class="font-weight-bold text-muted">18 connections</span>
-                                        </div>
-                                        <div class="job-item-footer p-3">
-                                            <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days
-                                                ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                {{-- menyambungkan ke halaman job profile --}}
-                                <a href="{{ route('job-profile') }}">
-                                    <div class="job-item rounded border bg-white shadow-sm">
-                                        <div class="d-flex align-items-center job-item-header p-3">
-                                            <div class="mr-2 overflow-hidden">
-                                                <h6 class="font-weight-bold text-dark text-truncate mb-0">.NET Developer
-                                                </h6>
-                                                <div class="text-truncate text-primary">Invision</div>
-                                                <div class="small text-gray-500"><i class="feather-map-pin"></i> London,
-                                                    UK
-                                                </div>
-                                            </div>
-                                            <img class="img-fluid ml-auto" src="img/l4.png" alt="">
-                                        </div>
-                                        <div class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                            <div class="overlap-rounded-circle">
-                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                    data-placement="top" title="" src="img/p13.png" alt=""
-                                                    data-original-title="Sophia Lee">
-                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                    data-placement="top" title="" src="img/p1.png" alt=""
-                                                    data-original-title="John Doe">
-                                                <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                    data-placement="top" title="" src="img/p3.png" alt=""
-                                                    data-original-title="Robert Cook">
-                                            </div>
-                                            <span class="font-weight-bold text-muted">18 connections</span>
-                                        </div>
-                                        <div class="job-item-footer p-3">
-                                            <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days
-                                                ago</small>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="box mb-3 rounded border bg-white shadow-sm">
-                            <div class="box-title border-bottom p-3">
-                                <h6 class="m-0">Who viewed your profile</h6>
-                            </div>
-                            <div class="box-body p-3">
-                                <div class="d-flex align-items-center osahan-post-header people-list mb-3">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/p4.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold mr-2">
-                                        <div class="text-truncate">Sophia Lee</div>
-                                        <div class="small text-gray-500">@Harvard
-                                        </div>
-                                    </div>
-                                    <span class="ml-auto">
-                                        <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
-                                    </span>
-                                </div>
-                                <div class="d-flex align-items-center osahan-post-header people-list mb-3">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/p9.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold mr-2">
-                                        <div class="text-truncate">John Doe</div>
-                                        <div class="small text-gray-500">Traveler
-                                        </div>
-                                    </div>
-                                    <span class="ml-auto">
-                                        <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
-                                    </span>
-                                </div>
-                                <div class="d-flex align-items-center osahan-post-header people-list mb-3">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/p10.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold mr-2">
-                                        <div class="text-truncate">Julia Cox</div>
-                                        <div class="small text-gray-500">Art Designer
-                                        </div>
-                                    </div>
-                                    <span class="ml-auto">
-                                        <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
-                                    </span>
-                                </div>
-                                <div class="d-flex align-items-center osahan-post-header people-list mb-3">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/p11.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold mr-2">
-                                        <div class="text-truncate">Robert Cook</div>
-                                        <div class="small text-gray-500">@Photography
-                                        </div>
-                                    </div>
-                                    <span class="ml-auto">
-                                        <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
-                                    </span>
-                                </div>
-                                <div class="d-flex align-items-center osahan-post-header people-list">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/p12.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold mr-2">
-                                        <div class="text-truncate">Richard Bell</div>
-                                        <div class="small text-gray-500">@Envato
-                                        </div>
-                                    </div>
-                                    <span class="ml-auto">
-                                        <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                </aside>
             </div>
+            {{-- end alert --}}
+            <div class="box mb-3 rounded border bg-white shadow-sm">
+                <div class="box-title border-bottom p-3">
+                    <h6 class="m-0">Similar Jobs
+                    </h6>
+                </div>
+                {{-- menyambungkan ke halaman job profile --}}
+                <div class="box-body p-3">
+                    <a href="{{ route('job-profile') }}">
+                        <div class="job-item mb-3 rounded border bg-white shadow-sm">
+                            <div class="d-flex align-items-center job-item-header p-3">
+                                <div class="mr-2 overflow-hidden">
+                                    <h6 class="font-weight-bold text-dark text-truncate mb-0">Product Director
+                                    </h6>
+                                    <div class="text-truncate text-primary">Spotify Inc.</div>
+                                    <div class="small text-gray-500"><i class="feather-map-pin"></i> India,
+                                        Punjab
+                                    </div>
+                                </div>
+                                <img class="img-fluid ml-auto" src="img/l3.png" alt="">
+                            </div>
+                            <div class="d-flex align-items-center border-top border-bottom job-item-body p-3">
+                                <div class="overlap-rounded-circle">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                        title="" src="img/p9.png" alt="" data-original-title="Sophia Lee">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                        title="" src="img/p10.png" alt="" data-original-title="John Doe">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                        title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                        title="" src="img/p12.png" alt=""
+                                        data-original-title="Robert Cook">
+                                </div>
+                                <span class="font-weight-bold text-muted">18 connections</span>
+                            </div>
+                            <div class="job-item-footer p-3">
+                                <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days
+                                    ago</small>
+                            </div>
+                        </div>
+                    </a>
+                    {{-- menyambungkan ke halaman job profile --}}
+                    <a href="{{ route('job-profile') }}">
+                        <div class="job-item rounded border bg-white shadow-sm">
+                            <div class="d-flex align-items-center job-item-header p-3">
+                                <div class="mr-2 overflow-hidden">
+                                    <h6 class="font-weight-bold text-dark text-truncate mb-0">.NET Developer
+                                    </h6>
+                                    <div class="text-truncate text-primary">Invision</div>
+                                    <div class="small text-gray-500"><i class="feather-map-pin"></i> London,
+                                        UK
+                                    </div>
+                                </div>
+                                <img class="img-fluid ml-auto" src="img/l4.png" alt="">
+                            </div>
+                            <div class="d-flex align-items-center border-top border-bottom job-item-body p-3">
+                                <div class="overlap-rounded-circle">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                        title="" src="img/p13.png" alt=""
+                                        data-original-title="Sophia Lee">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                        title="" src="img/p1.png" alt="" data-original-title="John Doe">
+                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
+                                        title="" src="img/p3.png" alt=""
+                                        data-original-title="Robert Cook">
+                                </div>
+                                <span class="font-weight-bold text-muted">18 connections</span>
+                            </div>
+                            <div class="job-item-footer p-3">
+                                <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days
+                                    ago</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="box mb-3 rounded border bg-white shadow-sm">
+                <div class="box-title border-bottom p-3">
+                    <h6 class="m-0">Who viewed your profile</h6>
+                </div>
+                <div class="box-body p-3">
+                    <div class="d-flex align-items-center osahan-post-header people-list mb-3">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="img/p4.png" alt="">
+                            <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div class="font-weight-bold mr-2">
+                            <div class="text-truncate">Sophia Lee</div>
+                            <div class="small text-gray-500">@Harvard
+                            </div>
+                        </div>
+                        <span class="ml-auto">
+                            <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
+                        </span>
+                    </div>
+                    <div class="d-flex align-items-center osahan-post-header people-list mb-3">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="img/p9.png" alt="">
+                            <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div class="font-weight-bold mr-2">
+                            <div class="text-truncate">John Doe</div>
+                            <div class="small text-gray-500">Traveler
+                            </div>
+                        </div>
+                        <span class="ml-auto">
+                            <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
+                        </span>
+                    </div>
+                    <div class="d-flex align-items-center osahan-post-header people-list mb-3">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="img/p10.png" alt="">
+                            <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div class="font-weight-bold mr-2">
+                            <div class="text-truncate">Julia Cox</div>
+                            <div class="small text-gray-500">Art Designer
+                            </div>
+                        </div>
+                        <span class="ml-auto">
+                            <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
+                        </span>
+                    </div>
+                    <div class="d-flex align-items-center osahan-post-header people-list mb-3">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="img/p11.png" alt="">
+                            <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div class="font-weight-bold mr-2">
+                            <div class="text-truncate">Robert Cook</div>
+                            <div class="small text-gray-500">@Photography
+                            </div>
+                        </div>
+                        <span class="ml-auto">
+                            <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
+                        </span>
+                    </div>
+                    <div class="d-flex align-items-center osahan-post-header people-list">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="img/p12.png" alt="">
+                            <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div class="font-weight-bold mr-2">
+                            <div class="text-truncate">Richard Bell</div>
+                            <div class="small text-gray-500">@Envato
+                            </div>
+                        </div>
+                        <span class="ml-auto">
+                            <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            </aside>
         </div>
+    </div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

@@ -1,39 +1,46 @@
 @extends('layouts.templates')
 
+@push('css')
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+@endpush
+
 @section('content')
     <div class="py-4">
         <div class="container">
             <div class="row">
                 <!-- Main Content -->
                 <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                    <div class="box osahan-share-post mb-3 rounded border bg-white shadow-sm">
+                    <form method="POST" onsubmit="handleSubmitPost(event)"
+                        class="box osahan-share-post mb-3 rounded border bg-white shadow-sm">
+                        @csrf
                         <ul class="nav nav-justified border-bottom osahan-line-tab" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                    aria-controls="home" aria-selected="true"><i class="feather-edit"></i> Share an
+                                <a class="nav-link active" id="story-tab" data-toggle="tab" href="#story" role="tab"
+                                    aria-controls="story" aria-selected="true"><i class="feather-edit"></i> Share an
                                     update</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                                     aria-controls="profile" aria-selected="false"><i class="feather-image"></i> Upload a
                                     photo</a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                                    aria-controls="contact" aria-selected="false"><i class="feather-clipboard"></i> Write an
+                                <a class="nav-link" id="article-tab" data-toggle="tab" href="#article" role="tab"
+                                    aria-controls="article" aria-selected="false"><i class="feather-clipboard"></i> Write an
                                     article</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel"
-                                aria-labelledby="home-tab">
+                            <div class="tab-pane fade show active" id="story" role="tabpanel"
+                                aria-labelledby="story-tab">
                                 <div class="d-flex align-items-center w-100 p-3" href="#">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="img/user.png" alt="">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="w-100">
-                                        <textarea placeholder="Write your thoughts..." class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
+                                        <textarea name="story_content" id="story_content" placeholder="Write your thoughts..."
+                                            class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -42,20 +49,25 @@
                                     <textarea placeholder="Write your thoughts..." class="form-control border-0 p-0 shadow-none" rows="3"></textarea>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="tab-pane fade" id="article" role="tabpanel" aria-labelledby="article-tab">
                                 <div class="w-100 p-3">
-                                    <textarea placeholder="Write an article..." class="form-control border-0 p-0 shadow-none" rows="3"></textarea>
+                                    {{-- <textarea placeholder="Write an article..." class="form-control border-0 p-0 shadow-none" rows="3"></textarea> --}}
+                                    {{-- <trix-toolbar id="toolbar-revisi"></trix-toolbar> --}}
+                                    <input id="article_content" type="hidden" name="content">
+                                    <trix-editor input="article_content"></trix-editor>
                                 </div>
                             </div>
                         </div>
+
                         <div class="border-top d-flex align-items-center p-3">
                             <!-- <div class="mr-auto"><a href="#" class="text-link small"><i class="feather-map-pin"></i>
-                                                            Add Location</a></div> -->
+                                                                                                                                                                                                                                                            Add Location</a></div> -->
                             <div class="flex-shrink-1">
-                                <button type="button" class="btn btn-primary btn-sm">Post Status</button>
+                                <button type="submit" id="btn-submit-post" class="btn btn-primary btn-sm">Post
+                                    Status</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <div class="box osahan-post mb-3 rounded border bg-white shadow-sm">
                         <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
                             <div class="dropdown-list-image mr-3">
@@ -73,7 +85,8 @@
                                 quis nostrud exercitation ullamco <a href="#">laboris consequat.</a></p>
                         </div>
                         <div class="border-bottom osahan-post-footer p-3">
-                            <a href="#" class="text-secondary mr-3"><i class="feather-heart text-danger"></i> 16</a>
+                            <a href="#" class="text-secondary mr-3"><i class="feather-heart text-danger"></i>
+                                16</a>
                             <a href="#" class="text-secondary mr-3"><i class="feather-message-square"></i> 8</a>
                         </div>
                         <div class="p-3">
@@ -243,9 +256,10 @@
                 <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="box profile-box mb-3 rounded border bg-white text-center shadow-sm">
                         <div class="border-bottom px-3 py-4">
-                            <img src="img/p1.png" class="img-fluid rounded-circle mt-2" alt="Responsive image">
+                            <img src="{{ auth()->user()->getProfileImage() }}" class="img-fluid rounded-circle mt-2"
+                                alt="Responsive image">
                             <h5 class="font-weight-bold text-dark mb-1 mt-4">
-                                {{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}</h5>
+                                {{ auth()->user()->name }}</h5>
                             <p class="text-muted mb-0">UI / UX Designer</p>
                         </div>
                         <div class="d-flex">
@@ -282,15 +296,15 @@
                         </div>
                     </div>
                     <!-- <div class="box ads-box mb-3 rounded bg-white text-center shadow-sm">
-                                                                <img src="img/job1.png" class="img-fluid" alt="Responsive image">
-                                                                <div class="border-bottom p-3">
-                                                                    <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
-                                                                    <p class="text-muted mb-0">Looking for talent?</p>
-                                                                </div>
-                                                                <div class="p-3">
-                                                                    <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
-                                                                </div>
-                                                            </div> -->
+                                                                                                                                                                                                                                                                <img src="img/job1.png" class="img-fluid" alt="Responsive image">
+                                                                                                                                                                                                                                                                <div class="border-bottom p-3">
+                                                                                                                                                                                                                                                                    <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
+                                                                                                                                                                                                                                                                    <p class="text-muted mb-0">Looking for talent?</p>
+                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                <div class="p-3">
+                                                                                                                                                                                                                                                                    <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
+                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                            </div> -->
                 </aside>
                 <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="box mb-3 rounded border bg-white shadow-sm">
@@ -315,7 +329,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box mb-3 rounded border bg-white shadow-sm">
+                    {{-- <div class="box mb-3 rounded border bg-white shadow-sm">
                         <div class="box-title border-bottom d-flex align-items-center p-3">
                             <h6 class="m-0">Photos</h6>
                             <a class="ml-auto" href="#">See All <i class="feather-chevron-right"></i></a>
@@ -339,7 +353,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
                         <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
                         <div class="border-bottom p-3">
@@ -347,7 +361,9 @@
                             <p class="text-muted mb-0">Grow & nurture your network</p>
                         </div>
                         <div class="p-3">
-                            <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
+                            <a href="{{ route('pricing') }}">
+                                <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
+                            </a>
                         </div>
                     </div>
                     <div class="box mb-3 rounded border bg-white shadow-sm">
@@ -427,6 +443,9 @@
             </div>
         </div>
     </div>
+@endsection
+
+@push('js')
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -447,4 +466,59 @@
             }
         });
     </script>
-@endsection
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        let isSubmittingPost = false;
+
+        function handleSubmitPost(event) {
+            event.preventDefault();
+
+            if (isSubmittingPost) {
+                return;
+            } else {
+                isSubmittingPost = true;
+
+                document.getElementById('btn-submit-post').innerHTML = 'Loading...';
+                document.getElementById('btn-submit-post').setAttribute('disabled', 'disabled');
+            }
+            let form = event.target;
+            let formData = new FormData(form);
+
+            // Ambil tab yang sedang aktif
+            let activeTab = document.querySelector('.nav-link.active').getAttribute('href');
+
+            let content = '';
+            let type = '';
+            if (activeTab === '#story') {
+                content = document.getElementById('story_content').value;
+                type = 'story';
+            } else if (activeTab === '#article') {
+                content = document.getElementById('article_content').value;
+                type = 'article';
+            }
+
+            formData.set('content', content);
+            formData.set('type', type);
+            formData.set('visibility', 'public');
+            console.log("Content: ", content);
+
+            // Kirim data dengan axios atau fetch jika diperlukan
+            axios.post('{{ route('posts.store') }}', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(response => {
+                console.log(response.data);
+                form.reset();
+            }).catch(error => {
+                console.log(error.response.data);
+            }).finally(() => {
+                isSubmittingPost = false;
+                document.getElementById('btn-submit-post').innerHTML = 'Post Status';
+                document.getElementById('btn-submit-post').removeAttribute('disabled');
+            });
+        }
+    </script>
+@endpush

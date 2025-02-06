@@ -17,6 +17,45 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        trix-editor ul,
+        .trix-result ul {
+            list-style-type: disc;
+            margin-left: 1.5em;
+        }
+
+        trix-editor ol,
+        .trix-result ol {
+            list-style-type: decimal;
+            margin-left: 1.5em;
+        }
+
+        trix-editor blockquote,
+        .trix-result blockquote {
+            margin-left: 0;
+            padding-left: 1em;
+            border-left: 2px solid #ccc;
+        }
+
+        trix-editor a,
+        .trix-result a {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            /* Mengizinkan teks untuk wrap secara responsif */
+            overflow-x: auto;
+            /* Memunculkan scroll horizontal jika teks terlalu lebar */
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f8f8f8;
+            border-inline-start: 5px solid #ccc;
+        }
+    </style>
+
+    @stack('css')
 </head>
 
 <body>
@@ -61,7 +100,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('jobs') }}"><i class="feather-briefcase mr-2"></i><span
+                    <a class="nav-link" href="{{ route('jobs.index') }}"><i class="feather-briefcase mr-2"></i><span
                             class="d-none d-lg-inline">Jobs</span></a>
                 </li>
                 <li class="nav-item">
@@ -76,7 +115,8 @@
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow-sm">
-                            <a class="dropdown-item" href="{{ route('jobs') }}"><i class="feather-briefcase mr-1"></i>
+                            <a class="dropdown-item" href="{{ route('jobs.index') }}"><i
+                                    class="feather-briefcase mr-1"></i>
                                 Jobs</a>
                             <a class="dropdown-item" href="{{ route('profile') }}"><i class="feather-user mr-1"></i>
                                 Profile</a>
@@ -249,16 +289,16 @@
                             </div>
                             <div class="font-weight-bold">
                                 <div class="text-truncate">
-                                    {{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}
+                                    {{ auth()->user()->name }}
                                 </div>
                                 <div class="small text-gray-500">UI/UX Designer</div>
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('profile') }}"><i class="feather-edit mr-1"></i> My
+                        <a class="dropdown-item" href="{{ route('profile') }}"><i class="feather-user mr-1"></i> My
                             Account</a>
                         <a class="dropdown-item" href="{{ route('edit-profile') }}"><i
-                                class="feather-user mr-1"></i> Edit Profile</a>
+                                class="feather-edit mr-1"></i> Edit Profile</a>
                         <div class="dropdown-divider"></div>
                         {{-- <a class="dropdown-item" href="{{ route('login') }}"><i class="feather-log-out mr-1"></i>
                             Logout</a> --}}
@@ -306,6 +346,8 @@
             </div>
         @endif
     </div>
+
+    @stack('js')
 
 </body>
 

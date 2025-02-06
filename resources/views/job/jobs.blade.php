@@ -50,316 +50,38 @@
                                 </div>
                                 <div class="border-top p-3">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <a href="{{ route('job-profile') }}">
-                                                <div class="job-item mb-3 border">
-                                                    <div class="d-flex align-items-center job-item-header p-3">
-                                                        <div class="mr-2 overflow-hidden">
-                                                            <h6 class="font-weight-bold text-dark text-truncate mb-0">UI/UX
-                                                                designer</h6>
-                                                            <div class="text-truncate text-primary">Envato</div>
-                                                            <div class="small text-gray-500"><i class="feather-map-pin"></i>
-                                                                India, Punjab</div>
-                                                        </div>
-                                                        <img class="img-fluid ml-auto" src="img/l1.png" alt="">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                                        <div class="overlap-rounded-circle">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Sophia Lee" src="img/p1.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="John Doe" src="img/p2.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Julia Cox" src="img/p3.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Robert Cook" src="img/p4.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Sophia Lee" src="img/p5.png"
-                                                                alt="">
-                                                        </div>
-                                                        <span class="font-weight-bold text-primary">18 connections</span>
-                                                    </div>
-                                                    <div class="job-item-footer p-3">
-                                                        <small class="text-gray-500"><i class="feather-clock"></i> Posted
-                                                            3 Days ago</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ route('job-profile') }}">
-                                                <div class="job-item mb-3 border">
-                                                    <div class="d-flex align-items-center job-item-header p-3">
-                                                        <div class="mr-2 overflow-hidden">
-                                                            <h6 class="font-weight-bold text-dark text-truncate mb-0">
-                                                                Junior UX Designer</h6>
-                                                            <div class="text-truncate text-primary">Behance</div>
-                                                            <div class="small text-gray-500"><i
-                                                                    class="feather-map-pin"></i> Vancouver, BC
+                                        @forelse ($jobs as $job)
+                                            <div class="col-md-6">
+                                                <a href="{{ route('jobs.profile', $job->id) }}">
+                                                    <div class="job-item mb-3 border">
+                                                        <div class="d-flex align-items-center job-item-header p-3">
+                                                            <div class="mr-2 overflow-hidden">
+                                                                <h6 class="font-weight-bold text-dark text-truncate mb-0">
+                                                                    {{ $job->position }}</h6>
+                                                                <div class="text-truncate text-primary">
+                                                                    {{ $job->company->name }}</div>
+                                                                <div class="small text-gray-500"><i
+                                                                        class="feather-map-pin"></i> {{ $job->location }}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <img class="img-fluid ml-auto" src="img/l2.png" alt="">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                                        <div class="overlap-rounded-circle">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="John Doe" src="img/p6.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Julia Cox" src="img/p7.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Robert Cook" src="img/p8.png"
+                                                            <img class="img-fluid ml-auto" src="{{ asset('img/job1.png') }}"
                                                                 alt="">
                                                         </div>
-                                                        <span class="font-weight-bold text-primary">18 connections</span>
-                                                    </div>
-                                                    <div class="job-item-footer p-3">
-                                                        <small class="text-gray-500"><i class="feather-clock"></i> Posted
-                                                            3 Days ago</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ route('job-profile') }}">
-                                                <div class="job-item mb-3 border">
-                                                    <div class="d-flex align-items-center job-item-header p-3">
-                                                        <div class="mr-2 overflow-hidden">
-                                                            <h6 class="font-weight-bold text-dark text-truncate mb-0">
-                                                                Product Director</h6>
-                                                            <div class="text-truncate text-primary">Spotify Inc.</div>
-                                                            <div class="small text-gray-500"><i
-                                                                    class="feather-map-pin"></i> India, Punjab</div>
+                                                        <div
+                                                            class="d-flex align-items-center border-top border-bottom job-item-body p-3">
+                                                            <span class="font-weight-bold text-primary">{{ $job->rating }}
+                                                                ⭐</span>
                                                         </div>
-                                                        <img class="img-fluid ml-auto" src="img/l3.png" alt="">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                                        <div class="overlap-rounded-circle">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Sophia Lee" src="img/p9.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="John Doe" src="img/p10.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Julia Cox" src="img/p11.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Robert Cook"
-                                                                src="img/p12.png" alt="">
+                                                        <div class="job-item-footer p-3">
+                                                            <small class="text-gray-500"><i class="feather-clock"></i>
+                                                                Posted {{ $job->created_at->diffForHumans() }}</small>
                                                         </div>
-                                                        <span class="font-weight-bold text-primary">18 connections</span>
                                                     </div>
-                                                    <div class="job-item-footer p-3">
-                                                        <small class="text-gray-500"><i class="feather-clock"></i> Posted
-                                                            3 Days ago</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ route('job-profile') }}">
-                                                <div class="job-item mb-3 border">
-                                                    <div class="d-flex align-items-center job-item-header p-3">
-                                                        <div class="mr-2 overflow-hidden">
-                                                            <h6 class="font-weight-bold text-dark text-truncate mb-0">.NET
-                                                                Developer</h6>
-                                                            <div class="text-truncate text-primary">Invision</div>
-                                                            <div class="small text-gray-500"><i
-                                                                    class="feather-map-pin"></i> London, UK
-                                                            </div>
-                                                        </div>
-                                                        <img class="img-fluid ml-auto" src="img/l4.png" alt="">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                                        <div class="overlap-rounded-circle">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Sophia Lee" src="img/p13.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="John Doe" src="img/p1.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Julia Cox" src="img/p2.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Robert Cook" src="img/p3.png"
-                                                                alt="">
-                                                        </div>
-                                                        <span class="font-weight-bold text-primary">18 connections</span>
-                                                    </div>
-                                                    <div class="job-item-footer p-3">
-                                                        <small class="text-gray-500"><i class="feather-clock"></i> Posted
-                                                            3 Days ago</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ route('job-profile') }}">
-                                                <div class="job-item mb-3 border">
-                                                    <div class="d-flex align-items-center job-item-header p-3">
-                                                        <div class="mr-2 overflow-hidden">
-                                                            <h6 class="font-weight-bold text-dark text-truncate mb-0">
-                                                                Project Manager - SAP</h6>
-                                                            <div class="text-truncate text-primary">PayPal</div>
-                                                            <div class="small text-gray-500"><i
-                                                                    class="feather-map-pin"></i> New York, NY
-                                                            </div>
-                                                        </div>
-                                                        <img class="img-fluid ml-auto" src="img/l5.png" alt="">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                                        <div class="overlap-rounded-circle">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Sophia Lee" src="img/p4.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="John Doe" src="img/p5.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Julia Cox" src="img/p6.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Robert Cook" src="img/p7.png"
-                                                                alt="">
-                                                        </div>
-                                                        <span class="font-weight-bold text-primary">18 connections</span>
-                                                    </div>
-                                                    <div class="job-item-footer p-3">
-                                                        <small class="text-gray-500"><i class="feather-clock"></i> Posted
-                                                            3 Days ago</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ route('job-profile') }}">
-                                                <div class="job-item mb-3 border">
-                                                    <div class="d-flex align-items-center job-item-header p-3">
-                                                        <div class="mr-2 overflow-hidden">
-                                                            <h6 class="font-weight-bold text-dark text-truncate mb-0">Cloud
-                                                                Software Engineer</h6>
-                                                            <div class="text-truncate text-primary">Airbnb Inc.</div>
-                                                            <div class="small text-gray-500"><i
-                                                                    class="feather-map-pin"></i> Manchester, UK
-                                                            </div>
-                                                        </div>
-                                                        <img class="img-fluid ml-auto" src="img/l6.png" alt="">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                                        <div class="overlap-rounded-circle">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Sophia Lee" src="img/p8.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="John Doe" src="img/p9.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Julia Cox" src="img/p10.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Robert Cook"
-                                                                src="img/p11.png" alt="">
-                                                        </div>
-                                                        <span class="font-weight-bold text-primary">18 connections</span>
-                                                    </div>
-                                                    <div class="job-item-footer p-3">
-                                                        <small class="text-gray-500"><i class="feather-clock"></i> Posted
-                                                            3 Days ago</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ route('job-profile') }}">
-                                                <div class="job-item mb-3 border">
-                                                    <div class="d-flex align-items-center job-item-header p-3">
-                                                        <div class="mr-2 overflow-hidden">
-                                                            <h6 class="font-weight-bold text-dark text-truncate mb-0">
-                                                                Channel Sales Director</h6>
-                                                            <div class="text-truncate text-primary">Slack Inc.</div>
-                                                            <div class="small text-gray-500"><i
-                                                                    class="feather-map-pin"></i> London, UK
-                                                            </div>
-                                                        </div>
-                                                        <img class="img-fluid ml-auto" src="img/l7.png" alt="">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                                        <div class="overlap-rounded-circle">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Sophia Lee" src="img/p12.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="John Doe" src="img/p13.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Julia Cox" src="img/p2.png"
-                                                                alt="">
-                                                        </div>
-                                                        <span class="font-weight-bold text-primary">18 connections</span>
-                                                    </div>
-                                                    <div class="job-item-footer p-3">
-                                                        <small class="text-gray-500"><i class="feather-clock"></i> Posted
-                                                            3 Days ago</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ route('job-profile') }}">
-                                                <div class="job-item mb-3 border">
-                                                    <div class="d-flex align-items-center job-item-header p-3">
-                                                        <div class="mr-2 overflow-hidden">
-                                                            <h6 class="font-weight-bold text-dark text-truncate mb-0">C#
-                                                                Developer</h6>
-                                                            <div class="text-truncate text-primary">Dropbox Inc.</div>
-                                                            <div class="small text-gray-500"><i
-                                                                    class="feather-map-pin"></i> San Francisco, CA
-                                                            </div>
-                                                        </div>
-                                                        <img class="img-fluid ml-auto" src="img/l8.png" alt="">
-                                                    </div>
-                                                    <div
-                                                        class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                                        <div class="overlap-rounded-circle">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Sophia Lee" src="img/p5.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="John Doe" src="img/p6.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Julia Cox" src="img/p7.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Robert Cook" src="img/p1.png"
-                                                                alt="">
-                                                            <img class="rounded-circle shadow-sm" data-toggle="tooltip"
-                                                                data-placement="top" title="Robert Cook" src="img/p3.png"
-                                                                alt="">
-                                                        </div>
-                                                        <span class="font-weight-bold text-primary">18 connections</span>
-                                                    </div>
-                                                    <div class="job-item-footer p-3">
-                                                        <small class="text-gray-500"><i class="feather-clock"></i> Posted
-                                                            3 Days ago</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
+                                                </a>
+                                            </div>
+                                        @empty
+                                            <p>Datanya Belum Masuk Gan, jadi disini kosong</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -672,16 +394,72 @@
                     </div>
                 </main>
                 <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
-                    <!-- <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
-                                <img src="img/job1.png" class="img-fluid" alt="Responsive image">
-                                <div class="border-bottom p-3">
-                                    <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
-                                    <p class="text-muted mb-0">Looking for talent?</p>
+                    <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
+                        <img src="img/job1.png" class="img-fluid" alt="Responsive image">
+                        <div class="border-bottom p-3">
+                            <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
+                            <p class="text-muted mb-0">Looking for talent?</p>
+                        </div>
+                        <div class="p-3">
+                            <button type="button" class="btn btn-primary pl-4 pr-4" id="postJobBtn"> POST A JOB
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal for Posting a Job -->
+                    <div class="modal" id="postJobModal" tabindex="-1" aria-labelledby="postJobModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="postJobModalLabel">Post a Job</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
-                                <div class="p-3">
-                                    <button type="button" class="btn btn-primary pl-4 pr-4"> POST A JOB </button>
+                                <div class="modal-body">
+                                    <form action="{{ route('jobs.store') }}" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="title" class="form-label">Job Title</label>
+                                            <input type="text" class="form-control" id="title" name="title"
+                                                required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="position" class="form-label">Position</label>
+                                            <input type="text" class="form-control" id="position" name="position"
+                                                required>
+                                        </div>
+                                        {{-- <div class="mb-3">
+                                            <label for="company_id" class="form-label">Company ID</label>
+                                            <input type="text" class="form-control" id="company_id" name="company_id"
+                                                required>
+                                        </div> --}}
+                                        <div class="mb-3">
+                                            <label for="location" class="form-label">Location</label>
+                                            <input type="text" class="form-control" id="location" name="location"
+                                                required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="decscription" class="form-label">Job Description</label>
+                                            <textarea class="form-control" id="decscription" name="decscription" rows="4" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="rating" class="form-label">Rating (1-5)</label>
+                                            <input type="number" class="form-control" id="rating" name="rating"
+                                                min="1" max="5" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="job_details" class="form-label">Job Details</label>
+                                            <input type="text" class="form-control" id="job_details"
+                                                name="job_details" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit Job</button>
+                                    </form>
                                 </div>
-                            </div> -->
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="job-item-2 mb-3 rounded bg-white p-3 shadow-sm">
                         <div class="media">
                             <div class="u-avatar mr-3">
@@ -820,7 +598,7 @@
                                     <div class="status-indicator bg-success"></div>
                                 </div>
                                 <div class="font-weight-bold mr-2">
-                                    <div class="text-truncate">Sophia Lee</div>
+                                    <div class="text-truncate">Nama</div>
                                     <div class="small text-gray-500">Student at Harvard
                                     </div>
                                 </div>
@@ -878,6 +656,23 @@
                 icon.classList.remove("feather-primary");
                 icon.classList.add("feather-user-plus");
             }
+        });
+    </script>
+    <script>
+        document.getElementById('postJobBtn').addEventListener('click', function() {
+            // Menampilkan modal untuk form pengisian lowongan kerja
+            var postJobModal = new bootstrap.Modal(document.getElementById('postJobModal'));
+            postJobModal.show();
+        });
+    </script>
+    <script>
+        document.getElementById('jobSalary').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Hapus semua karakter non-angka
+            let formatted = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(value);
+            e.target.value = formatted.replace('Rp', 'Rp '); // Tambahkan spasi setelah "Rp"
         });
     </script>
 @endsection
