@@ -10,7 +10,7 @@
                     <p class="lead mb-0">Oops! Looks like you followed a bad link.</p>
                     <p class="lead mb-5">If you think this is a problem with us, please <a href="#">tell us</a>.</p>
                     <a href="{{ route('home') }}" class="btn btn-primary btn-lg">Go Back</a>
-                    <a href="button" class="btn btn-light btn-lg">Help</a>
+                    <a href="{{ route('contact') }}" class="btn btn-light btn-lg">Help</a>
                 </div>
                 <div class="col-md-6">
                     <svg class="w-100" id="fd59ce54-f850-4dfc-bc34-dd7d379d600e" data-name="Layer 1"
@@ -180,7 +180,7 @@
                 <p class="small text-muted mb-0">© EVOConnect. 2020 Askbootstrap.</p>
                 <!-- End Copyright -->
                 <!-- Social Networks -->
-                <ul class="list-inline mb-0">
+                {{-- <ul class="list-inline mb-0">
                     <li class="list-inline-item">
                         <a class="btn btn-sm btn-light" href="#">
                             <span class="feather-facebook"></span>
@@ -201,7 +201,7 @@
                             <span class="feather-github"></span>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
                 <!-- End Social Networks -->
             </div>
         </div>
