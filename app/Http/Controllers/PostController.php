@@ -15,7 +15,7 @@ class PostController extends Controller
     {
         $perPage = $request->per_page ?? 10;
         $page = $request->page ?? 1;
-        $blogs = Post::where('visibility')->latest()->simplePaginate($perPage, ['*'], 'page', $page);
+        $blogs = Post::where('visibility', 'public')->latest()->with('user')->simplePaginate($perPage, ['*'], 'page', $page);
 
         return ApiFormatter::sendResponse('success', 200, 'Blogs retrieved successfully.', $blogs);
     }
@@ -53,7 +53,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return ApiFormatter::sendResponse('success', 200, 'Blog retrieved successfully.', $post);
     }
 
     /**

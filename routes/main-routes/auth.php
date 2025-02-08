@@ -1,15 +1,25 @@
 <?php
 
+use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConnectController;
 use App\Http\Controllers\ConnectionController;
 
+
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::controller(VerificationController::class)->group(function () {
+        Route::get('/email/verify', 'notice')->name('verification.notice');
+        Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
+        Route::post('/email/resend', 'resend')->name('verification.resend');
+    });
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/', function () {
-        return view('home');
+        return view('home.index');
     })->name('home');
 
     Route::get('/connect', [ConnectionController::class, 'index'])->name('connect.index');

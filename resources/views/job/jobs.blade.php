@@ -1,6 +1,11 @@
 @extends('layouts.templates')
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="py-4">
         <div class="container">
             <div class="row">
@@ -50,7 +55,7 @@
                                 </div>
                                 <div class="border-top p-3">
                                     <div class="row">
-                                        @forelse ($jobs as $job)
+                                        @foreach ($jobs as $job)
                                             <div class="col-md-6">
                                                 <a href="{{ route('jobs.profile', $job->id) }}">
                                                     <div class="job-item mb-3 border">
@@ -79,9 +84,7 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                        @empty
-                                            <p>Datanya Belum Masuk Gan, jadi disini kosong</p>
-                                        @endforelse
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -429,19 +432,14 @@
                                             <input type="text" class="form-control" id="position" name="position"
                                                 required>
                                         </div>
-                                        {{-- <div class="mb-3">
-                                            <label for="company_id" class="form-label">Company ID</label>
-                                            <input type="text" class="form-control" id="company_id" name="company_id"
-                                                required>
-                                        </div> --}}
                                         <div class="mb-3">
                                             <label for="location" class="form-label">Location</label>
                                             <input type="text" class="form-control" id="location" name="location"
                                                 required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="decscription" class="form-label">Job Description</label>
-                                            <textarea class="form-control" id="decscription" name="decscription" rows="4" required></textarea>
+                                            <label for="description" class="form-label">Job Description</label>
+                                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="rating" class="form-label">Rating (1-5)</label>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique()->nullable();
             $table->string('google_id')->nullable();
-            $table->string('photo')->nullable();
+            $table->string('profile_photo_path')->nullable();
             $table->enum('provider', ['email', 'google'])->default('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

@@ -12,7 +12,7 @@
     <link rel="icon" type="image/png" href="img/fav.png">
 
     <!-- Judul halaman -->
-    <title>EVOConnect - Job Portal & Social Network HTML Template</title>
+    <title>EVOConnect - Job Portal & Social Network</title>
 
     <!-- Slick Slider CSS -->
     <link rel="stylesheet" type="text/css" href="vendor/slick/slick.min.css" />
@@ -107,8 +107,8 @@
                                 {{-- Route ketika kita lupa password dan akan mengarahkan ke file forgot-password --}}
                                 <a href="{{ route('forgot-password') }}">Forgot password?</a>
                                 {{-- Route ketika kita tidak mempunyai akun dan harus membuatnya terlebih dahulu, route ini akan mengarahkan ke file sign-up --}}
-                                <span class="ml-auto"> Create an account? <a class="font-weight-bold"
-                                        href="{{ route('register') }}">click here</a></span>
+                                <span class="ml-auto"> Don't have an account? <a class="font-weight-bold"
+                                        href="{{ route('register') }}">sign up</a></span>
                             </div>
                         </form>
                     </div>

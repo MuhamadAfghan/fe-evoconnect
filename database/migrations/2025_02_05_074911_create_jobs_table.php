@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('company_id')->constrained('companies')->cascadeOnDelete();
             $table->string('position');
-            $table->text('decscription');
+            $table->text('description');
             $table->string('location');
             $table->integer('rating');
             $table->string('job_details');

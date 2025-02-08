@@ -7,20 +7,23 @@
     <div class="border-bottom bg-white shadow-sm">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex align-items-center py-3">
-                        <div class="profile-left">
-                            <h5 class="font-weight-bold text-dark mb-1 mt-0">{{ $job->position }}</h5>
-                            <p class="text-muted mb-0"><a class="font-weight-bold mr-2"
-                                    href="#">{{ $job->company->name }}</a> <i class="feather-map-pin"></i> Melbourne,
-                                AU -- DatePosted 2 weeks ago</p>
-                        </div>
-                        <div class="profile-right ml-auto">
-                            <button type="button" class="btn btn-light mr-1"> &nbsp; Save &nbsp; </button>
-                            <button type="button" class="btn btn-primary"> &nbsp; Apply &nbsp; </button>
+                @foreach ($jobs as $job)
+                    <div class="col-md-12">
+                        <div class="d-flex align-items-center py-3">
+                            <div class="profile-left">
+                                <h5 class="font-weight-bold text-dark mb-1 mt-0">{{ $job->position }}</h5>
+                                <p class="text-muted mb-0"><a class="font-weight-bold mr-2"
+                                        href="#">{{ $job->company->name }}</a> <i class="feather-map-pin"></i>
+                                    Melbourne,
+                                    AU -- DatePosted 2 weeks ago</p>
+                            </div>
+                            <div class="profile-right ml-auto">
+                                <button type="button" class="btn btn-light mr-1"> &nbsp; Save &nbsp; </button>
+                                <button type="button" class="btn btn-primary"> &nbsp; Apply &nbsp; </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

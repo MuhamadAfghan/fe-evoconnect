@@ -40,13 +40,14 @@ class GoogleController extends Controller
                     'password' => rand(1, 10000),
                     'photo' => $user->avatar,
                     'provider' => 'google',
+                    'profile_photo_path' => $user->avatar,
                     'email_verified_at' => now(),
                 ]);
                 Auth::login($newUser);
                 return redirect()->route('home');
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
+            return redirect('auth/google');
         }
     }
 }

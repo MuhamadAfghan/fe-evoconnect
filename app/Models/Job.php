@@ -4,45 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
+
 
 class Job extends Model
 {
     use HasFactory;
 
-    protected $table = 'jobs';
-    public $incrementing = false; // Karena pakai UUID
-
     protected $fillable = [
-        'id',
+        'title',
         'position',
-        'decscription',
         'location',
+        'description',
         'rating',
         'job_details',
-        'title',
-        'users_id',
-        'company_id'
+        'company_id' => $company->id,
+        'users_id' => null,
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected static function boot()
     {
         parent::boot();
         static::creating(function ($job) {
-            $job->id = Str::uuid(); // Generate UUID otomatis
+            $job->id = (string) Str::uuid();
         });
-    }
-
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class, 'company_id');
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'users_id');
     }
 }

@@ -14,15 +14,13 @@ class JobController extends Controller
         return view('job.jobs', compact('jobs'));
     }
 
-    // Simpan job baru
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string',
             'position' => 'required|string',
-            'company_id' => 'required|exists:companies,id',
             'location' => 'required|string',
-            'decscription' => 'required|string',
+            'description' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'job_details' => 'required|string',
         ]);
@@ -32,9 +30,9 @@ class JobController extends Controller
         return redirect()->route('jobs.index')->with('success', 'Job posted successfully.');
     }
 
-    // Tampilkan detail job
-    public function show(Job $job)
+    public function jobProfile()
     {
-        return view('jobs.profile', compact('job'));
+        $jobs = Job::latest()->get();
+        return view('profile.job-profile', compact('jobs'));
     }
 }

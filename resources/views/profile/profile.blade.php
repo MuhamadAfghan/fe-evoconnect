@@ -9,7 +9,8 @@
                 <aside class="col col-xl-3 order-xl-1 col-lg-12 order-lg-1 col-12">
                     <div class="box profile-box mb-3 rounded border bg-white text-center shadow-sm">
                         <div class="border-bottom px-3 py-4">
-                            <img src="img/p13.png" class="img-fluid rounded-circle mt-2" alt="Responsive image">
+                            <img src="{{ auth()->user()->getProfileImage() }}" class="img-fluid rounded-circle mt-2"
+                                alt="Responsive image">
                             <h5 class="font-weight-bold text-dark mb-1 mt-4">
                                 {{ auth()->user()->name }}</h5>
                             <p class="text-muted mb-0">UI / UX Designer</p>
@@ -73,15 +74,15 @@
                         </div>
                     </div>
                     <!-- <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
-                                                                                            <img src="img/job1.png" class="img-fluid" alt="Responsive image">
-                                                                                            <div class="border-bottom p-3">
-                                                                                                <h6 class="font-weight-bold text-dark">Osahan Solutions</h6>
-                                                                                                <p class="text-muted mb-0">Looking for talent?</p>
-                                                                                            </div>
-                                                                                            <div class="p-3">
-                                                                                                <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
-                                                                                            </div>
-                                                                                        </div> -->
+                                                                                                <img src="img/job1.png" class="img-fluid" alt="Responsive image">
+                                                                                                <div class="border-bottom p-3">
+                                                                                                    <h6 class="font-weight-bold text-dark">Osahan Solutions</h6>
+                                                                                                    <p class="text-muted mb-0">Looking for talent?</p>
+                                                                                                </div>
+                                                                                                <div class="p-3">
+                                                                                                    <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
+                                                                                                </div>
+                                                                                            </div> -->
                 </aside>
                 <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
                     <div class="box mb-3 rounded border bg-white shadow-sm">

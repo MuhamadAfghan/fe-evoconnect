@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -29,7 +31,7 @@ class AuthController extends Controller
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
-        ]);
+        ])->onlyInput('email');
     }
 
     public function storeRegister(Request $request)
@@ -46,14 +48,30 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             // 'phone' => $request->phone,
-            'phone' => rand(1000000000, 9999999999),
+            // 'phone' => rand(1000000000, 9999999999),
             'password' => bcrypt($request->password),
         ]);
 
+        if (env('APP_ENV') == 'local') {
+            $user->email_verified_at = now();
+            $user->save();
 
-        auth()->login($user);
+            Auth::login($user);
 
-        return redirect('/')->with('success', 'Welcome to our platform!');
+            return redirect()->route('home');
+        }
+
+        event(new Registered($user));
+
+        $credentials = $request->only('email', 'password');
+        Auth::attempt($credentials);
+        $request->session()->regenerate();
+        return redirect()->route('verification.notice');
+    }
+
+    public function verifyEmailPage()
+    {
+        return view('login.verification-email');
     }
 
     public function logout()

@@ -9,14 +9,14 @@
     <link rel="icon" type="image/png" href="{{ asset('img/logo2.png') }}">
     <title>EVOConnect - Job Portal & Social Media</title>
     <!-- Slick Slider -->
-    <link rel="stylesheet" type="text/css" href="vendor/slick/slick.min.css" />
-    <link rel="stylesheet" type="text/css" href="vendor/slick/slick-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/slick/slick.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/slick/slick-theme.min.css') }}" />
     <!-- Feather Icon-->
-    <link href="vendor/icons/feather.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('vendor/icons/feather.css') }}" rel="stylesheet" type="text/css">
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>

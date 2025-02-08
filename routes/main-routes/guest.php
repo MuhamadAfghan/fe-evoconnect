@@ -29,4 +29,4 @@ Route::middleware('guest')->group(function () {
 });
 Route::get('/job', [JobController::class, 'index'])->name('jobs.index');
 Route::post('/job', [JobController::class, 'store'])->name('jobs.store');
-Route::get('/job/{job}', [JobController::class, 'show'])->name('jobs.profile');
+Route::get('/job-profile', [JobController::class, 'jobProfile'])->name('job-profile');
