@@ -1,3 +1,15 @@
+<style>
+    .badge-hover {
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    /* Efek Saat Diklik */
+    .badge-active {
+        transform: scale(1.2) !important;
+        font-weight: bold;
+    }
+</style>
 <form method="POST" onsubmit="handleSubmitPost(event)"
     class="box osahan-share-post mb-3 rounded border bg-white shadow-sm">
     @csrf
@@ -17,16 +29,20 @@
         <div class="tab-pane fade show active" id="story" role="tabpanel" aria-labelledby="story-tab">
             <div class="d-flex align-items-center w-100 p-3" href="#">
                 <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="img/user.png" alt="">
-                    <div class="status-indicator bg-success"></div>
+                    <img class="rounded-circle" src="{{ auth()->user()->getProfileImage() }}" alt="">
+                    <div class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                    </div>
                 </div>
                 <div class="w-100">
                     <textarea name="story_content" id="story_content" placeholder="Write your thoughts..."
                         class="form-control mb-2 border-0 p-0 shadow-none" rows="1"></textarea>
-                    <span class="badge badge-primary p-1" style="cursor: pointer;">Public</span>
-                    <span class="badge badge-secondary p-1" style="cursor: pointer;">Private</span>
-                    <span class="badge badge-success p-1" style="cursor: pointer;">Only
-                        Connection</span>
+                    <span class="badge badge-primary badge-hover m-1 p-1">Public</span>
+                    <span class="badge badge-secondary badge-hover m-1 p-1">Private</span>
+                    <span class="badge badge-success badge-hover m-1 p-1">Only Connection</span>
+                    <span class="text-muted" data-toggle="tooltip" data-placement="right"
+                        title="Your post will be visible to everyone.">
+                        <i class="feather-help-circle"></i>
+                    </span>
                 </div>
             </div>
         </div>
@@ -39,66 +55,21 @@
             <div class="w-100 p-3">
                 <input id="article_content" type="hidden" name="content">
                 <trix-editor input="article_content"></trix-editor>
+                <span class="badge badge-primary badge-hover p-1">Public</span>
+                <span class="badge badge-secondary badge-hover m-1 p-1">Private</span>
+                <span class="badge badge-success badge-hover m-1 p-1">Only Connection</span>
+                <span class="text-muted" data-toggle="tooltip" data-placement="right"
+                    title="Your post will be visible to everyone.">
+                    <i class="feather-help-circle"></i>
+                </span>
             </div>
         </div>
     </div>
 
     <div class="border-top d-flex align-items-center p-3">
         <div class="flex-shrink-1">
-            <button type="submit" id="btn-submit-post" class="btn btn-primary btn-sm">Post
+            <button type="submit" id="btn-submit-post" class="btn btn-primary btn-sm" disabled>Post
                 Status</button>
         </div>
     </div>
 </form>
-<script>
-    let isSubmittingPost = false;
-
-    function handleSubmitPost(event) {
-        event.preventDefault();
-
-        if (isSubmittingPost) {
-            return;
-        } else {
-            isSubmittingPost = true;
-
-            document.getElementById('btn-submit-post').innerHTML = 'Loading...';
-            document.getElementById('btn-submit-post').setAttribute('disabled', 'disabled');
-        }
-        let form = event.target;
-        let formData = new FormData(form);
-
-        // Ambil tab yang sedang aktif
-        let activeTab = document.querySelector('.nav-link.active').getAttribute('href');
-
-        let content = '';
-        let type = '';
-        if (activeTab === '#story') {
-            content = document.getElementById('story_content').value;
-            type = 'story';
-        } else if (activeTab === '#article') {
-            content = document.getElementById('article_content').value;
-            type = 'article';
-        }
-
-        formData.set('content', content);
-        formData.set('type', type);
-        formData.set('visibility', 'public');
-        console.log("Content: ", content);
-
-        // Kirim data dengan axios atau fetch jika diperlukan
-        axios.post('{{ route('posts.store') }}', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(response => {
-            console.log(response.data);
-            form.reset();
-        }).catch(error => {
-            console.log(error.response.data);
-        }).finally(() => {
-            isSubmittingPost = false;
-            document.getElementById('btn-submit-post').innerHTML = 'Post Status';
-            document.getElementById('btn-submit-post').removeAttribute('disabled');
-        });
-    }
-</script>

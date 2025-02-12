@@ -17,11 +17,12 @@
                             <p class="text-muted mb-0"> Internet | Mountain View, CA | 14,128,005 followers</p>
                         </div>
                         <div class="profile-right ml-auto">
-                            <a href="https://www.google.co.id/?hl=id" target="_blank" class="btn btn-light mr-2"><i class="feather-external-link"></i> Visit
-                                website 
+                            <a href="https://www.google.co.id/?hl=id" target="_blank" class="btn btn-light mr-2"><i
+                                    class="feather-external-link"></i> Visit
+                                website
                             </a>
                             <button type="button" class="btn btn-primary" onclick="toggleFollowPrimary(this)">
-                                <i class="feather-plus"></i> Follow                            
+                                <i class="feather-plus"></i> Follow
                         </div>
                     </div>
                 </div>
@@ -48,9 +49,9 @@
                                     aria-controls="contact" aria-selected="false">Jobs</a>
                             </li>
                             <!-- <li class="nav-item">
-                                        <a class="nav-link" id="type-tab" data-toggle="tab" href="#type" role="tab"
-                                            aria-controls="type" aria-selected="false">Life</a>
-                                    </li> -->
+                                                    <a class="nav-link" id="type-tab" data-toggle="tab" href="#type" role="tab"
+                                                        aria-controls="type" aria-selected="false">Life</a>
+                                                </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" id="type-tab" data-toggle="tab" href="#reviews" role="tab"
                                     aria-controls="type" aria-selected="false">Reviews</a>
@@ -88,7 +89,8 @@
                                         <tbody>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Website</th>
-                                                <td class="p-3"><a href="https://www.google.co.id/?hl=id">www.google.com</a></td>
+                                                <td class="p-3"><a
+                                                        href="https://www.google.co.id/?hl=id">www.google.com</a></td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Industry</th>
@@ -171,7 +173,9 @@
                                 <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="img/p5.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
+                                        <div
+                                            class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                        </div>
                                     </div>
                                     <div class="font-weight-bold">
                                         <div class="text-truncate">Tobia Crivellari</div>
@@ -204,7 +208,9 @@
                                 <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="img/p6.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
+                                        <div
+                                            class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                        </div>
                                     </div>
                                     <div class="font-weight-bold">
                                         <div class="text-truncate">Collin Weiland</div>
@@ -228,7 +234,9 @@
                                 <div class="d-flex align-items-top border-bottom osahan-post-comment p-3">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="img/p7.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
+                                        <div
+                                            class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                        </div>
                                     </div>
                                     <div class="font-weight-bold">
                                         <div class="text-truncate"> James Spiegel <span class="small float-right">2
@@ -746,15 +754,15 @@
                         </div>
                     </div>
                     <!-- <div class="box ads-box mb-3 rounded bg-white text-center shadow-sm">
-                                <img src="img/job1.png" class="img-fluid" alt="Responsive image">
-                                <div class="border-bottom p-3">
-                                    <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
-                                    <p class="text-muted mb-0">Looking for talent?</p>
-                                </div>
-                                <div class="p-3">
-                                    <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
-                                </div>
-                            </div> -->
+                                            <img src="img/job1.png" class="img-fluid" alt="Responsive image">
+                                            <div class="border-bottom p-3">
+                                                <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
+                                                <p class="text-muted mb-0">Looking for talent?</p>
+                                            </div>
+                                            <div class="p-3">
+                                                <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
+                                            </div>
+                                        </div> -->
                 </aside>
                 {{-- membuat similar page --}}
                 <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
@@ -925,7 +933,9 @@
                             <p class="text-muted mb-0">Grow &amp; nurture your network</p>
                         </div>
                         <div class="p-3">
-                            <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
+                            <a href="{{ route('pricing') }}">
+                                <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
+                            </a>
                         </div>
                     </div>
                 </aside>

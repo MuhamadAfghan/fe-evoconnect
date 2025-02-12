@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,8 +10,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
-class User extends Authenticatable implements MustVerifyEmail
+
+class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
@@ -26,7 +29,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_path', // ✅ Sesuaikan dengan migration dan controller
         'provider',
         'email_verified_at',
-        'photo',
+        'about',
+        'last_seen',
     ];
 
     /**
@@ -42,6 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_seen' => 'datetime',
     ];
 
     /**
@@ -49,6 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $appends = [
         'profile_photo_url',
+        'is_online',
     ];
 
     /**
@@ -56,10 +62,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getProfileImage()
     {
-        if ($this->provider == 'google') {
+        if ($this->profile_photo_path) {
+            if (Storage::disk('public')->exists($this->profile_photo_path)) {
+                return asset('storage/' . $this->profile_photo_path);
+            }
+
             return $this->profile_photo_path;
-        } elseif ($this->profile_photo_path) {
-            return asset('storage/' . $this->profile_photo_path);
         }
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
     }
@@ -80,5 +88,14 @@ class User extends Authenticatable implements MustVerifyEmail
         } else {
             return 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
         }
+    }
+
+    public function isOnline()
+    {
+        return $this->last_seen && $this->last_seen->diffInMinutes(Carbon::now()) < 10;
+    }
+    public function getIsOnlineAttribute()
+    {
+        return $this->last_seen && $this->last_seen->diffInMinutes(Carbon::now()) < 10;
     }
 }

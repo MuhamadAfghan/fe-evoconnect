@@ -40,6 +40,9 @@
                                                             <div class="dropdown-list-image mr-3">
                                                                 <img class="rounded-circle"
                                                                     src="{{ $user->getProfileImage() }}" alt="">
+                                                                <div
+                                                                    class="status-indicator {{ $user->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                                                </div>
                                                             </div>
                                                             <div class="font-weight-bold">
                                                                 <h6 class="font-weight-bold text-dark mb-0">

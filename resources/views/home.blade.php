@@ -5,24 +5,23 @@
 @endpush
 
 @section('content')
-<style>
-.badge-hover {
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-}
+    <style>
+        .badge-hover {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
 
-/* Efek Saat Diklik */
-.badge-active {
-    transform: scale(1.2) !important;
-    font-weight: bold;
-}
-
-</style>
+        /* Efek Saat Diklik */
+        .badge-active {
+            transform: scale(1.2) !important;
+            font-weight: bold;
+        }
+    </style>
     <div class="py-4">
         <div class="container">
             <div class="row">
-                 <!-- Main Content -->
-                 <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                <!-- Main Content -->
+                <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                     <form method="POST" onsubmit="handleSubmitPost(event)"
                         class="box osahan-share-post mb-3 rounded border bg-white shadow-sm">
                         @csrf
@@ -48,20 +47,23 @@
                                 aria-labelledby="story-tab">
                                 <div class="d-flex align-items-center w-100 p-3" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/user.png" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>  
+                                        <img class="rounded-circle" src="{{ auth()->user()->getProfileImage() }}"
+                                            alt="">
+                                        <div
+                                            class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                        </div>
+                                    </div>
                                     <div class="w-100">
                                         <textarea name="story_content" id="story_content" placeholder="Write your thoughts..."
                                             class="form-control mb-2 border-0 p-0 shadow-none" rows="1"></textarea>
-                                        <span class="badge badge-primary p-1 m-1 badge-hover">Public</span>
-                                        <span class="badge badge-secondary p-1 m-1 badge-hover">Private</span>
-                                        <span class="badge badge-success p-1 m-1 badge-hover">Only Connection</span>
+                                        <span class="badge badge-primary badge-hover m-1 p-1">Public</span>
+                                        <span class="badge badge-secondary badge-hover m-1 p-1">Private</span>
+                                        <span class="badge badge-success badge-hover m-1 p-1">Only Connection</span>
                                     </div>
-                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <div class="w-100 p-3">                               
+                                <div class="w-100 p-3">
                                     <textarea placeholder="Write your thoughts..." class="form-control border-0 p-0 shadow-none" rows="3"></textarea>
                                 </div>
                             </div>
@@ -76,7 +78,7 @@
                         </div>
                         <div class="border-top d-flex align-items-center p-3">
                             <!-- <div class="mr-auto"><a href="#" class="text-link small"><i class="feather-map-pin"></i>
-                                                                                                                                                                                                                                                                Add Location</a></div> -->
+                                                                                                                                                                                                                                                                                                                                    Add Location</a></div> -->
                             <div class="flex-shrink-1">
                                 <button type="submit" id="btn-submit-post" class="btn btn-primary btn-sm">Post
                                     Status</button>
@@ -87,7 +89,9 @@
                         <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p5.png" alt="">
-                                <div class="status-indicator bg-success"></div>
+                                <div
+                                    class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                </div>
                             </div>
                             <div class="font-weight-bold">
                                 <div class="text-truncate">Tobia Crivellari</div>
@@ -232,7 +236,9 @@
                         <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p6.png" alt="">
-                                <div class="status-indicator bg-success"></div>
+                                <div
+                                    class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                </div>
                             </div>
                             <div class="font-weight-bold">
                                 <div class="text-truncate">Collin Weiland</div>
@@ -254,7 +260,9 @@
                         <div class="d-flex align-items-top border-bottom osahan-post-comment p-3">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p7.png" alt="">
-                                <div class="status-indicator bg-success"></div>
+                                <div
+                                    class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                </div>
                             </div>
                             <div class="font-weight-bold">
                                 <div class="text-truncate"> James Spiegel <span class="small float-right">2 min</span>
@@ -311,15 +319,15 @@
                         </div>
                     </div>
                     <!-- <div class="box ads-box mb-3 rounded bg-white text-center shadow-sm">
-                                                                                                                                                                                                                                                                    <img src="img/job1.png" class="img-fluid" alt="Responsive image">
-                                                                                                                                                                                                                                                                    <div class="border-bottom p-3">
-                                                                                                                                                                                                                                                                        <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
-                                                                                                                                                                                                                                                                        <p class="text-muted mb-0">Looking for talent?</p>
-                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                    <div class="p-3">
-                                                                                                                                                                                                                                                                        <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
-                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                </div> -->
+                                                                                                                                                                                                                                                                                                                                        <img src="img/job1.png" class="img-fluid" alt="Responsive image">
+                                                                                                                                                                                                                                                                                                                                        <div class="border-bottom p-3">
+                                                                                                                                                                                                                                                                                                                                            <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
+                                                                                                                                                                                                                                                                                                                                            <p class="text-muted mb-0">Looking for talent?</p>
+                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                        <div class="p-3">
+                                                                                                                                                                                                                                                                                                                                            <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
+                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                    </div> -->
                 </aside>
                 <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="box mb-3 rounded border bg-white shadow-sm">
@@ -330,7 +338,9 @@
                             <div class="d-flex align-items-center osahan-post-header people-list mb-3">
                                 <div class="dropdown-list-image mr-3">
                                     <img class="rounded-circle" src="img/p8.png" alt="">
-                                    <div class="status-indicator bg-success"></div>
+                                    <div
+                                        class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                    </div>
                                 </div>
                                 <div class="font-weight-bold mr-2">
                                     <div class="text-truncate">Bintang Asydqi</div>
@@ -537,11 +547,11 @@
         }
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let badges = document.querySelectorAll(".badge-hover");
-    
-            badges.forEach(function (badge) {
-                badge.addEventListener("click", function () {
+
+            badges.forEach(function(badge) {
+                badge.addEventListener("click", function() {
                     // Jika badge yang diklik sudah aktif, maka hapus class 'badge-active' (unclick)
                     if (this.classList.contains("badge-active")) {
                         this.classList.remove("badge-active");

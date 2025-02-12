@@ -13,11 +13,11 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->per_page ?? 10;
+        $perPage = $request->limit ?? 10;
         $page = $request->page ?? 1;
-        $blogs = Post::where('visibility', 'public')->latest()->with('user')->simplePaginate($perPage, ['*'], 'page', $page);
+        $posts = Post::where('visibility', 'public')->latest()->with('user')->simplePaginate($perPage, ['*'], 'page', $page);
 
-        return ApiFormatter::sendResponse('success', 200, 'Blogs retrieved successfully.', $blogs);
+        return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
     }
 
     /**

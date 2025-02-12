@@ -1,4 +1,4 @@
-@extends('layouts.templates')
+@extends('errors.templates')
 
 @section('content')
     <div class="bg-primary pb-5 pt-5">

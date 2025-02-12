@@ -35,18 +35,22 @@
                     <div class="osahan-login py-4">
                         <div class="mb-4 text-center">
                             <img src="{{ asset('img/logo1.png') }}" alt="" class="logo-evo">
-                            <h5 class="font-weight-bold mt-3">First, let's find your account</h5>
-                            <p class="text-muted">Please enter your email or phone</p>
+                            <h5 class="font-weight-bold mt-3">Reset Password</h5>
+                            <p class="text-muted">Send link reset password to your email</p>
                         </div>
-                        <form action="{{ route('home') }}">
+                        <form action="{{ route('forgot-password.store') }}" method="POST">
+                            @csrf
                             <div class="form-group">
-                                <label class="mb-1">Email or Phone</label>
+                                <label class="mb-1">Email</label>
                                 <div class="position-relative icon-form-control">
                                     <i class="feather-user position-absolute"></i>
-                                    <input type="email" class="form-control">
+                                    <input type="email" name="email" class="form-control">
                                 </div>
+                                @if ($errors->has('email'))
+                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                @endif
                             </div>
-                            <button class="btn btn-primary btn-block text-uppercase" type="submit"> Find account
+                            <button class="btn btn-primary btn-block text-uppercase" type="submit">Send
                             </button>
                             <div class="d-flex align-item-center py-3">
                                 <a href="{{ route('login') }}">Sign In</a>
@@ -58,6 +62,35 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('warning'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Warning!</strong> {{ session('warning') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     </div>
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConnectController;
 use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 Route::group(['prefix' => 'api', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'blogs'], function () {
@@ -23,5 +24,17 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth'], function () {
         Route::get('/{post}', [PostController::class, 'show'])->name('posts.show');
         Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
         Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    });
+
+    //user
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index');
+        Route::post('/', [UserController::class, 'store'])->name('users.store');
+        Route::get('/{user}', [UserController::class, 'show'])->name('users.show');
+        Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+        //update social media
+        Route::put('/{user}/social-media', [UserController::class, 'updateSocialMedia'])->name('users.update.social-media');
     });
 });

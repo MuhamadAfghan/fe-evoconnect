@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('headline')->nullable();
             $table->string('phone')->unique()->nullable();
             $table->string('google_id')->nullable();
             $table->string('profile_photo_path')->nullable();
@@ -23,6 +24,12 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->json('viewers')->nullable();
+            $table->timestamp('last_seen')->nullable();
+            $table->string('username')->unique()->nullable();
+            $table->date('birthdate')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->string('location')->nullable();
+            $table->text('about')->nullable();
             $table->timestamps();
         });
     }

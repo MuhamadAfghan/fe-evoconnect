@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('image')->nullable();
+            $table->json('image')->nullable();
             $table->enum('type', ['article', 'story']);
             $table->text('content');
             $table->json('likes')->nullable();

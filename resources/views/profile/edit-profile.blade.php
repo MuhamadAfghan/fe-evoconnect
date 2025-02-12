@@ -2,6 +2,19 @@
 @extends('layouts.templates')
 
 @section('content')
+    <style>
+        .profile-box img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .small-btn {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+    </style>
     <div class="py-4">
         <div class="container">
             <div class="row">
@@ -11,7 +24,7 @@
                         <div class="d-flex align-items-center p-4">
                             <img src="{{ auth()->user()->getProfileImage() }}" class="img-fluid rounded-circle"
                                 alt="Responsive image">
-                            <div class="p-4">
+                            <div class="d-flex justify-content-between me-2 p-4" style="gap: 5px;">
                                 <!-- Form untuk mengunggah foto profil -->
                                 <form action="{{ route('profile.update.photo') }}" method="POST"
                                     enctype="multipart/form-data">
@@ -37,69 +50,82 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3 rounded border bg-white">
-                        <div class="box-title border-bottom p-3">
-                            <h6 class="m-0">About</h6>
-                            <p class="small mb-0 mt-0">Tell about yourself in two sentences.
-                            </p>
-                        </div>
-                        <div class="box-body">
-                            <div class="border-bottom p-3">
-                                <div class="form-group mb-4">
-                                    <label class="mb-1">BIO</label>
-                                    <div class="position-relative">
-                                        <textarea class="form-control" rows="4" name="text" placeholder="Enter Bio"></textarea>
+                    <form action="{{ route('profile.update.about') }}" method="POST">
+                        @csrf
+                        <div class="mb-3 rounded border bg-white">
+                            <div class="box-title border-bottom p-3">
+                                <h6 class="m-0">About</h6>
+                                <p class="small mb-0 mt-0">Tell about yourself in two sentences.
+                                </p>
+                            </div>
+                            <div class="box-body">
+                                <div class="border-bottom p-3">
+                                    <div class="form-group mb-4">
+                                        <label class="mb-1">About You</label>
+                                        <div class="position-relative">
+                                            <textarea class="form-control" rows="4" name="text" placeholder="Enter About You"></textarea>
+                                        </div>
+                                    </div>
+                                    {{-- add skills --}}
+                                    <div class="col-sm-12 mb-3">
+                                        <div class="js-form-message">
+                                            <label id="skillsLabel" class="form-label">
+                                                Skills <span class="text-danger">*</span>
+                                            </label>
+                                            <div id="skillsContainer">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <input class="form-control w-100 p-2" type="text" name="skills[]"
+                                                        placeholder="Enter your skill" aria-label="Enter your skill"
+                                                        required="">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tombol Tambah Skill -->
+                                        <div class="mt-2">
+                                            <a class="d-inline-block u-text-muted" href="#" id="addSkill">
+                                                <span class="mr-1">+</span> Add skills
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-0">
-                                    <label class="w-100 mb-1">SKILLS</label>
-                                    <div class="custom-control custom-checkbox d-inline mr-3">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <label class="custom-control-label" for="customCheck1">JavaScript, jQuery</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox d-inline">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                        <label class="custom-control-label" for="customCheck2">HTML5, CSS3</label>
-                                    </div>
+                                <div class="overflow-hidden p-3 text-center">
+                                    <button type="submit"
+                                        class="font-weight-bold btn btn-light d-block rounded p-3">SAVE</button>
                                 </div>
                             </div>
-                            <div class="overflow-hidden p-3 text-center">
-                                <a class="font-weight-bold btn btn-light d-block rounded p-3" href="#"> SAVE </a>
-                            </div>
                         </div>
-                    </div>
+                    </form>
+                    {{-- input social profile --}}
                     <div class="mb-3 rounded border bg-white">
                         <div class="box-title border-bottom p-3">
                             <h6 class="m-0">Social profiles</h6>
-                            <p class="small mb-0 mt-0">Add elsewhere links to your profile.
-                            </p>
+                            <p class="small mb-0 mt-0">Add elsewhere links to your profile.</p>
                         </div>
                         <div class="box-body">
+                            <div class="border-bottom p-3" id="savedSocialMedia"></div>
                             <div class="border-bottom p-3">
-                                <div class="position-relative icon-form-control mb-2">
-                                    <i class="feather-instagram position-absolute text-warning"></i>
-                                    <input placeholder="Add Instagram link" type="text" class="form-control">
+                                <label>Select Platform:</label>
+                                <div class="d-flex justify-content-center mb-3 gap-2">
+                                    <button class="btn btn-light platform-btn mr-2" data-platform="instagram"><i
+                                            class="feather-instagram text-warning"></i></button>
+                                    <button class="btn btn-light platform-btn mr-2" data-platform="facebook"><i
+                                            class="feather-facebook text-primary"></i></button>
+                                    <button class="btn btn-light platform-btn mr-2" data-platform="twitter"><i
+                                            class="feather-twitter text-info"></i></button>
+                                    <button class="btn btn-light platform-btn mr-2" data-platform="youtube"><i
+                                            class="feather-youtube text-danger"></i></button>
+                                    <button class="btn btn-light platform-btn mr-2" data-platform="github"><i
+                                            class="feather-github text-dark"></i></button>
                                 </div>
-                                <div class="position-relative icon-form-control mb-2">
-                                    <i class="feather-facebook position-absolute text-primary"></i>
-                                    <input placeholder="Add Facebook link" type="text" class="form-control">
-                                </div>
-                                <div class="position-relative icon-form-control mb-2">
-                                    <i class="feather-twitter position-absolute text-info"></i>
-                                    <input placeholder="Add Twitter link" type="text" class="form-control">
-                                </div>
-                                <div class="position-relative icon-form-control mb-2">
-                                    <i class="feather-youtube position-absolute text-danger"></i>
-                                    <input placeholder="Add Youtube link" type="text" class="form-control">
-                                </div>
-                                <div class="position-relative icon-form-control mb-0">
-                                    <i class="feather-github position-absolute text-dark"></i>
-                                    <input placeholder="Add Github link" type="text" class="form-control">
-                                </div>
+                                <div id="socialInputs"></div>
                             </div>
-                            <div class="overflow-hidden p-3 text-center">
-                                <a class="font-weight-bold btn btn-light d-block rounded p-3" href="#"> Update Social
-                                    Profiles </a>
+                            <div class="d-flex justify-content-center gap-2 overflow-hidden p-3 text-center">
+                                <button id="addSocialMedia" class="btn btn-primary small-btn mr-3">Add Social
+                                    Media</button>
+                                <button id="saveSocialMedia" class="font-weight-bold btn btn-light small-btn">Save
+                                    Social
+                                    Profiles</button>
                             </div>
                         </div>
                     </div>
@@ -107,8 +133,8 @@
                 <main class="col-md-8">
                     <div class="mb-3 rounded border bg-white">
                         <div class="box-title border-bottom p-3">
-                            <h6 class="m-0">Edit Basic Info</h6>
-                            <p class="small mb-0 mt-0">Lorem ipsum dolor sit amet, consecteturs.
+                            <h6 class="m-0">Edit Your Profile</h6>
+                            <p class="small mb-0 mt-0">Add information about yourself
                             </p>
                         </div>
                         <div class="box-body p-3">
@@ -152,31 +178,31 @@
                                     </div>
                                     <!-- End Input -->
                                 </div>
-                                <label class="form-label">
-                                    Birth date
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <!-- Input -->
-                                <div class="row col">
-                                    <!-- Input -->
-                                    <label for="birthdate"></label>
-                                    <input type="date" id="birthdate" name="birthdate">
-                                    <!-- End Input -->
-                                    <!-- Input -->
-                                    <div class="col-sm-4 col-md-2 mb-2">
-                                        <div class="js-form-message">
-                                            <div class="form-group">
-                                                <select class="form-control custom-select" required=""
-                                                    data-msg="Please select your gender." data-error-class="u-has-error"
-                                                    data-success-class="u-has-success">
-                                                    <option value="genderSelect1" selected="">Male</option>
-                                                    <option value="genderSelect2">Female</option>
-                                                    <option value="genderSelect3">Other</option>
-                                                </select>
-                                            </div>
+                                {{-- Input Tanggal Lahir dan Gender dalam satu baris --}}
+                                <div class="row">
+                                    <!-- Input Birthdate -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="birthdate" class="form-label">Birth date
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="date" id="birthdate" name="birthdate" class="form-control">
                                         </div>
                                     </div>
-                                    <!-- End Input -->
+
+                                    <!-- Input Gender -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="gender" class="form-label">Gender</label>
+                                            <span class="text-danger">*</span>
+                                            <select id="gender" class="form-control custom-select" required=""
+                                                data-msg="Please select your gender." data-error-class="u-has-error"
+                                                data-success-class="u-has-success">
+                                                <option value="genderSelect1" selected="">Male</option>
+                                                <option value="genderSelect2">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <!-- Input -->
@@ -209,7 +235,7 @@
                                             </label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="location"
-                                                    value="Ludhiana, Punjab" placeholder="Enter your location"
+                                                    value="" placeholder="Enter your location"
                                                     aria-label="Enter your location" required=""
                                                     aria-describedby="locationLabel"
                                                     data-msg="Please enter your location." data-error-class="u-has-error"
@@ -229,7 +255,7 @@
                                             </label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="organization"
-                                                    value="Askbootsrap Ltd." placeholder="Enter your organization name"
+                                                    value="" placeholder="Enter your organization name"
                                                     aria-label="Enter your organization name" required=""
                                                     aria-describedby="organizationLabel"
                                                     data-msg="Please enter your organization name"
@@ -259,43 +285,41 @@
                                     <!-- End Input -->
                                 </div>
                                 <div class="row">
-                                    <!-- Input -->
+                                    <!-- Input phone number-->
                                     <div class="col-sm-6 mb-2">
                                         <div class="js-form-message">
                                             <label id="phoneNumberLabel" class="form-label">
-                                                Phone number
-                                                <span class="text-danger">*</span>
+                                                Phone number <span class="text-danger">*</span>
                                             </label>
-                                            <div class="form-group">
-                                                <input class="form-control" type="tel" name="phoneNumber"
-                                                    placeholder="Enter your phone number"
-                                                    aria-label="Enter your phone number" required=""
-                                                    aria-describedby="phoneNumberLabel"
-                                                    data-msg="Please enter a valid phone number"
-                                                    data-error-class="u-has-error" data-success-class="u-has-success">
+                                            <div id="phoneNumberContainer">
+                                                <div class="d-flex align-items-center">
+                                                    <input class="form-control" type="number" name="phoneNumber[]"
+                                                        placeholder="Enter your phone number"
+                                                        aria-label="Enter your phone number" required="">
+                                                </div>
                                             </div>
                                         </div>
-                                        <a class="d-inline-block u-text-muted" href="#">
-                                            <span class="mr-1">+</span>
-                                            Add phone number
-                                        </a>
+
+                                        <!-- Tombol Tambah Nomor -->
+                                        <div class="mt-2">
+                                            <a class="d-inline-block u-text-muted" href="#" id="addPhoneNumber">
+                                                <span class="mr-1">+</span> Add phone number
+                                            </a>
+                                        </div>
                                     </div>
                                     <!-- End Input -->
                                     <!-- Input -->
                                     <div class="col-sm-6 mb-2">
                                         <div class="js-form-message">
                                             <label class="form-label">
-                                                Preferred language
+                                                Headline
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <div class="form-group">
-                                                <select class="custom-select">
-                                                    <option value="">Select language</option>
-                                                    <option value="languageSelect1">English</option>
-                                                    <option value="languageSelect2">Français</option>
-                                                    <option value="languageSelect3">Deutsch</option>
-                                                    <option value="languageSelect4">Português</option>
-                                                </select>
+                                            <div id="headlineContainer">
+                                                <div class="d-flex align-items-center">
+                                                    <input class="form-control" type="text" name="headline"
+                                                        placeholder="Enter your headline">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -304,71 +328,212 @@
                             </form>
                         </div>
                     </div>
-                    <div class="mb-3 rounded border bg-white">
-                        <div class="box-title border-bottom p-3">
-                            <h6 class="m-0">Experience
-                            </h6>
-                            <p class="small mb-0 mt-0">Tell about your work, job, and other experiences.
-                            </p>
-                        </div>
-                        <div class="box-body px-3 pb-0 pt-3">
-                            <div class="row">
-                                <div class="col-sm-6 mb-4">
-                                    <label id="FROM" class="form-label">FROM</label>
-                                    <!-- Input -->
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="From" aria-label="FROM"
-                                            aria-describedby="FROM">
-                                    </div>
-                                    <!-- End Input -->
-                                </div>
-                                <div class="col-sm-6 mb-4">
-                                    <label id="TO" class="form-label">TO</label>
-                                    <!-- Input -->
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="TO" aria-label="TO"
-                                            aria-describedby="TO">
-                                    </div>
-                                    <!-- End Input -->
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 mb-4">
-                                    <label id="companyLabel" class="form-label">Company</label>
-                                    <!-- Input -->
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Enter your company title"
-                                            aria-label="Enter your company title" aria-describedby="companyLabel">
-                                    </div>
-                                    <!-- End Input -->
-                                </div>
-                                <div class="col-sm-6 mb-4">
-                                    <label id="positionLabel" class="form-label">Position</label>
-                                    <!-- Input -->
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Enter your position"
-                                            aria-label="Enter your position" aria-describedby="positionLabel">
-                                    </div>
-                                    <!-- End Input -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- <div class="mb-3 rounded border bg-white">
+                                                                        <div class="box-title border-bottom p-3">
+                                                                            <h6 class="m-0">Experience
+                                                                            </h6>
+                                                                            <p class="small mb-0 mt-0">Tell about your work, job, and other experiences.
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="box-body px-3 pb-0 pt-3">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-6 mb-4">
+                                                                                    <label id="FROM" class="form-label">FROM</label> -->
+                    <!-- Input -->
+                    <!-- <div class="input-group">
+                                                                                        <input type="text" class="form-control" placeholder="From" aria-label="FROM"
+                                                                                            aria-describedby="FROM">
+                                                                                    </div> -->
+                    <!-- End Input -->
+                    <!-- </div>
+                                                                                <div class="col-sm-6 mb-4">
+                                                                                    <label id="TO" class="form-label">TO</label>
+                                                                                    Input -->
+                    <!-- <div class="input-group">
+                                                                                        <input type="text" class="form-control" placeholder="TO" aria-label="TO"
+                                                                                            aria-describedby="TO">
+                                                                                    </div> -->
+                    <!-- End Input -->
+                    <!-- </div> -->
+                    <!-- </div> -->
+                    <!-- <div class="row">
+                                                        <div class="col-sm-6 mb-4">
+                                                            <label id="companyLabel" class="form-label">Company</label> -->
+                    <!-- Input -->
+                    <!-- <div class="input-group">
+                                                                <input type="text" class="form-control" placeholder="Enter your company title"
+                                                                    aria-label="Enter your company title" aria-describedby="companyLabel">
+                                                            </div> -->
+                    <!-- End Input -->
+                    <!-- </div>
+                                                <div class="col-sm-6 mb-4">
+                                                    <label id="positionLabel" class="form-label">Position</label> -->
+                    <!-- Input -->
+                    <!-- <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="Enter your position"
+                                                            aria-label="Enter your position" aria-describedby="positionLabel">
+                                                    </div> -->
+                    <!-- End Input -->
                     <form action="{{ route('profile.update') }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="mb-3 text-right">
-                            <a class="font-weight-bold btn btn-link rounded p-3" href="#"> &nbsp;&nbsp;&nbsp;&nbsp;
-                                Cancel &nbsp;&nbsp;&nbsp;&nbsp; </a>
-                            <button type="submit" class="font-weight-bold btn btn-primary rounded p-3">
+                            <button type="button" class="btn btn-secondary btn-lg m-1 p-2" disabled href="#">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                Cancel &nbsp;&nbsp;&nbsp;&nbsp; </button>
+                            <button type="submit" class="font-weight-bold btn btn-primary rounded p-2">
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 Save Changes &nbsp;&nbsp;&nbsp;&nbsp; </button>
                         </div>
                     </form>
-                </main>
             </div>
         </div>
     </div>
+    </div>
+    </main>
+    </div>
+    </div>
+    </div>
+
+    <!-- JavaScript untuk Menambah dan Menghapus Input Nomor -->
+    <script>
+        document.getElementById("addPhoneNumber").addEventListener("click", function(event) {
+            event.preventDefault();
+
+            // Buat elemen div baru untuk input tambahan
+            let newInputDiv = document.createElement("div");
+            newInputDiv.classList.add("d-flex", "align-items-center", "mt-2");
+
+            // Input baru
+            let newInput = document.createElement("input");
+            newInput.classList.add("form-control");
+            newInput.setAttribute("type", "tel");
+            newInput.setAttribute("name", "phoneNumber[]");
+            newInput.setAttribute("placeholder", "Enter another phone number");
+            newInput.required = true;
+
+            // Tombol hapus (ikon trash)
+            let deleteButton = document.createElement("span");
+            deleteButton.innerHTML = '<i class="feather-trash-2 ml-2 text-danger" style="cursor: pointer;"></i>';
+            deleteButton.addEventListener("click", function() {
+                newInputDiv.remove();
+            });
+
+            // Tambahkan input dan tombol hapus ke dalam div
+            newInputDiv.appendChild(newInput);
+            newInputDiv.appendChild(deleteButton);
+
+            // Tambahkan ke dalam container
+            document.getElementById("phoneNumberContainer").appendChild(newInputDiv);
+        });
+    </script>
+
+    <!-- JavaScript untuk Menambah dan Menghapus Skills -->
+    <script>
+        document.getElementById("addSkill").addEventListener("click", function(event) {
+            event.preventDefault();
+
+            // Buat elemen div baru untuk input tambahan
+            let newInputDiv = document.createElement("div");
+            newInputDiv.classList.add("d-flex", "align-items-center", "mt-2");
+
+            // Input baru untuk skill
+            let newInput = document.createElement("input");
+            newInput.classList.add("form-control");
+            newInput.setAttribute("type", "text");
+            newInput.setAttribute("name", "skills[]");
+            newInput.setAttribute("placeholder", "Enter another skill");
+            newInput.required = true;
+
+            // Tombol hapus (ikon trash)
+            let deleteButton = document.createElement("span");
+            deleteButton.innerHTML = '<i class="feather-trash-2 ml-2 text-danger" style="cursor: pointer;"></i>';
+            deleteButton.addEventListener("click", function() {
+                newInputDiv.remove();
+            });
+
+            // Tambahkan input dan tombol hapus ke dalam div
+            newInputDiv.appendChild(newInput);
+            newInputDiv.appendChild(deleteButton);
+
+            // Tambahkan ke dalam container
+            document.getElementById("skillsContainer").appendChild(newInputDiv);
+        });
+    </script>
+
+    {{-- menambahkan bagian social media --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const platformButtons = document.querySelectorAll(".platform-btn");
+            const socialInputs = document.getElementById("socialInputs");
+            const savedSocialMedia = document.getElementById("savedSocialMedia");
+            const saveButton = document.getElementById("saveSocialMedia");
+            const addButton = document.getElementById("addSocialMedia");
+
+            const platformIcons = {
+                instagram: "feather-instagram text-warning",
+                facebook: "feather-facebook text-primary",
+                twitter: "feather-twitter text-info",
+                youtube: "feather-youtube text-danger",
+                github: "feather-github text-dark"
+            };
+
+            function addDeleteFunctionality(button, parentDiv) {
+                button.addEventListener("click", function() {
+                    parentDiv.remove();
+                });
+            }
+
+            // Ketika tombol platform diklik, hanya mengganti platform yang dipilih
+            platformButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    selectedPlatform = this.getAttribute("data-platform");
+                });
+            });
+
+            // Menambahkan input baru ketika tombol "Add Social Media" ditekan
+            addButton.addEventListener("click", function() {
+                const inputDiv = document.createElement("div");
+                inputDiv.classList.add("d-flex", "align-items-center", "mb-3", "position-relative");
+
+                inputDiv.innerHTML = `
+            <div class="d-flex flex-grow-1 align-items-center border rounded p-2 gap-3">
+                <i class="${platformIcons[selectedPlatform]} d-flex justify-content-center align-items-center"
+                    style="width: 30px; height: 30px; font-size: 1.2rem; margin-left: 10px;"></i>
+                <input data-platform="${selectedPlatform}" placeholder="Enter ${selectedPlatform} username"
+                    type="text" class="form-control">
+            </div>
+            <button class="btn btn-danger btn-sm delete-btn" style="margin-left: 10px;">
+                <i class="feather-trash"></i>
+            </button>
+        `;
+                socialInputs.appendChild(inputDiv);
+
+                const deleteButton = inputDiv.querySelector(".delete-btn");
+                addDeleteFunctionality(deleteButton, inputDiv);
+            });
+
+            // Saat tombol Save ditekan, hanya menyimpan input yang sudah diisi
+            saveButton.addEventListener("click", function() {
+                const inputs = socialInputs.querySelectorAll(".d-flex");
+                inputs.forEach(inputDiv => {
+                    const input = inputDiv.querySelector("input");
+                    if (input.value.trim() !== "") { // Cek apakah input tidak kosong
+                        const platform = input.getAttribute("data-platform");
+                        const icon = inputDiv.querySelector("i");
+
+                        // Update ikon dengan platform yang sesuai
+                        icon.className = platformIcons[platform];
+
+                        const deleteButton = inputDiv.querySelector(".delete-btn");
+                        addDeleteFunctionality(deleteButton, inputDiv);
+                        savedSocialMedia.appendChild(inputDiv);
+                    }
+                });
+                socialInputs.innerHTML = "";
+            });
+        });
+    </script>
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

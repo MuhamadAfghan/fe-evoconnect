@@ -1,4 +1,4 @@
-@extends('layouts.templates')
+@extends('errors.templates')
 
 @section('content')
     <div class="bg-primary py-5">
@@ -99,7 +99,8 @@
                             <p>We provide information to help copyright holders manage their intellectual property online.
                                 If you think somebody is violating your copyrights and want to notify us, you can find
                                 information about submitting notices and EVOConnect's policy about responding to notices in
-                                <a href="help.html">our Help Center</a>.</p>
+                                <a href="help.html">our Help Center</a>.
+                            </p>
                         </div>
                         <div id="yourContent" class="active">
                             <!-- Title -->

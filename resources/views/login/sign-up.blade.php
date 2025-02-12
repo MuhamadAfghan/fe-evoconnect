@@ -44,7 +44,8 @@
                                 <label class="mb-1">Name</label>
                                 <div class="position-relative icon-form-control">
                                     <i class="feather-user position-absolute"></i>
-                                    <input type="text" class="form-control" name="name">
+                                    <input type="text" class="form-control" name="name"
+                                        value="{{ old('name') }}">
                                 </div>
                                 @if ($errors->has('name'))
                                     <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -54,7 +55,8 @@
                                 <label class="mb-1">Email</label>
                                 <div class="position-relative icon-form-control">
                                     <i class="feather-at-sign position-absolute"></i>
-                                    <input type="email" class="form-control" name="email">
+                                    <input type="email" class="form-control" name="email"
+                                        value="{{ old('email') }}">
                                 </div>
                                 @if ($errors->has('email'))
                                     <span class="text-danger">{{ $errors->first('email') }}</span>
@@ -72,29 +74,33 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label class="mb-1">You agree to the EVOConnect <a href="{{ route('terms.term') }}"
-                                        target="blank">User Agreement</a>, and
-                                    <a href="{{ route('privacy') }}" target="blank">Privacy Policy</a>.</label>
+                                <label class="small text-muted mb-1">
+                                    You agree to the EVOConnect
+                                    <a href="{{ route('terms.term') }}" target="_blank">User Agreement</a>, and
+                                    <a href="{{ route('privacy') }}" target="_blank">Privacy Policy</a>.
+                                </label>
                             </div>
+
                             <button class="btn btn-primary btn-block text-uppercase" type="submit"> Agree & Join
                             </button>
                             <div class="border-bottom mt-3 pb-3 text-center">
                                 <p class="small text-muted">Or login with</p>
-                                <div class="mt-4 flex items-center justify-end align-middle">
-
+                                <div class="d-flex justify-content-center align-items-center mt-4">
                                     <a href="{{ route('auth.google') }}">
-
-                                        <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
-                                            style="margin-left: 3em;">
-
+                                        <strong>
+                                            <p class="btn btn-white border shadow-sm">
+                                                <img src="{{ asset('img/google-icon.jpg') }}" alt="Google Logo"
+                                                    style="width: 20px; margin-right: 10px;">
+                                                Login with Google
+                                            </p>
+                                        </strong>
                                     </a>
-
                                 </div>
                             </div>
                             <div class="d-flex align-item-center py-3">
                                 <a href="{{ route('forgot-password') }}">Forgot password?</a>
                                 <span class="ml-auto"> Already on EVOConnect? <a class="font-weight-bold"
-                                        href="{{ route('login') }}">Sign in</a></span>
+                                        href="{{ route('login') }}">sign in</a></span>
                             </div>
                         </form>
                     </div>

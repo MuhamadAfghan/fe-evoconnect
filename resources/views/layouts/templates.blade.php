@@ -9,14 +9,18 @@
     <link rel="icon" type="image/png" href="{{ asset('img/logo2.png') }}">
     <title>EVOConnect - Job Portal & Social Media</title>
     <!-- Slick Slider -->
-    <link rel="stylesheet" type="text/css" href="vendor/slick/slick.min.css" />
-    <link rel="stylesheet" type="text/css" href="vendor/slick/slick-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/slick/slick.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/slick/slick-theme.min.css') }}" />
     <!-- Feather Icon-->
-    <link href="vendor/icons/feather.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('vendor/icons/feather.css') }}" rel="stylesheet" type="text/css">
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <!-- Slick CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+
     <style>
         trix-editor ul,
         .trix-result ul {
@@ -52,6 +56,10 @@
             margin: 10px 0;
             background-color: #f8f8f8;
             border-inline-start: 5px solid #ccc;
+        }
+
+        * img {
+            object-fit: cover;
         }
     </style>
 
@@ -180,7 +188,9 @@
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p1.png" alt="">
-                                <div class="status-indicator bg-success"></div>
+                                <div
+                                    class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                </div>
                             </div>
                             <div class="font-weight-bold overflow-hidden">
                                 <div class="text-truncate">Hi there! I am wondering if you can help me with a problem
@@ -213,7 +223,9 @@
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p4.png" alt="">
-                                <div class="status-indicator bg-success"></div>
+                                <div
+                                    class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                </div>
                             </div>
                             <div class="overflow-hidden">
                                 <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me
@@ -278,14 +290,17 @@
                 <li class="nav-item dropdown no-arrow osahan-profile-dropdown ml-1">
                     <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        <img class="img-profile rounded-circle" src="img/p13.png">
+                        <img class="img-profile rounded-circle" src="{{ auth()->user()->getProfileImage() }}">
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow-sm">
                         <div class="d-flex align-items-center p-3">
                             <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="img/user.png" alt="">
-                                <div class="status-indicator bg-success"></div>
+                                <img class="rounded-circle" src="{{ auth()->user()->getProfileImage() }}"
+                                    alt="">
+                                <div
+                                    class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                </div>
                             </div>
                             <div class="font-weight-bold">
                                 <div class="text-truncate">

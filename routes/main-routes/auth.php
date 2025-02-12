@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConnectController;
 use App\Http\Controllers\ConnectionController;
-
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\UserController;
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -15,8 +17,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/email/resend', 'resend')->name('verification.resend');
     });
 });
-
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/auth/fill-username', [AuthController::class, 'fillUsername'])->name('auth.fill-username');
+    Route::post('/auth/fill-username', [AuthController::class, 'storeUsername'])->name('auth.store-username');
+});
+
+Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
 
     Route::get('/', function () {
         return view('home.index');
@@ -41,6 +47,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/contact', [ConnectController::class, 'contact'])->name('contact');
     // Route::get('/sign-in', [ConnectController::class, 'signIn'])->name('sign-in');
     // Route::get('/sign-up', [ConnectController::class, 'signUp'])->name('sign-up');
-    Route::get('/forgot-password', [ConnectController::class, 'forgotPassword'])->name('forgot-password');
     Route::get('/edit-profile', [ConnectController::class, 'editProfile'])->name('edit-profile');
+    Route::post('/profile/update-photo', [UserController::class, 'updatePhoto'])->name('profile.update.photo');
+    Route::delete('/profile/delete-photo', [UserController::class, 'deletePhoto'])->name('profile.delete.photo');
+    Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
+    Route::post('/profile/update-about', [UserController::class, 'updateAbout'])->name('profile.update.about');
+
+    // 🔹 Routes untuk Jobs (RESTful)
+    Route::prefix('jobs')->group(function () {
+        Route::get('/', [JobController::class, 'index'])->name('jobs.index'); // List semua job
+        Route::post('/', [JobController::class, 'store'])->name('jobs.store'); // Tambah job
+        Route::get('/{job}', [JobController::class, 'jobProfile'])->name('jobs-profile'); // Detail job
+        Route::post('/jobs/{job}/update-photo', [JobController::class, 'updatePhotoJob'])->name('job.update.photo');
+        Route::delete('/jobs/{job}/delete-photo', [JobController::class, 'deletePhotoJob'])->name('job.delete.photo');
+    });
+
+    Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store'); // Tambah perusahaan
 });

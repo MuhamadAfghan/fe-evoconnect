@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id-ID" translate="no">
 
 <head>
     <!-- Data dasar -->
@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="google" content="notranslate">
 
     <!-- Icon -->
     <link rel="icon" type="image/png" href="img/fav.png">
@@ -23,6 +24,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
@@ -47,7 +49,7 @@
                         <!-- Header login -->
                         <div class="mb-4 text-center">
                             <img src="{{ asset('img/logo1.png') }}" alt="" class="logo-evo">
-                            <h5 class="font-weight-bold mt-3">Welcome Back</h5>
+                            <h5 class="font-weight-bold mt-3">Selamat datang</h5>
                             <p class="text-muted">Don't miss your next opportunity. Sign in to stay updated on your
                                 professional world.</p>
                         </div>
@@ -60,7 +62,8 @@
                                 <label class="mb-1">Email or Phone</label>
                                 <div class="position-relative icon-form-control">
                                     <i class="feather-user position-absolute"></i>
-                                    <input type="email" class="form-control" name="email">
+                                    <input type="email" class="form-control" name="email"
+                                        value="{{ old('email') }}">
                                 </div>
                                 @if ($errors->has('email'))
                                     <span class="text-danger">{{ $errors->first('email') }}</span>
@@ -86,19 +89,19 @@
                             <button class="btn btn-primary btn-block text-uppercase" type="submit"> Sign in </button>
 
                             <!-- Opsi login mennggunakam media sosial -->
+
                             <div class="border-bottom mt-3 pb-3 text-center">
                                 <p class="small text-muted">Or login with</p>
-                                <div class="row">
-                                    <div class="mt-4 flex items-center justify-end align-middle">
-
-                                        <a href="{{ route('auth.google') }}">
-
-                                            <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
-                                                style="margin-left: 3em;">
-
-                                        </a>
-
-                                    </div>
+                                <div class="d-flex justify-content-center align-items-center mt-4">
+                                    <a href="{{ route('auth.google') }}">
+                                        <strong>
+                                            <p class="btn btn-white border shadow-sm">
+                                                <img src="{{ asset('img/google-icon.jpg') }}" alt="Google Logo"
+                                                    style="width: 20px; margin-right: 10px;">
+                                                Login with Google
+                                            </p>
+                                        </strong>
+                                    </a>
                                 </div>
                             </div>
 

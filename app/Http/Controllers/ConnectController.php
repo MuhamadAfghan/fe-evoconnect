@@ -28,7 +28,7 @@ class ConnectController extends Controller
                 'mutual_connections' => 4
             ]
         ];
-        
+
         return view('connections.suggestions', compact('suggestedUsers'));
     }
 
@@ -91,7 +91,7 @@ class ConnectController extends Controller
 
     public function comingSoon()
     {
-        return view('error.coming-soon');
+        return view('errors.coming-soon');
     }
 
     public function maintenance()

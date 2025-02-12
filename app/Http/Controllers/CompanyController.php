@@ -4,62 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required|string|unique:companies,name',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Company $company)
-    {
-        //
-    }
+        $company = Company::create([
+            'id' => Str::uuid()->toString(), // Buat UUID untuk perusahaan baru
+            'name' => $request->name,
+            'logo' => 'default.png', // Bisa diubah sesuai kebutuhan
+            'description' => 'Deskripsi belum tersedia',
+            'industry' => 'Unknown',
+            'location' => json_encode([]),
+            'website' => '',
+            'company_size' => 0,
+            'headquarters' => '',
+            'type' => 'Unknown',
+            'founded_year' => now()->format('Y-m-d'),
+            'specialties' => '',
+            'user_id' => auth()->id(),
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Company $company)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Company $company)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Company $company)
-    {
-        //
+        return response()->json([
+            'success' => true,
+            'company' => $company,
+        ]);
     }
 }

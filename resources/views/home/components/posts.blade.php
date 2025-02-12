@@ -2,7 +2,7 @@
     <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
         <div class="dropdown-list-image mr-3">
             <img class="rounded-circle" src="img/p5.png" alt="">
-            <div class="status-indicator bg-success"></div>
+            <div class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}"></div>
         </div>
         <div class="font-weight-bold">
             <div class="text-truncate">Tobia Crivellari</div>
@@ -31,7 +31,7 @@
     <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
         <div class="dropdown-list-image mr-3">
             <img class="rounded-circle" src="img/p6.png" alt="">
-            <div class="status-indicator bg-success"></div>
+            <div class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}"></div>
         </div>
         <div class="font-weight-bold">
             <div class="text-truncate">Collin Weiland</div>
@@ -53,7 +53,7 @@
     <div class="d-flex align-items-top border-bottom osahan-post-comment p-3">
         <div class="dropdown-list-image mr-3">
             <img class="rounded-circle" src="img/p7.png" alt="">
-            <div class="status-indicator bg-success"></div>
+            <div class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}"></div>
         </div>
         <div class="font-weight-bold">
             <div class="text-truncate"> James Spiegel <span class="small float-right">2 min</span>

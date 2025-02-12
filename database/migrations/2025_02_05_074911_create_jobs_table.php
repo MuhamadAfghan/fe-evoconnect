@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('location');
             $table->integer('rating');
             $table->string('job_details');
+            $table->string('job_photo_path')->nullable();
+            $table->string('industry');
             $table->string('title');
             $table->foreignUuid('users_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();

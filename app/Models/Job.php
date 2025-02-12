@@ -12,15 +12,18 @@ class Job extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'title',
         'position',
         'location',
         'description',
         'rating',
+        'industry',
+        'company_id',
         'job_details',
-        'company_id' => $company->id,
-        'users_id' => null,
+        'job_photo_path',
     ];
+
 
     public function company()
     {
@@ -29,6 +32,9 @@ class Job extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $casts = [
+        'job_details' => 'array',
+    ];
 
     protected static function boot()
     {

@@ -27,6 +27,7 @@ class GoogleController extends Controller
      */
     public function handleGoogleCallback()
     {
+        // return "hii";
         try {
             $user = Socialite::driver('google')->user();
             $finduser = User::where('google_id', $user->id)->first();
@@ -38,7 +39,6 @@ class GoogleController extends Controller
                     'name' => $user->name,
                     'google_id' => $user->id,
                     'password' => rand(1, 10000),
-                    'photo' => $user->avatar,
                     'provider' => 'google',
                     'profile_photo_path' => $user->avatar,
                     'email_verified_at' => now(),
@@ -47,6 +47,7 @@ class GoogleController extends Controller
                 return redirect()->route('home');
             }
         } catch (Exception $e) {
+            return $e->getMessage();
             return redirect('auth/google');
         }
     }
