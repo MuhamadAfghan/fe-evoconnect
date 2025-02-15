@@ -14,15 +14,14 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('company_id')->constrained('companies')->cascadeOnDelete();
+            $table->string('title');
             $table->string('position');
             $table->text('description');
             $table->string('location');
-            $table->integer('rating');
-            $table->string('job_details');
-            $table->string('job_photo_path')->nullable();
+            $table->integer('rating')->default(0);
+            $table->json('job_details'); // ✅ Ubah menjadi JSON
             $table->string('industry');
-            $table->string('title');
-            $table->foreignUuid('users_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('job_photo_path')->nullable();
             $table->timestamps();
         });
     }

@@ -12,7 +12,6 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Carbon\Carbon;
 
-
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
@@ -25,12 +24,20 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'email',
         'phone',
         'password',
-        'google_id',
-        'profile_photo_path', // ✅ Sesuaikan dengan migration dan controller
+        'google_i d',
+        'profile_photo_path',
         'provider',
         'email_verified_at',
         'about',
+        'username',
+        'birthdate',
+        'gender',
+        'location',
+        'website',
+        'headline',
+        'medsos',
         'last_seen',
+        'skills',
     ];
 
     /**
@@ -47,6 +54,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_seen' => 'datetime',
+        'birthdate' => 'date',
+        'skills' => 'array',
+        'medsos' => 'array',
     ];
 
     /**
@@ -63,11 +73,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function getProfileImage()
     {
         if ($this->profile_photo_path) {
-            if (Storage::disk('public')->exists($this->profile_photo_path)) {
-                return asset('storage/' . $this->profile_photo_path);
-            }
-
-            return $this->profile_photo_path;
+            return Storage::disk('public')->exists($this->profile_photo_path)
+                ? asset('storage/' . $this->profile_photo_path)
+                : $this->profile_photo_path;
         }
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
     }
@@ -77,25 +85,52 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      */
     public function getProfilePhotoUrlAttribute()
     {
-        // return $this->profile_photo_path
-        //     ? asset('storage/' . $this->profile_photo_path)
-        //     : asset('images/default-profile.png');
-
-        if ($this->provider == 'google') {
+        if ($this->provider === 'google') {
             return $this->profile_photo_path;
-        } elseif (($this->provider == 'email' && $this->photo) && Storage::disk('public')->exists($this->photo)) {
+        } elseif (!empty($this->profile_photo_path) && Storage::disk('public')->exists($this->profile_photo_path)) {
             return asset('storage/' . $this->profile_photo_path);
         } else {
             return 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
         }
     }
 
+    /**
+     * Check if the user is online.
+     */
     public function isOnline()
     {
-        return $this->last_seen && $this->last_seen->diffInMinutes(Carbon::now()) < 10;
+        return $this->last_seen && $this->last_seen->diffInMinutes(Carbon::now('Asia/Jakarta')) < 10;
     }
+
     public function getIsOnlineAttribute()
     {
-        return $this->last_seen && $this->last_seen->diffInMinutes(Carbon::now()) < 10;
+        return $this->isOnline();
+    }
+
+    /**
+     * Relasi ke tabel Job (pekerjaan yang dibuat oleh user).
+     */
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
+    /**
+     * Relasi many-to-many untuk pekerjaan yang disimpan oleh user.
+     */
+    public function savedJobs()
+    {
+        return $this->hasMany(JobUserSaved::class, 'user_id');
+    }
+
+
+    public function educations()
+    {
+        return $this->hasMany(Education::class);
+    }
+
+    public function experiences()
+    {
+        return $this->hasMany(Experience::class);
     }
 }

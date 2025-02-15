@@ -1,4 +1,44 @@
 @extends('layouts.templates')
+@push('css')
+    <style>
+        .profile-photo-container {
+            position: relative;
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+        }
+
+        .job-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+        }
+
+        .camera-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: #007bff;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .camera-icon:hover {
+            background-color: #0056b3;
+        }
+    </style>
+@endpush
 
 @section('content')
     @php
@@ -19,8 +59,42 @@
                                 {{ $job->location }} -- {{ $job->created_at->diffForHumans() }}</p>
                         </div>
                         <div class="profile-right ml-auto">
-                            <button type="button" class="btn btn-light mr-1"> &nbsp; Save &nbsp; </button>
-                            <button type="button" class="btn btn-primary"> &nbsp; Apply &nbsp; </button>
+                            <button type="button" class="btn btn-light save-job-btn mr-1"
+                                data-job-id="{{ $job->id }}">
+                                &nbsp; Save &nbsp;
+                            </button>
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applyModal">
+                                &nbsp; Apply &nbsp;
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="applyModalLabel">Apply for this Job</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Form untuk apply -->
+                                            <form action="{{ route('job.apply', ['job' => $job->id]) }}" method="POST">
+
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="coverLetter">Cover Letter</label>
+                                                    <textarea class="form-control" id="coverLetter" name="cover_letter" rows="4" required></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-success">Submit Application</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -31,39 +105,72 @@
         <div class="container">
             <div class="row">
                 <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-1 col-md-6 col-sm-6 col-12">
-                    <div class="box profile-box mb-3 rounded border bg-white text-center shadow-sm">
-                        <div class="p-5 text-center">
-                            <!-- Menampilkan Foto Job -->
-                            <img src="{{ $job->job_photo_path ? asset('storage/' . $job->job_photo_path) : auth()->user()->getProfileImage() }}"
-                                class="img-fluid rounded-circle job-photo" alt="Job Image">
-                            <div class="d-flex justify-content-center mt-3">
-                                <!-- Form Upload Foto -->
-                                <form action="{{ route('job.update.photo', ['job' => $job->id]) }}" method="POST"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    <label data-toggle="tooltip" data-placement="top" title="Upload New Picture"
-                                        class="btn btn-info m-0" for="fileAttachmentBtn">
-                                        <i class="feather-image"></i>
-                                        <input id="fileAttachmentBtn" name="job_photo" type="file" class="d-none"
-                                            onchange="this.form.submit()">
-                                    </label>
-                                </form>
-
-                                <!-- Form Hapus Foto -->
-                                <form action="{{ route('job.delete.photo', ['job' => $job->id]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button data-toggle="tooltip" data-placement="top" title="Delete" type="submit"
-                                        class="btn btn-danger">
-                                        <i class="feather-trash-2"></i>
+                    <div class="box profile-box mb-1 rounded border bg-white text-center shadow-sm">
+                        <div class="p-2 text-center">
+                            <div>
+                                <!-- Menampilkan Foto Job -->
+                                <div class="profile-photo-container">
+                                    <img id="jobPhoto"
+                                        src="{{ $job->job_photo_path ? asset('storage/' . $job->job_photo_path) : auth()->user()->getProfileImage() }}"
+                                        class="img-fluid rounded-circle job-photo" alt="Job Image">
+                                    <div class="camera-icon">
+                                        <i class="feather-camera"></i>
+                                    </div>
+                                </div>
+                                <div class="p-3 text-center">
+                                    <button type="button" class="btn btn-light btn-sm follow-btn text-nowrap"
+                                        onclick="toggleFollow(this)">
+                                        <i class="feather-plus"></i> Follow
                                     </button>
-                                </form>
+                                </div>
+                            </div>
+
+                            <!-- Modal untuk Menampilkan Gambar -->
+                            <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="photoModalLabel">Job Photo</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <img id="modalJobPhoto" src="" class="img-fluid rounded"
+                                                alt="Job Image">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="{{ route('job.update.photo', ['job' => $job->id]) }}"
+                                                method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="file" id="fileAttachmentBtn" name="job_photo"
+                                                    style="display: none;">
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="document.getElementById('fileAttachmentBtn').click();">
+                                                    Ganti Foto
+                                                </button>
+                                                <button type="submit" class="btn btn-success">Upload</button>
+                                            </form>
+                                            <form action="{{ route('job.delete.photo', ['job' => $job->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                            </form>
+                                            <a id="downloadPhoto" class="btn btn-success" download>Unduh</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                         <div class="border-top border-bottom p-3">
                             <h5 class="font-weight-bold text-dark mb-1 mt-0">{{ $job->company->name }}</h5>
                             <p class="text-muted mb-0">{{ $job->location }}</p>
                         </div>
+
                         <div class="p-3">
                             <div class="d-flex align-items-top mb-2">
                                 <p class="text-muted mb-0">Posted</p>
@@ -76,6 +183,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="box mb-3 rounded border bg-white shadow-sm">
                         <div class="box-title border-bottom d-flex align-items-center p-3">
                             <h6 class="m-0">Photos</h6>
@@ -141,18 +249,14 @@
                     <div class="box osahan-post mb-3 rounded border bg-white shadow-sm">
                         <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
                             <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="img/p6.png" alt="">
+                                <img class="rounded-circle"
+                                    src="{{ $job->job_photo_path ? asset('storage/' . $job->job_photo_path) : auth()->user()->getProfileImage() }}"
+                                    alt="">
                             </div>
                             <div class="font-weight-bold">
                                 <div class="text-truncate">Envato</div>
                                 <div class="small text-gray-500">Internet | 24,044 followers</div>
                             </div>
-                            <span class="ml-auto">
-                                <button type="button" class="btn btn-light btn-sm follow-btn text-nowrap"
-                                    onclick="toggleFollow(this)">
-                                    <i class="feather-plus"></i> Follow
-                                </button>
-                            </span></button></span>
                         </div>
                         <img src="img/post1.png" class="img-fluid" alt="Responsive image">
                         <div class="osahan-post-body p-3">
@@ -215,28 +319,6 @@
                                     </div>
                                 </div>
                             </a>
-                            <div class="box mb-3 rounded border bg-white shadow-sm">
-                                <div class="box-title border-bottom p-3">
-                                    <h6 class="m-0">Who viewed your profile</h6>
-                                </div>
-                                <div class="box-body p-3">
-                                    <div class="d-flex align-items-center osahan-post-header people-list mb-3">
-                                        <div class="dropdown-list-image mr-3">
-                                            <img class="rounded-circle" src="img/p4.png" alt="">
-                                            <div class="status-indicator bg-success"></div>
-                                        </div>
-                                        <div class="font-weight-bold mr-2">
-                                            <div class="text-truncate">Sophia Lee</div>
-                                            <div class="small text-gray-500">@Harvard
-                                            </div>
-                                        </div>
-                                        <span class="ml-auto">
-                                            <button type="button"
-                                                class="btn btn-light btn-sm connect-btn">Connect</button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <style>
@@ -252,6 +334,11 @@
                                 border: 3px solid #ddd;
                                 /* Tambahkan border agar lebih rapi */
                             }
+
+                            .save-job-btn.saved {
+                                background-color: #28a745;
+                                color: white;
+                            }
                         </style>
 
                         <!-- Bootstrap core JavaScript -->
@@ -261,6 +348,27 @@
                         <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
                         <!-- Custom scripts for all pages-->
                         <script src="js/osahan.js"></script>
+
+                        <script>
+                            document.getElementById("jobPhoto").addEventListener("click", function() {
+                                let imgSrc = this.src;
+                                document.getElementById("modalJobPhoto").src = imgSrc;
+                                document.getElementById("downloadPhoto").href = imgSrc;
+
+                                // Panggil modal dengan cara yang sesuai dengan Bootstrap 5
+                                var photoModal = new bootstrap.Modal(document.getElementById('photoModal'));
+                                photoModal.show();
+                            });
+
+                            document.getElementById("fileAttachmentBtn").addEventListener("change", function() {
+                                if (this.files && this.files[0]) {
+                                    let form = this.closest('form');
+                                    form.submit();
+                                }
+                            });
+                        </script>
+
+
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
                                 document.querySelectorAll(".connect-btn").forEach(function(button) {
@@ -282,14 +390,41 @@
                             function toggleFollow(button) {
                                 if (button.classList.contains('followed')) {
                                     button.innerHTML = '<i class="feather-plus"></i> Follow';
-                                    button.classList.remove('btn-success', 'followed');
+                                    button.classList.remove('btn-primary', 'followed');
                                     button.classList.add('btn-light');
                                 } else {
                                     button.innerHTML = '<i class="feather-check"></i> Followed';
-                                    button.classList.add('btn-success', 'followed');
+                                    button.classList.add('btn-primary', 'followed');
                                     button.classList.remove('btn-light');
                                 }
                             }
                         </script>
                         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                document.querySelectorAll(".save-job-btn").forEach(button => {
+                                    button.addEventListener("click", function() {
+                                        let jobId = this.getAttribute("data-job-id");
+
+                                        fetch("{{ route('jobs.save') }}", {
+                                                method: "POST",
+                                                headers: {
+                                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                                    "Content-Type": "application/json",
+                                                },
+                                                body: JSON.stringify({
+                                                    job_id: jobId
+                                                }),
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                alert(data.message);
+                                                this.classList.toggle('saved');
+                                                this.textContent = (data.status === 'saved') ? 'Saved' : 'Save';
+                                            })
+                                            .catch(error => console.error("Error:", error));
+                                    });
+                                });
+                            });
+                        </script>
                     @endsection

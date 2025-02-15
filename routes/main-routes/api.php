@@ -24,6 +24,8 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth'], function () {
         Route::get('/{post}', [PostController::class, 'show'])->name('posts.show');
         Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
         Route::delete('/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+        //like
+        Route::post('/{post}/like', [PostController::class, 'like'])->name('posts.like');
     });
 
     //user

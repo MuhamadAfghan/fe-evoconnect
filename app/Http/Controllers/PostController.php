@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiFormatter;
+use App\Models\CommentPost;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -15,8 +17,15 @@ class PostController extends Controller
     {
         $perPage = $request->limit ?? 10;
         $page = $request->page ?? 1;
-        $posts = Post::where('visibility', 'public')->latest()->with('user')->simplePaginate($perPage, ['*'], 'page', $page);
+        $posts = Post::where('visibility', 'public')
+            ->latest()
+            ->with('user', 'likes', 'user.educations')
+            ->paginate($perPage, ['*'], 'page', $page);
 
+        $posts->getCollection()->transform(function ($post) {
+            $post->is_liked = $post->isLikedBy(Auth::user());
+            return $post;
+        });
         return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
     }
 
@@ -78,5 +87,35 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function like(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+        $user = Auth::user();
+
+        if ($post->isLikedBy($user)) {
+            $post->likes()->where('user_id', $user->id)->delete();
+            return response()->json(['status' => 'unliked']);
+        } else {
+            $post->likes()->create(['user_id' => $user->id]);
+            return response()->json(['status' => 'liked']);
+        }
+    }
+
+    public function comment(Request $request, $id)
+    {
+        $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+
+        $post = Post::findOrFail($id);
+        $comment = new CommentPost();
+        $comment->user_id = Auth::id();
+        $comment->post_id = $post->id;
+        $comment->content = $request->content;
+        $comment->save();
+
+        return response()->json(['status' => 'success', 'comment' => $comment->load('user')]);
     }
 }

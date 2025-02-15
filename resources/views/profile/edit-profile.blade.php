@@ -38,7 +38,7 @@
                                     </label>
                                 </form>
 
-                                <!-- Form untuk menghapus foto profil -->
+
                                 <form action="{{ route('profile.delete.photo') }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -63,7 +63,7 @@
                                     <div class="form-group mb-4">
                                         <label class="mb-1">About You</label>
                                         <div class="position-relative">
-                                            <textarea class="form-control" rows="4" name="text" placeholder="Enter About You"></textarea>
+                                            <textarea class="form-control" name="about" rows="4" name="text" placeholder="Enter About You">{{ old('about', auth()->user()->about) }}</textarea>
                                         </div>
                                     </div>
                                     {{-- add skills --}}
@@ -73,11 +73,16 @@
                                                 Skills <span class="text-danger">*</span>
                                             </label>
                                             <div id="skillsContainer">
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <input class="form-control w-100 p-2" type="text" name="skills[]"
-                                                        placeholder="Enter your skill" aria-label="Enter your skill"
-                                                        required="">
-                                                </div>
+                                                @foreach (old('skills', auth()->user()->skills) ?? [] as $index => $skill)
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <input class="form-control w-100 p-2" type="text"
+                                                            name="skills[{{ $index }}]"
+                                                            placeholder="Enter your skill" aria-label="Enter your skill"
+                                                            value="{{ $skill }}" required="">
+                                                        <i class="feather-trash-2 text-danger ml-2"
+                                                            style="cursor: pointer;"></i>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
 
@@ -97,38 +102,45 @@
                         </div>
                     </form>
                     {{-- input social profile --}}
-                    <div class="mb-3 rounded border bg-white">
-                        <div class="box-title border-bottom p-3">
-                            <h6 class="m-0">Social profiles</h6>
-                            <p class="small mb-0 mt-0">Add elsewhere links to your profile.</p>
-                        </div>
-                        <div class="box-body">
-                            <div class="border-bottom p-3" id="savedSocialMedia"></div>
-                            <div class="border-bottom p-3">
-                                <label>Select Platform:</label>
-                                <div class="d-flex justify-content-center mb-3 gap-2">
-                                    <button class="btn btn-light platform-btn mr-2" data-platform="instagram"><i
-                                            class="feather-instagram text-warning"></i></button>
-                                    <button class="btn btn-light platform-btn mr-2" data-platform="facebook"><i
-                                            class="feather-facebook text-primary"></i></button>
-                                    <button class="btn btn-light platform-btn mr-2" data-platform="twitter"><i
-                                            class="feather-twitter text-info"></i></button>
-                                    <button class="btn btn-light platform-btn mr-2" data-platform="youtube"><i
-                                            class="feather-youtube text-danger"></i></button>
-                                    <button class="btn btn-light platform-btn mr-2" data-platform="github"><i
-                                            class="feather-github text-dark"></i></button>
+                    <form action="{{ route('profile.update.medsos') }}" name="medsos" method="POST">
+                        @csrf
+                        <div class="mb-3 rounded border bg-white">
+                            <div class="box-title border-bottom p-3">
+                                <h6 class="m-0">Social profiles</h6>
+                                <p class="small mb-0 mt-0">Add elsewhere links to your profile.</p>
+                            </div>
+                            <div class="box-body">
+                                <div class="p-3" id="savedSocialMedia"></div>
+                                <div class="p-1">
+                                    <label>Select Platform:</label>
+                                    <div class="d-flex justify-content-center mb-3 gap-2">
+                                        <button type="button" class="btn btn-light platform-btn" data-platform="instagram">
+                                            <i class="feather-instagram text-warning"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-light platform-btn" data-platform="facebook">
+                                            <i class="feather-facebook text-primary"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-light platform-btn" data-platform="twitter">
+                                            <i class="feather-twitter text-info"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-light platform-btn" data-platform="youtube">
+                                            <i class="feather-youtube text-danger"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-light platform-btn" data-platform="github">
+                                            <i class="feather-github text-dark"></i>
+                                        </button>
+                                    </div>
+                                    <div id="socialInputs"></div>
                                 </div>
-                                <div id="socialInputs"></div>
-                            </div>
-                            <div class="d-flex justify-content-center gap-2 overflow-hidden p-3 text-center">
-                                <button id="addSocialMedia" class="btn btn-primary small-btn mr-3">Add Social
-                                    Media</button>
-                                <button id="saveSocialMedia" class="font-weight-bold btn btn-light small-btn">Save
-                                    Social
-                                    Profiles</button>
+                                <div class="d-flex justify-content-center gap-2 overflow-hidden p-3 text-center">
+                                    <button type="button" id="addSocialMedia" class="btn btn-primary small-btn">Add
+                                        Social Media</button>
+                                    <button type="submit" class="btn btn-light small-btn">Save Social Profiles</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
+
                 </aside>
                 <main class="col-md-8">
                     <div class="mb-3 rounded border bg-white">
@@ -138,7 +150,8 @@
                             </p>
                         </div>
                         <div class="box-body p-3">
-                            <form class="js-validate" novalidate="novalidate">
+                            <form action="{{ route('profile.save') }}" method="POST">
+                                @csrf
                                 <div class="row">
                                     <!-- Input -->
                                     <div class="col-sm-6 mb-2">
@@ -171,6 +184,7 @@
                                                     name="username"placeholder="Enter your username"
                                                     aria-label="Enter your username" required=""
                                                     aria-describedby="usernameLabel"
+                                                    value="{{ auth()->user()->username }}"
                                                     data-msg="Please enter your username." data-error-class="u-has-error"
                                                     data-success-class="u-has-success">
                                             </div>
@@ -183,10 +197,13 @@
                                     <!-- Input Birthdate -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="birthdate" class="form-label">Birth date
+                                            <label for="birthdate" class="form-label">Birthdate
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="date" id="birthdate" name="birthdate" class="form-control">
+                                            <input type="date" id="birthdate" name="birthdate" class="form-control"
+                                                value="{{ old('birthdate', auth()->user()->birthdate ? auth()->user()->birthdate->format('Y-m-d') : '') }}"
+                                                required>
+
                                         </div>
                                     </div>
 
@@ -195,11 +212,18 @@
                                         <div class="form-group">
                                             <label for="gender" class="form-label">Gender</label>
                                             <span class="text-danger">*</span>
-                                            <select id="gender" class="form-control custom-select" required=""
-                                                data-msg="Please select your gender." data-error-class="u-has-error"
-                                                data-success-class="u-has-success">
-                                                <option value="genderSelect1" selected="">Male</option>
-                                                <option value="genderSelect2">Female</option>
+                                            <select id="gender" class="form-control custom-select" name="gender"
+                                                required="" data-msg="Please select your gender."
+                                                data-error-class="u-has-error" data-success-class="u-has-success">
+                                                <option value="" disabled
+                                                    {{ old('gender', auth()->user()->gender) ? '' : 'selected' }}>Pilih
+                                                    Gender</option>
+                                                <option value="male"
+                                                    {{ old('gender', auth()->user()->gender) == 'male' ? 'selected' : '' }}>
+                                                    Male</option>
+                                                <option value="female"
+                                                    {{ old('gender', auth()->user()->gender) == 'female' ? 'selected' : '' }}>
+                                                    Female</option>
                                             </select>
                                         </div>
                                     </div>
@@ -235,9 +259,9 @@
                                             </label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="location"
-                                                    value="" placeholder="Enter your location"
-                                                    aria-label="Enter your location" required=""
-                                                    aria-describedby="locationLabel"
+                                                    value="{{ old('location', auth()->user()->location) }}"
+                                                    placeholder="Enter your location" aria-label="Enter your location"
+                                                    required aria-describedby="locationLabel"
                                                     data-msg="Please enter your location." data-error-class="u-has-error"
                                                     data-success-class="u-has-success">
                                             </div>
@@ -255,8 +279,9 @@
                                             </label>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="organization"
-                                                    value="" placeholder="Enter your organization name"
-                                                    aria-label="Enter your organization name" required=""
+                                                    value="{{ old('organization', auth()->user()->organization) }}"
+                                                    placeholder="Enter your organization name"
+                                                    aria-label="Enter your organization name" required
                                                     aria-describedby="organizationLabel"
                                                     data-msg="Please enter your organization name"
                                                     data-error-class="u-has-error" data-success-class="u-has-success">
@@ -274,9 +299,10 @@
                                             <div class="form-group">
                                                 <input class="form-control" type="url" name="website"
                                                     placeholder="Enter your website" aria-label="Enter your website"
-                                                    required="" aria-describedby="websiteLabel"
+                                                    required aria-describedby="websiteLabel"
                                                     data-msg="Password enter a valid website"
-                                                    data-error-class="u-has-error" data-success-class="u-has-success">
+                                                    data-error-class="u-has-error" data-success-class="u-has-success"
+                                                    value="{{ old('website', auth()->user()->website) }}">
                                                 <small class="form-text text-muted">Your home page, blog or company site,
                                                     e.g. http://example.com</small>
                                             </div>
@@ -293,9 +319,10 @@
                                             </label>
                                             <div id="phoneNumberContainer">
                                                 <div class="d-flex align-items-center">
-                                                    <input class="form-control" type="number" name="phoneNumber[]"
+                                                    <input class="form-control" type="number" name="phone"
                                                         placeholder="Enter your phone number"
-                                                        aria-label="Enter your phone number" required="">
+                                                        aria-label="Enter your phone number" required
+                                                        value="{{ old('phone', auth()->user()->phone) }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -318,73 +345,70 @@
                                             <div id="headlineContainer">
                                                 <div class="d-flex align-items-center">
                                                     <input class="form-control" type="text" name="headline"
-                                                        placeholder="Enter your headline">
+                                                        placeholder="Enter your headline"
+                                                        value="{{ old('headline', auth()->user()->headline) }}" required>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- End Input -->
                                 </div>
-                            </form>
                         </div>
                     </div>
                     <!-- <div class="mb-3 rounded border bg-white">
-                                                                        <div class="box-title border-bottom p-3">
-                                                                            <h6 class="m-0">Experience
-                                                                            </h6>
-                                                                            <p class="small mb-0 mt-0">Tell about your work, job, and other experiences.
-                                                                            </p>
-                                                                        </div>
-                                                                        <div class="box-body px-3 pb-0 pt-3">
-                                                                            <div class="row">
-                                                                                <div class="col-sm-6 mb-4">
-                                                                                    <label id="FROM" class="form-label">FROM</label> -->
+                                                                                                                                                                                                                                                                                                                                                        <div class="box-title border-bottom p-3">
+                                                                                                                                                                                                                                                                                                                                                            <h6 class="m-0">Experience
+                                                                                                                                                                                                                                                                                                                                                            </h6>
+                                                                                                                                                                                                                                                                                                                                                            <p class="small mb-0 mt-0">Tell about your work, job, and other experiences.
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                        <div class="box-body px-3 pb-0 pt-3">
+                                                                                                                                                                                                                                                                                                                                                            <div class="row">
+                                                                                                                                                                                                                                                                                                                                                                <div class="col-sm-6 mb-4">
+                                                                                                                                                                                                                                                                                                                                                                    <label id="FROM" class="form-label">FROM</label> -->
                     <!-- Input -->
                     <!-- <div class="input-group">
-                                                                                        <input type="text" class="form-control" placeholder="From" aria-label="FROM"
-                                                                                            aria-describedby="FROM">
-                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                        <input type="text" class="form-control" placeholder="From" aria-label="FROM"
+                                                                                                                                                                                                                                                                                                                                                                            aria-describedby="FROM">
+                                                                                                                                                                                                                                                                                                                                                                    </div> -->
                     <!-- End Input -->
                     <!-- </div>
-                                                                                <div class="col-sm-6 mb-4">
-                                                                                    <label id="TO" class="form-label">TO</label>
-                                                                                    Input -->
+                                                                                                                                                                                                                                                                                                                                                                <div class="col-sm-6 mb-4">
+                                                                                                                                                                                                                                                                                                                                                                    <label id="TO" class="form-label">TO</label>
+                                                                                                                                                                                                                                                                                                                                                                    Input -->
                     <!-- <div class="input-group">
-                                                                                        <input type="text" class="form-control" placeholder="TO" aria-label="TO"
-                                                                                            aria-describedby="TO">
-                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                        <input type="text" class="form-control" placeholder="TO" aria-label="TO"
+                                                                                                                                                                                                                                                                                                                                                                            aria-describedby="TO">
+                                                                                                                                                                                                                                                                                                                                                                    </div> -->
                     <!-- End Input -->
                     <!-- </div> -->
                     <!-- </div> -->
                     <!-- <div class="row">
-                                                        <div class="col-sm-6 mb-4">
-                                                            <label id="companyLabel" class="form-label">Company</label> -->
+                                                                                                                                                                                                                                                                                                                                        <div class="col-sm-6 mb-4">
+                                                                                                                                                                                                                                                                                                                                            <label id="companyLabel" class="form-label">Company</label> -->
                     <!-- Input -->
                     <!-- <div class="input-group">
-                                                                <input type="text" class="form-control" placeholder="Enter your company title"
-                                                                    aria-label="Enter your company title" aria-describedby="companyLabel">
-                                                            </div> -->
+                                                                                                                                                                                                                                                                                                                                                <input type="text" class="form-control" placeholder="Enter your company title"
+                                                                                                                                                                                                                                                                                                                                                    aria-label="Enter your company title" aria-describedby="companyLabel">
+                                                                                                                                                                                                                                                                                                                                            </div> -->
                     <!-- End Input -->
                     <!-- </div>
-                                                <div class="col-sm-6 mb-4">
-                                                    <label id="positionLabel" class="form-label">Position</label> -->
+                                                                                                                                                                                                                                                                                                                                <div class="col-sm-6 mb-4">
+                                                                                                                                                                                                                                                                                                                                    <label id="positionLabel" class="form-label">Position</label> -->
                     <!-- Input -->
                     <!-- <div class="input-group">
-                                                        <input type="text" class="form-control" placeholder="Enter your position"
-                                                            aria-label="Enter your position" aria-describedby="positionLabel">
-                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                        <input type="text" class="form-control" placeholder="Enter your position"
+                                                                                                                                                                                                                                                                                                                                            aria-label="Enter your position" aria-describedby="positionLabel">
+                                                                                                                                                                                                                                                                                                                                    </div> -->
                     <!-- End Input -->
-                    <form action="{{ route('profile.update') }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3 text-right">
-                            <button type="button" class="btn btn-secondary btn-lg m-1 p-2" disabled href="#">
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                Cancel &nbsp;&nbsp;&nbsp;&nbsp; </button>
-                            <button type="submit" class="font-weight-bold btn btn-primary rounded p-2">
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                Save Changes &nbsp;&nbsp;&nbsp;&nbsp; </button>
-                        </div>
+                    <div class="mb-3 text-right">
+                        <button type="button" class="btn btn-secondary btn-lg m-1 p-2" disabled href="#">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            Cancel &nbsp;&nbsp;&nbsp;&nbsp; </button>
+                        <button type="submit" class="font-weight-bold btn btn-primary rounded p-2">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            Save Changes &nbsp;&nbsp;&nbsp;&nbsp; </button>
+                    </div>
                     </form>
             </div>
         </div>
@@ -430,34 +454,48 @@
 
     <!-- JavaScript untuk Menambah dan Menghapus Skills -->
     <script>
-        document.getElementById("addSkill").addEventListener("click", function(event) {
-            event.preventDefault();
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to add delete functionality to a button
+            function addDeleteFunctionality(button, parentDiv) {
+                button.addEventListener("click", function() {
+                    parentDiv.remove();
+                });
+            }
 
-            // Buat elemen div baru untuk input tambahan
-            let newInputDiv = document.createElement("div");
-            newInputDiv.classList.add("d-flex", "align-items-center", "mt-2");
+            // Add skill functionality
+            document.getElementById("addSkill").addEventListener("click", function(event) {
+                event.preventDefault();
 
-            // Input baru untuk skill
-            let newInput = document.createElement("input");
-            newInput.classList.add("form-control");
-            newInput.setAttribute("type", "text");
-            newInput.setAttribute("name", "skills[]");
-            newInput.setAttribute("placeholder", "Enter another skill");
-            newInput.required = true;
+                // Create a new div for the additional input
+                let newInputDiv = document.createElement("div");
+                newInputDiv.classList.add("d-flex", "align-items-center", "mt-2");
 
-            // Tombol hapus (ikon trash)
-            let deleteButton = document.createElement("span");
-            deleteButton.innerHTML = '<i class="feather-trash-2 ml-2 text-danger" style="cursor: pointer;"></i>';
-            deleteButton.addEventListener("click", function() {
-                newInputDiv.remove();
+                // New input for skill
+                let newInput = document.createElement("input");
+                newInput.classList.add("form-control");
+                newInput.setAttribute("type", "text");
+                newInput.setAttribute("name", "skills[]");
+                newInput.setAttribute("placeholder", "Enter another skill");
+                newInput.required = true;
+
+                // Delete button (trash icon)
+                let deleteButton = document.createElement("span");
+                deleteButton.innerHTML =
+                    '<i class="feather-trash-2 ml-2 text-danger" style="cursor: pointer;"></i>';
+                addDeleteFunctionality(deleteButton, newInputDiv);
+
+                // Append input and delete button to the div
+                newInputDiv.appendChild(newInput);
+                newInputDiv.appendChild(deleteButton);
+
+                // Append to the container
+                document.getElementById("skillsContainer").appendChild(newInputDiv);
             });
 
-            // Tambahkan input dan tombol hapus ke dalam div
-            newInputDiv.appendChild(newInput);
-            newInputDiv.appendChild(deleteButton);
-
-            // Tambahkan ke dalam container
-            document.getElementById("skillsContainer").appendChild(newInputDiv);
+            // Add delete functionality to existing skills
+            document.querySelectorAll("#skillsContainer .feather-trash-2").forEach(function(button) {
+                addDeleteFunctionality(button, button.parentElement);
+            });
         });
     </script>
 
@@ -497,16 +535,16 @@
                 inputDiv.classList.add("d-flex", "align-items-center", "mb-3", "position-relative");
 
                 inputDiv.innerHTML = `
-            <div class="d-flex flex-grow-1 align-items-center border rounded p-2 gap-3">
-                <i class="${platformIcons[selectedPlatform]} d-flex justify-content-center align-items-center"
-                    style="width: 30px; height: 30px; font-size: 1.2rem; margin-left: 10px;"></i>
-                <input data-platform="${selectedPlatform}" placeholder="Enter ${selectedPlatform} username"
-                    type="text" class="form-control">
-            </div>
-            <button class="btn btn-danger btn-sm delete-btn" style="margin-left: 10px;">
-                <i class="feather-trash"></i>
-            </button>
-        `;
+             <div class="d-flex flex-grow-1 align-items-center border rounded p-2 gap-3">
+                 <i class="${platformIcons[selectedPlatform]} d-flex justify-content-center align-items-center"
+                     style="width: 30px; height: 30px; font-size: 1.2rem; margin-left: 10px;"></i>
+                 <input data-platform="${selectedPlatform}" placeholder="Enter ${selectedPlatform} username"
+                     type="text" class="form-control">
+             </div>
+             <button class="btn btn-danger btn-sm delete-btn" style="margin-left: 10px;">
+                 <i class="feather-trash"></i>
+             </button>
+         `;
                 socialInputs.appendChild(inputDiv);
 
                 const deleteButton = inputDiv.querySelector(".delete-btn");
@@ -516,9 +554,11 @@
             // Saat tombol Save ditekan, hanya menyimpan input yang sudah diisi
             saveButton.addEventListener("click", function() {
                 const inputs = socialInputs.querySelectorAll(".d-flex");
+                let hasValidInput = false; // Cek apakah ada input yang valid
+
                 inputs.forEach(inputDiv => {
                     const input = inputDiv.querySelector("input");
-                    if (input.value.trim() !== "") { // Cek apakah input tidak kosong
+                    if (input.value.trim() !== "") { // Jika input memiliki nilai
                         const platform = input.getAttribute("data-platform");
                         const icon = inputDiv.querySelector("i");
 
@@ -528,9 +568,15 @@
                         const deleteButton = inputDiv.querySelector(".delete-btn");
                         addDeleteFunctionality(deleteButton, inputDiv);
                         savedSocialMedia.appendChild(inputDiv);
+
+                        hasValidInput = true; // Ada input yang valid
                     }
                 });
-                socialInputs.innerHTML = "";
+
+                // Jika ada input valid, kosongkan socialInputs
+                if (hasValidInput) {
+                    socialInputs.innerHTML = "";
+                }
             });
         });
     </script>

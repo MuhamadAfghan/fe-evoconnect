@@ -34,7 +34,7 @@
                                         @foreach ($users as $user)
                                             <div class="col-md-4">
                                                 {{-- rute profile untuk mengarahkan user ke halaman profile --}}
-                                                <a href="{{ route('profile') }}">
+                                                <a href="{{ route('user.detail', $user->username) }}">
                                                     <div class="network-item mb-3 rounded border">
                                                         <div class="d-flex align-items-center network-item-header p-3">
                                                             <div class="dropdown-list-image mr-3">

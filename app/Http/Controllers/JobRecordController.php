@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Skill;
+use App\Models\JobRecord;
 use Illuminate\Http\Request;
 
-class SkillController extends Controller
+
+class JobRecordController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
 
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -35,7 +32,7 @@ class SkillController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Skill $skill)
+    public function show(JobRecord $jobRecord)
     {
         //
     }
@@ -43,7 +40,7 @@ class SkillController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Skill $skill)
+    public function edit(JobRecord $jobRecord)
     {
         //
     }
@@ -51,7 +48,7 @@ class SkillController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Skill $skill)
+    public function update(Request $request, JobRecord $jobRecord)
     {
         //
     }
@@ -59,7 +56,7 @@ class SkillController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Skill $skill)
+    public function destroy(JobRecord $jobRecord)
     {
         //
     }

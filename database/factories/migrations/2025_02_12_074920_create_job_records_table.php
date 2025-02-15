@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('job_records', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->json('image')->nullable();
-            $table->enum('type', ['article', 'story']);
-            $table->text('content');
-            $table->json('likes')->nullable();
             $table->foreignUuid('user_id')->constrained('users');
-            $table->enum('visibility', ['public', 'private', 'only_connection']);
+            $table->foreignUuid('job_id')->constrained('jobs');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('job_records');
     }
 };

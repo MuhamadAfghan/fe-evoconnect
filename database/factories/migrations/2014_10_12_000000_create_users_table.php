@@ -30,6 +30,9 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('location')->nullable();
             $table->text('about')->nullable();
+            $table->string('website')->nullable();
+            $table->json('medsos')->nullable();
+            $table->json('skills')->nullable();
             $table->timestamps();
         });
     }

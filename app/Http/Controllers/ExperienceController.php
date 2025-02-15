@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Experience;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ExperienceController extends Controller
 {
@@ -28,7 +29,30 @@ class ExperienceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'job_title' => 'required|string|max:255',
+            'company_name' => 'required|string|max:255',
+            'period' => 'required|string|max:255',
+            'caption' => 'required|string',
+            'photo' => 'required|image|max:2048'
+        ]);
+
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $path = $photo->store('experience-photos', 'public');
+            $data['photo'] = $path;
+        }
+
+        $experience = Experience::create($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $experience,
+            'photo_url' => Storage::url($experience->photo)
+        ]);
     }
 
     /**
@@ -60,6 +84,15 @@ class ExperienceController extends Controller
      */
     public function destroy(Experience $experience)
     {
-        //
+        if ($experience->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        if ($experience->photo) {
+            Storage::disk('public')->delete($experience->photo);
+        }
+
+        $experience->delete();
+        return response()->json(['success' => true]);
     }
 }

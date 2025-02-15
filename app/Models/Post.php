@@ -16,7 +16,6 @@ class Post extends Model
         'user_id',
         'image',
         'type',
-        'likes',
         'visibility',
     ];
 
@@ -24,13 +23,32 @@ class Post extends Model
         'likes' => 'array',
     ];
 
+    protected $appends = [
+        'likes',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    public function likes()
+    {
+        return $this->hasMany(PostLike::class);
+    }
+
+    public function isLikedBy(User $user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    public function getLikesAttribute()
+    {
+        return $this->likes()->pluck('user_id')->toArray();
+    }
+
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(CommentPost::class);
     }
 }

@@ -6,19 +6,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Education extends Model
+class PostLike extends Model
 {
+    use HasFactory, HasUuids;
+
+
     protected $fillable = [
         'user_id',
-        'school_name',
-        'major',
-        'period',
-        'caption',
-        'photo'
+        'post_id',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

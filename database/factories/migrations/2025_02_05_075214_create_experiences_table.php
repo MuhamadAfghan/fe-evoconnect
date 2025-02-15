@@ -9,16 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('title');
-            $table->text('description');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->string('job_title');
+            $table->string('company_name');
+            $table->string('period');
+            $table->text('caption');
+            $table->string('photo')->nullable();
             $table->timestamps();
-            $table->foreignUuid('users_id')->constrained('users');
         });
     }
 

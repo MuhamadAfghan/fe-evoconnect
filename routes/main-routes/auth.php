@@ -8,6 +8,10 @@ use App\Http\Controllers\ConnectController;
 use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\JobRecordController;
+use App\Http\Controllers\EducationController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\JobUserSavedController;
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -52,15 +56,32 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
     Route::delete('/profile/delete-photo', [UserController::class, 'deletePhoto'])->name('profile.delete.photo');
     Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
     Route::post('/profile/update-about', [UserController::class, 'updateAbout'])->name('profile.update.about');
+    Route::post('/profile/medsos', [UserController::class, 'medsos'])->name('profile.update.medsos');
+    Route::post('/profile/save', [UserController::class, 'updateSave'])->name('profile.save');
+    Route::get('/profile/{user:username}', [UserController::class, 'detailUser'])->name('user.detail');
+
+
+    Route::middleware(['auth'])->group(function () {
+        Route::post('/jobs/save', [JobUserSavedController::class, 'saveJob'])->name('jobs.save');
+        Route::get('/jobs/saved', [JobUserSavedController::class, 'savedJobs'])->name('jobs.saved');
+    });
+
 
     // 🔹 Routes untuk Jobs (RESTful)
     Route::prefix('jobs')->group(function () {
         Route::get('/', [JobController::class, 'index'])->name('jobs.index'); // List semua job
         Route::post('/', [JobController::class, 'store'])->name('jobs.store'); // Tambah job
         Route::get('/{job}', [JobController::class, 'jobProfile'])->name('jobs-profile'); // Detail job
-        Route::post('/jobs/{job}/update-photo', [JobController::class, 'updatePhotoJob'])->name('job.update.photo');
-        Route::delete('/jobs/{job}/delete-photo', [JobController::class, 'deletePhotoJob'])->name('job.delete.photo');
+        Route::put('/jobs/{job}/update-photo', [JobController::class, 'updatePhotoJob'])->name('job.update.photo');
+        Route::delete('/{job}/delete-photo', [JobController::class, 'deletePhotoJob'])->name('job.delete.photo');
+        Route::post('/{job}/apply', [JobController::class, 'apply'])->name('job.apply');
     });
 
-    Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store'); // Tambah perusahaan
+    Route::post('/companies/store', [CompanyController::class, 'store'])->name('companies.store');
+
+    Route::post('/education/store', [EducationController::class, 'store']);
+    Route::delete('/education/delete', [EducationController::class, 'destroy'])->name('education.destroy');
+
+    Route::post('/experience', [ExperienceController::class, 'store'])->name('experience.store');
+    Route::delete('/experience/{experience}', [ExperienceController::class, 'destroy'])->name('experience.destroy');
 });

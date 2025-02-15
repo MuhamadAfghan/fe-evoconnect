@@ -18,8 +18,12 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <!-- Slick CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         trix-editor ul,
@@ -61,6 +65,14 @@
         * img {
             object-fit: cover;
         }
+
+        .bg-primary {
+            background-color: #0796E5 !important;
+        }
+
+        #searchButton {
+            background-color: #fafbfc !important;
+        }
     </style>
 
     @stack('css')
@@ -68,16 +80,16 @@
 
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand navbar-dark bg-dark osahan-nav-top p-0">
+    <nav class="navbar navbar-expand navbar-dark bg-primary osahan-nav-top p-1">
         <div class="container">
             <a class="navbar-brand mr-2" href="{{ route('home') }}"><img src="{{ asset('img/logo1.png') }}"
                     alt="logo"></a>
             <form class="d-none d-sm-inline-block form-inline my-md-0 mw-100 navbar-search my-2 mr-auto">
                 <div class="input-group">
-                    <input type="text" class="form-control border-0 shadow-none"
+                    <input type="text" class="form-control custom-search border-0 shadow-none" id="searchButton"
                         placeholder="Search people, jobs & more..." aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                        <button class="btn" type="button">
+                        <button class="btn btn-outline-success custom-search-btn" type="button" id="searchButton">
                             <i class="feather-search"></i>
                         </button>
                     </div>
@@ -90,7 +102,6 @@
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="feather-search mr-2"></i>
                     </a>
-                    <!-- Dropdown - Messages -->
                     <div class="dropdown-menu dropdown-menu-right animated--grow-in p-3 shadow-sm"
                         aria-labelledby="searchDropdown">
                         <form class="form-inline w-100 navbar-search mr-auto">
@@ -306,7 +317,7 @@
                                 <div class="text-truncate">
                                     {{ auth()->user()->name }}
                                 </div>
-                                <div class="small text-gray-500">UI/UX Designer</div>
+                                <div class="small text-gray-500">{{ auth()->user()->headline }}</div>
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>

@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('education', function (Blueprint $table) {
+        Schema::create('job_user_saved', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('institution');
-            $table->string('description');
-            $table->string('degree');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('job_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->foreignUuid('users_id')->constrained('users');
         });
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('education');
+        Schema::dropIfExists('job_user_saveds');
     }
 };

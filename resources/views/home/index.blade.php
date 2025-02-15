@@ -4,7 +4,13 @@
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="vendor/jquery/jquery.min.js"></script>
+    <style>
+        .liked {
+            color: red;
+        }
+    </style>
 @endpush
+
 
 @section('content')
     <div class="py-4">
@@ -36,10 +42,13 @@
                             <div class="post-footer p-3">
                                 <div class="d-flex align-items-center">
                                     <div class="button-group">
-                                        <button class="btn btn-light btn-sm mr-2"><i class="feather-heart mr-1"></i>
-                                            Like</button>
-                                        <button class="btn btn-light btn-sm mr-2"><i
-                                                class="feather-message-square mr-1"></i> Comment</button>
+                                        <button class="btn btn-light btn-sm like-button mr-2"><i
+                                                class="feather-heart mr-1"></i> Like</button>
+                                        <span class="like-count">0</span>
+                                        <button class="btn btn-light btn-sm mr-2" type="button" data-toggle="modal"
+                                            data-target="#modalPost" data-postId=""><i
+                                                class="feather-message-square mr-1"></i>
+                                            Comment</button>
                                         <button class="btn btn-light btn-sm"><i class="feather-share mr-1"></i>
                                             Share</button>
                                     </div>
@@ -55,10 +64,10 @@
                     <div class="box profile-box mb-3 rounded border bg-white text-center shadow-sm">
                         <div class="border-bottom px-3 py-4">
                             <img src="{{ auth()->user()->getProfileImage() }}" class="img-fluid rounded-circle mt-2"
-                                alt="Responsive image">
+                                style="border-radius: 50%;" alt="Responsive image">
                             <h5 class="font-weight-bold text-dark mb-1 mt-4">
                                 {{ auth()->user()->name }}</h5>
-                            <p class="text-muted mb-0">UI / UX Designer</p>
+                            <p class="text-muted mb-0">{{ auth()->user()->headline }}</p>
                         </div>
                         <div class="d-flex">
                             <div class="col-6 border-right p-3">
@@ -104,7 +113,7 @@
                                 <div class="dropdown-list-image mr-3">
                                     <img class="rounded-circle" src="img/p8.png" alt="">
                                     <div
-                                        class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                                        class="status-indicator {{ auth()->user()->isOnline() ? 'success' : 'bg-secondary' }}">
                                     </div>
                                 </div>
                                 <div class="font-weight-bold mr-2">
@@ -207,6 +216,43 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for adding comments -->
+    <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="modalPostTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPostTitle">Comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-top border-bottom osahan-post-comment p-3">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle" src="{{ auth()->user()->getProfileImage() }}" alt="">
+                            <div class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
+                            </div>
+                        </div>
+                        <div class="font-weight-bold">
+                            <div class="text-truncate">{{ auth()->user()->name }} <span
+                                    class="small float-right">Now</span></div>
+                            <div class="small text-gray-500">Add your comment below</div>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <textarea id="commentContent" placeholder="Add Comment..." class="form-control border-0 p-0 shadow-none"
+                            rows="1"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendCommentButton">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('js')
@@ -222,10 +268,10 @@
         let currentPage = 1;
         const postsPerPage = 5;
         let posts = [];
+        let currentPostId = null;
 
         // Function to format the post date
         function formatPostDate(dateString) {
-            // return dateString
             const date = new Date(dateString);
             const now = new Date();
             const diffTime = Math.abs(now - date);
@@ -239,6 +285,7 @@
                 return `${diffDays} days ago`;
             }
         }
+
         // Function to create a post element
         function createPostElement(post) {
             const template = document.getElementById('post-template');
@@ -249,17 +296,53 @@
             const userName = postElement.querySelector('#user-name');
             const postTime = postElement.querySelector('#post-time');
             const content = postElement.querySelector('#post-content');
+            const likeButton = postElement.querySelector('.like-button');
+            const likeCount = postElement.querySelector('.like-count');
+            const commentButton = postElement.querySelector('.comment-button');
 
             // Safely set values with fallbacks
             if (avatar) avatar.src = post.user?.profile_photo_url || 'img/default-avatar.png';
             if (userName) userName.textContent = post.user?.name || 'Anonymous';
             if (postTime) postTime.textContent = formatPostDate(post.created_at || new Date());
             if (content) content.innerHTML = post.content || '';
+            if (likeCount) likeCount.textContent = post.likes.length || 0;
 
             // Set online status
             const statusIndicator = postElement.querySelector('.status-indicator');
             if (statusIndicator) {
                 statusIndicator.classList.add(post.user?.is_online ? 'bg-success' : 'bg-secondary');
+            }
+
+            // Check if the post is liked by the authenticated user
+            if (post.is_liked) {
+                likeButton.classList.add('liked');
+            }
+
+            // Handle like button click
+            if (likeButton) {
+                likeButton.addEventListener('click', function() {
+                    axios.post(`/api/posts/${post.id}/like`)
+                        .then(response => {
+                            if (response.data.status === 'liked') {
+                                likeButton.classList.add('liked');
+                                likeCount.textContent = parseInt(likeCount.textContent) + 1;
+                            } else {
+                                likeButton.classList.remove('liked');
+                                likeCount.textContent = parseInt(likeCount.textContent) - 1;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error liking post:', error);
+                        });
+                });
+            }
+
+            // Handle comment button click
+            if (commentButton) {
+                commentButton.addEventListener('click', function() {
+                    currentPostId = post.id;
+                    $('#modalPost').modal('show');
+                });
             }
 
             return postElement;
@@ -298,6 +381,10 @@
                     // Access the nested posts data
                     const responseData = response.data;
                     if (responseData.status === 'success' && responseData.data && responseData.data.data) {
+                        if (responseData.data.data.length === 0) {
+                            // window.removeEventListener('scroll', handleScroll);
+                            return
+                        }
                         const newPosts = responseData.data.data;
                         posts = [...posts, ...newPosts];
                         renderPosts(newPosts);
@@ -331,6 +418,30 @@
             window.addEventListener('scroll', handleScroll);
         });
 
+        // Handle comment submission
+        document.getElementById('modalPost').addEventListener('shown.bs.modal', function() {
+            const sendButton = document.querySelector('#sendCommentButton');
+            sendButton.addEventListener('click', function() {
+                const commentContent = document.querySelector('#commentContent').value;
+                if (commentContent && currentPostId) {
+                    axios.post(`/api/posts/${currentPostId}/comment`, {
+                            content: commentContent
+                        })
+                        .then(response => {
+                            if (response.data.status === 'success') {
+                                $('#modalPost').modal('hide');
+                                document.querySelector('#commentContent').value = '';
+                                // Optionally, you can append the new comment to the post's comment section
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error commenting on post:', error);
+                        });
+                }
+            });
+        });
+    </script>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             let badges = document.querySelectorAll(".badge-hover");
             let visibility = '';

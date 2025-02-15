@@ -8,5 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Experience extends Model
 {
-    use HasFactory, HasUuids;
+    protected $fillable = [
+        'user_id',
+        'job_title',
+        'company_name',
+        'period',
+        'caption',
+        'photo'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

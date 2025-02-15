@@ -6,13 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-
 class Job extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id',
         'title',
         'position',
         'location',
@@ -24,23 +22,42 @@ class Job extends Model
         'job_photo_path',
     ];
 
+    public $incrementing = false;
+    protected $keyType = 'string';
 
+    protected $casts = [
+        'job_details' => 'array',
+    ];
+
+    /**
+     * Generate UUID ketika membuat job baru.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($job) {
+            if (empty($job->id)) {
+                $job->id = (string) Str::uuid();
+            }
+        });
+    }
+
+    /**
+     * Relasi ke perusahaan (Company)
+     */
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-    protected $casts = [
-        'job_details' => 'array',
-    ];
-
-    protected static function boot()
+    public function savedByUsers()
     {
-        parent::boot();
-        static::creating(function ($job) {
-            $job->id = (string) Str::uuid();
-        });
+        return $this->belongsToMany(User::class, 'job_user_saved', 'job_id', 'user_id')->withTimestamps();
     }
+
+
+
+    /**
+     * Relasi many-to-many dengan user (pekerjaan yang disimpan)
+     */
 }

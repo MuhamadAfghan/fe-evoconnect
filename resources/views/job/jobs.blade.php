@@ -27,12 +27,12 @@
                 <!-- Main Content -->
                 <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                     <div class="box osahan-share-post mb-3 rounded border bg-white shadow-sm">
-                        <form class="job-search border-bottom p-3">
+                        <form action="{{ route('jobs') }}" method="GET" class="job-search border-bottom p-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search jobs" aria-label="Search"
-                                    aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" name="query" placeholder="Search jobs"
+                                    aria-label="Search" aria-describedby="basic-addon2" value="{{ request('query') }}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button">
+                                    <button class="btn btn-outline-secondary" type="submit">
                                         <i class="feather-search"></i>
                                     </button>
                                 </div>
@@ -75,17 +75,20 @@
                                                 <a href="{{ route('jobs-profile', $job->id) }}">
                                                     <div class="job-item mb-3 border">
                                                         <div class="d-flex align-items-center job-item-header p-3">
-                                                            <div class="mr-2 overflow-hidden">
+                                                            <div class="overflow-hidden">
                                                                 <h6 class="font-weight-bold text-dark text-truncate mb-0">
-                                                                    {{ $job->position }}</h6>
+                                                                    {{ $job->title }}
+                                                                </h6>
                                                                 <div class="text-truncate text-primary">
-                                                                    {{ $job->company->name }}</div>
-                                                                <div class="small text-gray-500"><i
-                                                                        class="feather-map-pin"></i> {{ $job->location }}
+                                                                    {{ $job->company->name }}
+                                                                </div>
+                                                                <div class="small text-gray-500">
+                                                                    <i class="feather-map-pin"></i> {{ $job->location }}
                                                                 </div>
                                                             </div>
                                                             <img src="{{ $job->job_photo_path ? asset('storage/' . $job->job_photo_path) : auth()->user()->getProfileImage() }}"
-                                                                class="img-fluid rounded-circle job-photo" alt="Job Image">
+                                                                class="img-fluid rounded-circle job-photo ml-auto"
+                                                                alt="Job Image">
                                                         </div>
                                                         <div
                                                             class="d-flex align-items-center border-top border-bottom job-item-body p-3">
@@ -96,12 +99,13 @@
                                                             </span>
                                                             <span
                                                                 class="text-dark font-weight-bold ml-2">{{ $job->rating }}</span>
-
                                                             <span class="text-muted">(567 reviews)</span>
                                                         </div>
                                                         <div class="job-item-footer p-3">
-                                                            <small class="text-gray-500"><i class="feather-clock"></i>
-                                                                Posted {{ $job->created_at->diffForHumans() }}</small>
+                                                            <small class="text-gray-500">
+                                                                <i class="feather-clock"></i> Posted
+                                                                {{ $job->created_at->diffForHumans() }}
+                                                            </small>
                                                         </div>
                                                     </div>
                                                 </a>
@@ -440,35 +444,38 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="btn-close position-absolute end-0" aria-label="Close"
-                                        onclick="clearInput()">X</button>
+                                    <h2>Job Solutions</h2>
+                                    <button type="button" class="close p-2" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="jobForm" class="job-search border-bottom p-3">
+                                    <form id="jobForm">
                                         @csrf
                                         <div class="mb-3">
                                             <label for="title" class="form-label">Job Title</label>
                                             <input type="text" class="form-control" id="title" name="title"
-                                                required>
+                                                placeholder="Enter Job Title" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="position" class="form-label">Position</label>
                                             <input type="text" class="form-control" id="position" name="position"
-                                                required>
+                                                placeholder="Enter Position" required>
                                         </div>
-                                        <div class="fw-semibold mb-3">
-                                            <label for="location" class="form-label fw-bold">Location</label>
+                                        <div class="mb-3">
+                                            <label for="location" class="form-label">Location</label>
                                             <input type="text" class="form-control" id="location" name="location"
-                                                required>
+                                                placeholder="Enter Location" required>
                                         </div>
-                                        <div class="fw-semibold mb-3">
+                                        <div class="mb-3">
                                             <label for="description" class="form-label">Job Description</label>
-                                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                                            <textarea class="form-control" id="description" name="description" rows="4"
+                                                placeholder="Enter Job Description" required></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="rating" class="form-label">Rating (1-5)</label>
                                             <input type="number" class="form-control" id="rating" name="rating"
-                                                min="1" max="5" required>
+                                                placeholder="Enter Rating" min="1" max="5" required>
                                         </div>
                                         <div class="mb-4">
                                             <label for="job_details" class="form-label fw-bold mb-3">Job Details</label>
@@ -477,9 +484,10 @@
                                                     <div class="pe-md-3">
                                                         <label for="seniority_level" class="form-label">Seniority
                                                             Level</label>
-                                                        <select class="form-select w-100" id="seniority_level"
+                                                        <select class="form-control w-100" id="seniority_level"
                                                             name="seniority_level" required>
-                                                            <option value="">Pilih Seniority Level</option>
+                                                            <option value="" disabled selected>Choose Seniority Level
+                                                            </option>
                                                             <option value="Mid-Senior level">Mid-Senior level</option>
                                                             <option value="Entry level">Entry level</option>
                                                             <option value="Director">Director</option>
@@ -490,9 +498,10 @@
                                                 <div class="col-md-6">
                                                     <div class="ps-md-3">
                                                         <label for="industry" class="form-label">Industry</label>
-                                                        <select class="form-select w-100" id="industry" name="industry"
+                                                        <select class="form-control w-100" id="industry" name="industry"
                                                             required>
-                                                            <option value="">Pilih Industry</option>
+                                                            <option value="" disabled selected>Choose Industry
+                                                            </option>
                                                             <option value="Internet Information Technology & Services">
                                                                 Internet Information Technology & Services</option>
                                                             <option value="Finance">Finance</option>
@@ -505,9 +514,10 @@
                                                     <div class="pe-md-3">
                                                         <label for="employment_type" class="form-label">Employment
                                                             Type</label>
-                                                        <select class="form-select w-100" id="employment_type"
+                                                        <select class="form-control w-100" id="employment_type"
                                                             name="employment_type" required>
-                                                            <option value="">Pilih Employment Type</option>
+                                                            <option value="" disabled selected>Choose Employment Type
+                                                            </option>
                                                             <option value="Full-time">Full-time</option>
                                                             <option value="Part-time">Part-time</option>
                                                             <option value="Contract">Contract</option>
@@ -519,9 +529,10 @@
                                                     <div class="ps-md-3">
                                                         <label for="job_functions" class="form-label">Job
                                                             Functions</label>
-                                                        <select class="form-select w-100" id="job_functions"
+                                                        <select class="form-control w-100" id="job_functions"
                                                             name="job_functions" required>
-                                                            <option value="">Pilih Job Functions</option>
+                                                            <option value="" disabled selected>Choose Job Functions
+                                                            </option>
                                                             <option value="Other">Other</option>
                                                             <option value="Engineering">Engineering</option>
                                                             <option value="Marketing">Marketing</option>
@@ -537,24 +548,22 @@
                                                 @foreach ($companies as $company)
                                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                                 @endforeach
-                                                <option value="new">+ add company</option>
+                                                <option value="new">+ Add Company</option>
                                             </select>
                                         </div>
 
                                         <!-- Form Tambah Perusahaan (Tersembunyi) -->
                                         <div class="d-none mb-3" id="newCompanyDiv">
-                                            <label for="new_company_name" class="form-label">Nama Perusahaan
-                                                Baru</label>
+                                            <label for="new_company_name" class="form-label">New Company Name</label>
                                             <input type="text" class="form-control" id="new_company_name"
-                                                name="new_company_name">
+                                                name="new_company_name" placeholder="Enter Company">
                                             <button type="button" id="saveNewCompany"
-                                                class="btn btn-sm btn-success mt-2">Simpan Perusahaan</button>
+                                                class="btn btn-sm btn-success mt-2">Save Company</button>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Submit Job</button>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -722,6 +731,11 @@
     <!-- Custom scripts for all pages-->
     <script src="js/osahan.js"></script>
     <script>
+        // button
+        function clearInput() {
+            document.querySelector("#jobForm").reset(); // Reset semua input di form
+        }
+        // end
         $(document).ready(function() {
             $('.connect-btn').click(function() {
                 var button = $(this);
@@ -777,7 +791,7 @@
 
     <script>
         $(document).ready(function() {
-            // Tampilkan input perusahaan baru jika user memilih "Tambah Perusahaan"
+            // Menampilkan form tambah perusahaan jika user memilih "Add Company"
             $("#company_id").change(function() {
                 if ($(this).val() === "new") {
                     $("#newCompanyDiv").removeClass("d-none");
@@ -788,15 +802,15 @@
 
             // AJAX untuk menyimpan perusahaan baru
             $("#saveNewCompany").click(function() {
-                let newCompanyName = $("#new_company_name").val();
+                let newCompanyName = $("#new_company_name").val().trim();
 
                 if (newCompanyName === "") {
-                    alert("Nama perusahaan tidak boleh kosong!");
+                    alert("Company name cannot be empty!");
                     return;
                 }
 
                 $.ajax({
-                    url: "{{ route('companies.store') }}", // Pastikan route ini ada di web.php
+                    url: "{{ route('companies.store') }}", // Sesuaikan dengan route Laravel kamu
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
@@ -804,20 +818,24 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            let newCompanyOption =
+                            // Tambahkan perusahaan baru ke dropdown
+                            let newOption =
                                 `<option value="${response.company.id}" selected>${response.company.name}</option>`;
-                            $("#company_id").prepend(newCompanyOption);
+                            $("#company_id").prepend(newOption);
+
+                            // Sembunyikan form tambah perusahaan
                             $("#newCompanyDiv").addClass("d-none");
                             $("#new_company_name").val("");
                         }
                     },
                     error: function() {
-                        alert("Gagal menambahkan perusahaan, coba lagi!");
+                        alert("Failed to add company, please try again!");
                     }
                 });
             });
         });
     </script>
+
 
 
     <script>
