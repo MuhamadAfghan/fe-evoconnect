@@ -149,9 +149,8 @@
                                                     style="display: none;">
                                                 <button type="button" class="btn btn-primary"
                                                     onclick="document.getElementById('fileAttachmentBtn').click();">
-                                                    Ganti Foto
+                                                    Upload
                                                 </button>
-                                                <button type="submit" class="btn btn-success">Upload</button>
                                             </form>
                                             <form action="{{ route('job.delete.photo', ['job' => $job->id]) }}"
                                                 method="POST">

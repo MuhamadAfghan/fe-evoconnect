@@ -750,6 +750,93 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Script for Education Form
+            document.getElementById('saveEducation').addEventListener('click', function() {
+                // Get values from the education form
+                const schoolName = document.getElementById('schoolName').value;
+                const major = document.getElementById('major').value;
+                const period = document.getElementById('educationPeriod').value;
+                const caption = document.getElementById('captionEdu').value;
+
+                // Validate required fields
+                if (!schoolName || !period) {
+                    alert('School name and period are required!');
+                    return;
+                }
+
+                // Create new education entry HTML
+                const newEducation = `
+            <div class="education-item border-bottom pb-2 mb-2" style="border-bottom: 1px solid #e0e0e0;">
+                <div class="d-flex align-items-top education-content">
+                    <div class="education-photo mr-3">
+                        <i class="fa-solid fa-graduation-cap" style="font-size: 2rem; color: #0d6efd;"></i>
+                    </div>
+                    <div class="education-info">
+                        <h5 class="font-weight-bold text-dark mb-0">${schoolName}</h5>
+                        <h6 class="text-primary mb-1">${major}</h6>
+                        <div class="small text-gray-500 mb-2">${period}</div>
+                        <p class="education-description mb-0">${caption}</p>
+                    </div>
+                    <div class="education-actions ml-auto">
+                        <button class="btn btn-sm btn-outline-primary edit-education mr-2">
+                            <i class="fa-solid fa-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-education">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+                // Add the new education entry to the list
+                document.getElementById('educationList').innerHTML += newEducation;
+
+                // Reset the form
+                resetEducationForm();
+
+                // Close the modal
+                $('#addEducationModal').modal('hide');
+                $('.modal-backdrop').remove();
+                $('body').removeClass('modal-open');
+            });
+
+            // Function to reset the education form
+            function resetEducationForm() {
+                document.getElementById('schoolName').value = '';
+                document.getElementById('major').value = '';
+                document.getElementById('educationPeriod').value = '';
+                document.getElementById('captionEdu').value = '';
+            }
+
+            // Add event listeners for edit and delete buttons
+            document.getElementById('educationList').addEventListener('click', function(e) {
+                if (e.target.closest('.edit-education')) {
+                    const educationItem = e.target.closest('.education-item');
+                    // Implement edit functionality
+                    // You can populate the modal with existing data and update instead of creating new
+                    $('#addEducationModal').modal('show');
+                } else if (e.target.closest('.delete-education')) {
+                    const educationItem = e.target.closest('.education-item');
+                    if (confirm('Are you sure you want to delete this education entry?')) {
+                        educationItem.remove();
+                    }
+                }
+            });
+
+            // Initialize datepicker for education period if needed
+            if ($.fn.datepicker) {
+                $('#educationPeriod').datepicker({
+                    format: 'MM yyyy',
+                    viewMode: 'years',
+                    minViewMode: 'months',
+                    autoclose: true
+                });
+            }
+        });
+    </script>
     {{-- end button --}}
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

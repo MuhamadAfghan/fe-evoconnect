@@ -1,4 +1,4 @@
-@extends('errors.templates')
+m@extends('errors.templates')
 
 @section('content')
     <div class="bg-white py-5">
