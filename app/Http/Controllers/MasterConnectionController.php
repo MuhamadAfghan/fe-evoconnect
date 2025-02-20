@@ -7,59 +7,13 @@ use Illuminate\Http\Request;
 
 class MasterConnectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-    }
+        $connections = MasterConnection::with(['fromUser', 'toUser'])
+            ->where('to_user_id', auth()->id())
+            ->orWhere('from_user_id', auth()->id())
+            ->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(MasterConnection $masterConnection)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MasterConnection $masterConnection)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MasterConnection $masterConnection)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MasterConnection $masterConnection)
-    {
-        //
+        return view('connections.list_connection', compact('connections'));
     }
 }

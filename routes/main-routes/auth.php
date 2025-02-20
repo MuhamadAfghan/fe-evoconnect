@@ -12,6 +12,10 @@ use App\Http\Controllers\JobRecordController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\JobUserSavedController;
+use App\Http\Controllers\NotificationController;
+use App\Models\RequestConnection;
+use App\Http\Controllers\RequestConnectionController;
+use App\Http\Controllers\MasterConnectionController;
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -34,6 +38,7 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
 
     Route::get('/connect', [ConnectionController::class, 'index'])->name('connect.index');
 
+
     Route::get('/message', [ConnectController::class, 'message'])->name('messages');
     Route::get('/notification', [ConnectController::class, 'notification'])->name('notifications');
     Route::get('/job', [ConnectController::class, 'job'])->name('jobs');
@@ -41,11 +46,14 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
     Route::get('/company-profile', [ConnectController::class, 'companyProfile'])->name('company-profile');
     Route::get('/job-profile', [ConnectController::class, 'jobProfile'])->name('job-profile');
     // Route::get('/not-found', [ConnectController::class, 'notFound'])->name('not-found');
+    // routes/web.php
 
     Route::get('/coming-soon', [ConnectController::class, 'comingSoon'])->name('coming-soon');
     Route::get('/maintenance', [ConnectController::class, 'maintenance'])->name('maintenance');
     Route::get('/blog', [ConnectController::class, 'blog'])->name('blogs');
     Route::get('/blog-single', [ConnectController::class, 'blogSingle'])->name('blog-single');
+    Route::get('/create-blog', [ConnectController::class, 'createBlog'])->name('create-blog');
+    Route::get('/form-blog', [ConnectController::class, 'formBlog'])->name('form-blog');
     Route::get('/components', [ConnectController::class, 'components'])->name('components');
     Route::get('/pricing', [ConnectController::class, 'pricing'])->name('pricing');
     Route::get('/contact', [ConnectController::class, 'contact'])->name('contact');
@@ -58,7 +66,7 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
     Route::post('/profile/update-about', [UserController::class, 'updateAbout'])->name('profile.update.about');
     Route::post('/profile/medsos', [UserController::class, 'medsos'])->name('profile.update.medsos');
     Route::post('/profile/save', [UserController::class, 'updateSave'])->name('profile.save');
-    Route::get('/profile/{user:username}', [UserController::class, 'detailUser'])->name('user.detail');
+    Route::get('/profile/{user}', [UserController::class, 'show'])->name('user.detail');
 
 
     Route::middleware(['auth'])->group(function () {
@@ -77,9 +85,25 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
         Route::post('/{job}/apply', [JobController::class, 'apply'])->name('job.apply');
     });
 
+    Route::middleware(['auth'])->group(function () {
+        Route::post('/connections/send/{user}', [RequestConnectionController::class, 'sendConnection'])->name('connections.send');
+        Route::post('/connections/{id}/accept', [RequestConnectionController::class, 'acceptConnection']);
+        Route::post('/connections/{id}/reject', [RequestConnectionController::class, 'rejectConnection']);
+        Route::delete('/connections/disconnect/{user}', [RequestConnectionController::class, 'disconnect'])->name('connections.disconnect');
+        Route::get('/connections/requests', [RequestConnectionController::class, 'getRequests']);
+    });
+
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/connections/list', [MasterConnectionController::class, 'index'])->name('connection.list');
+    });
+
+    Route::get('/notifications', [NotificationController::class, 'showNotifications'])->name('notifications');
+
+
     Route::post('/companies/store', [CompanyController::class, 'store'])->name('companies.store');
 
-    Route::post('/education/store', [EducationController::class, 'store']);
+    Route::post('/education', [EducationController::class, 'store'])->name('education.store');
     Route::delete('/education/delete', [EducationController::class, 'destroy'])->name('education.destroy');
 
     Route::post('/experience', [ExperienceController::class, 'store'])->name('experience.store');

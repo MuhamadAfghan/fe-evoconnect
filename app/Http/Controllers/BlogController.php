@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiFormatter;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -13,11 +14,18 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->per_page ?? 10;
+        $perPage = $request->limit ?? 10;
         $page = $request->page ?? 1;
-        $blogs = Blog::latest()->simplePaginate($perPage, ['*'], 'page', $page);
+        $posts = Blog::latest()
+            ->with('user', 'likes')
+            ->paginate($perPage, ['*'], 'page', $page);
 
-        return ApiFormatter::sendResponse('success', 200, 'Blogs retrieved successfully.', $blogs);
+        $posts->getCollection()->transform(function ($post) {
+            $post->is_liked = $post->isLikedBy(Auth::user());
+            return $post;
+        });
+
+        return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
     }
 
     /**

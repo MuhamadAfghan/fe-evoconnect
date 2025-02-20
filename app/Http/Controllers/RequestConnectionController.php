@@ -3,63 +3,152 @@
 namespace App\Http\Controllers;
 
 use App\Models\RequestConnection;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Log;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RequestConnectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function getRequests()
     {
-        //
+        $invitations = RequestConnection::with('fromUser')
+            ->where('to_user_id', auth()->id())
+            ->where('status', 'pending')
+            ->get();
+
+        return response()->json([
+            'requests' => $invitations->map(function ($invitation) {
+                return [
+                    'id' => $invitation->id,
+                    'sender_name' => $invitation->fromUser->name,
+                    'sender_profile_image' => $invitation->fromUser->getProfileImage(),
+                    'created_at' => $invitation->created_at->diffForHumans()
+                ];
+            })
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function sendConnection(User $user)
     {
-        //
+        try {
+            // Check if connection already exists and is accepted
+            $existingAcceptedConnection = RequestConnection::where(function ($query) use ($user) {
+                $query->where('from_user_id', auth()->id())
+                    ->where('to_user_id', $user->id)
+                    ->where('status', 'accepted');
+            })->orWhere(function ($query) use ($user) {
+                $query->where('from_user_id', $user->id)
+                    ->where('to_user_id', auth()->id())
+                    ->where('status', 'accepted');
+            })->first();
+
+            if ($existingAcceptedConnection) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'You are already connected with this user.'
+                ], 400);
+            }
+
+            // Check if there is a pending request
+            $existingPendingRequest = RequestConnection::where(function ($query) use ($user) {
+                $query->where('from_user_id', auth()->id())
+                    ->where('to_user_id', $user->id);
+            })->orWhere(function ($query) use ($user) {
+                $query->where('from_user_id', $user->id)
+                    ->where('to_user_id', auth()->id());
+            })->where('status', 'pending')->first();
+
+            if ($existingPendingRequest) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Connection request already exists'
+                ], 400);
+            }
+
+            // Create new connection request
+            $request = RequestConnection::create([
+                'from_user_id' => auth()->id(),
+                'to_user_id' => $user->id,
+                'status' => 'pending'
+            ]);
+
+            // Create notification
+            Notification::create([
+                'user_id' => $user->id,
+                'message' => auth()->user()->name . ' sent you a connection request.',
+                'type' => 'connection_request',
+                'data' => json_encode([
+                    'request_id' => $request->id,
+                    'sender_id' => auth()->id(),
+                    'sender_name' => auth()->user()->name
+                ])
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Connection request sent successfully'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error sending connection request: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to send connection request'
+            ], 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function acceptConnection($id)
     {
-        //
+        $request = RequestConnection::findOrFail($id);
+
+        // Verify the request is for the authenticated user
+        if ($request->to_user_id !== auth()->id()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized action'
+            ], 403);
+        }
+
+        $request->update(['status' => 'accepted']);
+
+        // Create notification for the sender
+        Notification::create([
+            'user_id' => $request->from_user_id,
+            'message' => auth()->user()->name . ' accepted your connection request.',
+            'type' => 'connection_accepted',
+            'data' => json_encode([
+                'accepter_id' => auth()->id(),
+                'accepter_name' => auth()->user()->name
+            ])
+        ]);
+
+        return response()->json(['message' => 'Connection request accepted']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(RequestConnection $requestConnection)
+    public function rejectConnection($id)
     {
-        //
-    }
+        $request = RequestConnection::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RequestConnection $requestConnection)
-    {
-        //
-    }
+        if ($request->to_user_id !== auth()->id()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized action'
+            ], 403);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RequestConnection $requestConnection)
-    {
-        //
-    }
+        $request->update(['status' => 'rejected']);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RequestConnection $requestConnection)
-    {
-        //
+        // Optional: Create notification for the sender
+        Notification::create([
+            'user_id' => $request->from_user_id,
+            'message' => 'Your connection request was not accepted.',
+            'type' => 'connection_rejected'
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Connection request rejected'
+        ]);
     }
 }

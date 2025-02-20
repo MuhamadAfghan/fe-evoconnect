@@ -10,10 +10,15 @@ class NotificationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function showNotifications()
     {
-        //
+        // Ambil notifikasi untuk user yang sedang login
+        $notifications = auth()->user()->notifications;
+
+        // Kirim variabel ke view
+        return view('connections.notifications', compact('notifications'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -26,15 +31,7 @@ class NotificationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $notificationEnable= $request->input('notification_enable', true);
-
-        if($notificationEnable){
-            return redirect()->route()
-        }
-
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.

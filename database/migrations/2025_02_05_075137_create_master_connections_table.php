@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('master_connections', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('to_user_id')->constrained('users');
-            $table->foreignUuid('users_id')->constrained('users');
+            $table->foreignUuid('to_user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('from_user_id')->constrained('users')->cascadeOnDelete(); // Perbaiki di sini
             $table->timestamps();
         });
     }

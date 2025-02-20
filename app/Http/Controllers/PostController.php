@@ -29,6 +29,23 @@ class PostController extends Controller
         return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
     }
 
+    public function myPosts(Request $request)
+    {
+        $perPage = $request->limit ?? 10;
+        $page = $request->page ?? 1;
+        $posts = Post::where('user_id', Auth::id())
+            ->search($request->query('search'))
+            ->latest()
+            ->with('user', 'likes', 'user.educations')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        $posts->getCollection()->transform(function ($post) {
+            $post->is_liked = $post->isLikedBy(Auth::user());
+            return $post;
+        });
+        return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -103,7 +120,7 @@ class PostController extends Controller
         }
     }
 
-    public function comment(Request $request, $id)
+    public function postComment(Request $request, $id)
     {
         $request->validate([
             'content' => 'required|string|max:1000',
@@ -116,6 +133,43 @@ class PostController extends Controller
         $comment->content = $request->content;
         $comment->save();
 
-        return response()->json(['status' => 'success', 'comment' => $comment->load('user')]);
+        return ApiFormatter::sendResponse('success', 201, 'Comment posted successfully.', $comment);
+    }
+
+
+    // PostController.php
+    public function storeComment(Request $request, Post $post)
+    {
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $comment = $post->comments()->create([
+            'user_id' => auth()->id(),
+            'content' => $request->content,
+        ]);
+
+        return ApiFormatter::sendResponse('success', 201, 'Comment posted successfully.', $comment);
+    }
+
+    public function getComments(Post $post)
+    {
+        $comments = $post->comments()->with('user', 'replies.user')->get();
+        return ApiFormatter::sendResponse('success', 200, 'Comments retrieved successfully.', $comments);
+    }
+
+    // CommentController.php
+    public function storeReply(Request $request, CommentPost $commentPost)
+    {
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $reply = $commentPost->replies()->create([
+            'user_id' => auth()->id(),
+            'content' => $request->content,
+        ]);
+
+        return ApiFormatter::sendResponse('success', 201, 'Reply posted successfully.', $reply);
     }
 }

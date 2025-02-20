@@ -18,19 +18,30 @@
                                     </div>
                                     {{-- ini bagian list chat --}}
                                     <div class="osahan-chat-list">
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p9.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Ashley Briggs</div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check text-primary"></i> Pellentesque semper ex diam,
-                                                    at tristique ipsum varius sed. Pellentesque non metus ullamcorper</div>
+                                        <div class="container mx-auto p-4">
+                                            <div class="rounded-lg bg-white p-4 shadow">
+                                                <h2 class="mb-4 text-xl font-bold">Pesan Pribadi</h2>
+                                                <div class="divide-y divide-gray-200">
+                                                    @foreach ($conversations as $conversation)
+                                                        <a href="{{ route('messages.show', $conversation->id) }}"
+                                                            class="flex items-center rounded-lg p-3 hover:bg-gray-100">
+                                                            <img class="h-12 w-12 rounded-full"
+                                                                src="{{ $conversation->partner->profile_picture ?? 'default-avatar.png' }}"
+                                                                alt="{{ $conversation->partner->name }}">
+                                                            <div class="ml-3 flex-1 overflow-hidden">
+                                                                <div class="font-semibold text-gray-900">
+                                                                    {{ $conversation->partner->name }}</div>
+                                                                <div class="truncate text-sm text-gray-600">
+                                                                    {{ $conversation->lastMessage->content ?? 'Belum ada pesan' }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-xs text-gray-500">
+                                                                {{ $conversation->lastMessage->created_at->diffForHumans() ?? '' }}
+                                                            </div>
+                                                        </a>
+                                                    @endforeach
+                                                </div>
                                             </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
                                         </div>
                                         <div
                                             class="d-flex align-items-center bg-light border-left border-primary border-bottom osahan-post-header overflow-hidden p-3">
@@ -47,198 +58,7 @@
                                                 <div class="text-muted small pt-1 text-right">00:21PM</div>
                                             </span>
                                         </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p3.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Bertha Martin
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check text-primary"></i> Pellentesque semper ex diam,
-                                                    at tristique ipsum varius sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p4.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Stacie Hall
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check"></i> Semper ex diam, at tristique ipsum varius
-                                                    sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3">
-                                                <div
-                                                    class="dropdown-list-image d-flex align-items-center bg-danger justify-content-center rounded-circle mr-3 text-white">
-                                                    A</div>
-                                            </div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Ashley Briggs</div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check text-primary"></i> Pellentesque semper ex diam,
-                                                    at tristique ipsum varius sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p1.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Carl Jenkins
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check"></i> Semper ex diam, at tristique ipsum varius
-                                                    sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p3.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Bertha Martin
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check text-primary"></i> Pellentesque semper ex diam,
-                                                    at tristique ipsum varius sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3">
-                                                <div
-                                                    class="dropdown-list-image d-flex align-items-center bg-success justify-content-center rounded-circle mr-3 text-white">
-                                                    S</div>
-                                            </div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Stacie Hall
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check"></i> Semper ex diam, at tristique ipsum varius
-                                                    sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p3.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Bertha Martin
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check text-primary"></i> Pellentesque semper ex
-                                                    diam, at tristique ipsum varius sed. Pellentesque non metus ullamcorper
-                                                </div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p4.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Stacie Hall
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check"></i> Semper ex diam, at tristique ipsum
-                                                    varius sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3">
-                                                <div
-                                                    class="dropdown-list-image d-flex align-items-center bg-danger justify-content-center rounded-circle mr-3 text-white">
-                                                    A</div>
-                                            </div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Ashley Briggs</div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check text-primary"></i> Pellentesque semper ex
-                                                    diam, at tristique ipsum varius sed. Pellentesque non metus ullamcorper
-                                                </div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p1.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Carl Jenkins
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check"></i> Semper ex diam, at tristique ipsum
-                                                    varius sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p3.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Bertha Martin
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check text-primary"></i> Pellentesque semper ex
-                                                    diam, at tristique ipsum varius sed. Pellentesque non metus ullamcorper
-                                                </div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
-                                        <div class="d-flex align-items-center osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3">
-                                                <div
-                                                    class="dropdown-list-image d-flex align-items-center bg-success justify-content-center rounded-circle mr-3 text-white">
-                                                    S</div>
-                                            </div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Stacie Hall
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check"></i> Semper ex diam, at tristique ipsum
-                                                    varius sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -264,8 +84,8 @@
                                                 <i class="feather-more-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <button class="dropdown-item" type="button"><i
-                                                        class="feather-trash"></i> Delete</button>
+                                                <button class="dropdown-item" type="button"><i class="feather-trash"></i>
+                                                    Delete</button>
                                                 <button class="dropdown-item" type="button"><i
                                                         class="feather-x-circle"></i> Turn Off</button>
                                             </div>

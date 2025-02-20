@@ -51,4 +51,9 @@ class Post extends Model
     {
         return $this->hasMany(CommentPost::class);
     }
+
+    public function scopeSearch($query, $term)
+    {
+        return empty($term) ? $query : $query->where('content', 'like', '%' . $term . '%');
+    }
 }

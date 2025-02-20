@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('connections', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id')->primary();
             $table->foreignUuid('from_user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignUuid('to_user_id')->constrained('users')->cascadeOnDelete();
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');

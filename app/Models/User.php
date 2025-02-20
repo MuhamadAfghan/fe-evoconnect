@@ -133,4 +133,54 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return $this->hasMany(Experience::class);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function receivedConnections()
+    {
+        return $this->hasMany(RequestConnection::class, 'to_user_id');
+    }
+
+    public function sentConnections()
+    {
+        return $this->hasMany(RequestConnection::class, 'from_user_id');
+    }
+
+    public function connections()
+    {
+        return $this->hasMany(RequestConnection::class, 'from_user_id')
+            ->where('status', 'accepted')
+            ->orWhere(function ($query) {
+                $query->where('to_user_id', $this->id)
+                    ->where('status', 'accepted');
+            });
+    }
+
+    public function isConnectedWith($userId)
+    {
+        return $this->connections()
+            ->where(function ($query) use ($userId) {
+                $query->where('to_user_id', $userId)
+                    ->orWhere('from_user_id', $userId);
+            })
+            ->exists();
+    }
+
+    public function hasPendingRequestWith($userId)
+    {
+        return RequestConnection::where(function ($query) use ($userId) {
+            $query->where([
+                ['from_user_id', $this->id],
+                ['to_user_id', $userId],
+                ['status', 'pending']
+            ])->orWhere([
+                ['from_user_id', $userId],
+                ['to_user_id', $this->id],
+                ['status', 'pending']
+            ]);
+        })->exists();
+    }
 }

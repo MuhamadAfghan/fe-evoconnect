@@ -64,6 +64,8 @@ class JobController extends Controller
         return view('profile.job-profile', compact('job'));
     }
 
+
+
     // Mengupdate foto pekerjaan
     public function updatePhotoJob(Request $request, Job $job)
     {

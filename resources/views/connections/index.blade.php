@@ -1,6 +1,7 @@
 @extends('layouts.templates')
 
 @section('content')
+
     <div class="py-4">
         <div class="container">
             <div class="row">
@@ -9,15 +10,15 @@
                     <div class="box osahan-share-post mb-3 rounded border bg-white shadow-sm">
                         <h5 class="border-bottom mb-0 pb-3 pl-3 pr-3 pt-3">More suggestions for you</h5>
                         <ul class="nav border-bottom osahan-line-tab" id="myTab" role="tablist">
-                            {{-- <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                     aria-controls="home" aria-selected="true">People</a>
-                            </li> --}}
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                    aria-controls="profile" aria-selected="false">Groups</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                    aria-controls="profile" aria-selected="false">Invitations</a>
+                            </li>
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
                                     aria-controls="contact" aria-selected="false">Pages</a>
                             </li>
@@ -75,17 +76,25 @@
                                                         </div>
                                                         <div class="network-item-footer d-flex py-3 text-center">
                                                             <div class="col-6 pl-3 pr-1">
-                                                                <button type="button"
-                                                                    class="btn btn-primary btn-sm btn-block connect-btn">
-                                                                    Connect
-                                                                </button>
+                                                                @if ($user->is_connected)
+                                                                    <button class="btn btn-secondary btn-sm btn-block"
+                                                                        disabled>Connected</button>
+                                                                @elseif ($user->has_pending_request)
+                                                                    <button class="btn btn-warning btn-sm btn-block"
+                                                                        disabled>Pending</button>
+                                                                @else
+                                                                    <form
+                                                                        action="{{ route('connections.send', $user->id) }}"
+                                                                        method="POST" class="connect-form">
+                                                                        @csrf
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary btn-sm btn-block connect-btn"
+                                                                            id="connect-btn-{{ $user->id }}">Connect</button>
+                                                                    </form>
+                                                                @endif
                                                             </div>
-                                                            {{-- <div class="col-6 pl-1 pr-3">
-                                                        <button type="button"
-                                                            class="btn btn-outline-primary btn-sm btn-block follow-btn">
-                                                            Follow </button>
-                                                    </div> --}}
                                                         </div>
+
                                                     </div>
                                                 </a>
                                             </div>
@@ -96,9 +105,34 @@
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <div class="w-100 p-3">
-                                    <h6>Soon in next free update</h6>
+                                    <h6>Invitations</h6>
+                                    <ul id="invitations-list">
+                                        @if (isset($invitations) && $invitations->isNotEmpty())
+                                            @foreach ($invitations as $invitation)
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="{{ $invitation->sender->getProfileImage() }}"
+                                                            class="rounded-circle mr-2" width="40" height="40">
+                                                        <span>{{ $invitation->sender->name }}</span>
+                                                    </div>
+                                                    <div>
+                                                        <button class="btn btn-success btn-sm accept-btn"
+                                                            data-id="{{ $invitation->id }}">Accept</button>
+                                                        <button class="btn btn-danger btn-sm reject-btn"
+                                                            data-id="{{ $invitation->id }}">Reject</button>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        @else
+                                            <p>Tidak ada undangan koneksi saat ini.</p>
+                                        @endif
+
+
+                                    </ul>
                                 </div>
                             </div>
+
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                 <div class="w-100 p-3">
                                     <h6>Soon in next free update</h6>
@@ -140,11 +174,6 @@
                             </a>
                             <a href="#">
                                 <li class="list-group-item d-flex align-items-center text-dark pl-3 pr-3"><i
-                                        class="feather-clipboard text-dark mr-2"></i> Page <span
-                                        class="font-weight-bold ml-auto">3</span></li>
-                            </a>
-                            <a href="#">
-                                <li class="list-group-item d-flex align-items-center text-dark pl-3 pr-3"><i
                                         class="feather-tag text-dark mr-2"></i> Hashtag <span
                                         class="font-weight-bold ml-auto">8</span></li>
                             </a>
@@ -178,16 +207,239 @@
 
     <script>
         $(document).ready(function() {
-            $('.connect-btn').click(function() {
-                var button = $(this);
-                if (button.text().trim() === "Connect") {
-                    button.text("Connected");
-                    button.removeClass('btn-primary').addClass('btn-secondary');
-                } else {
-                    button.text("Connect");
-                    button.removeClass('btn-secondary').addClass('btn-primary');
+            $('#profile-tab').click(function() {
+                $.ajax({
+                    url: '/connections/requests', // Endpoint untuk mengambil daftar permintaan
+                    method: 'GET',
+                    success: function(response) {
+                        let invitationsList = $('#invitations-list');
+                        invitationsList.empty(); // Hapus data lama
+
+                        response.requests.forEach(function(request) {
+                            invitationsList.append(`
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="${request.sender_profile_image}" class="rounded-circle mr-2" width="40" height="40">
+                                <span>${request.sender_name}</span>
+                            </div>
+                            <div>
+                                <button class="btn btn-success btn-sm accept-btn" data-id="${request.id}">Accept</button>
+                                <button class="btn btn-danger btn-sm reject-btn" data-id="${request.id}">Reject</button>
+                            </div>
+                        </li>
+                    `);
+                        });
+
+                        // Tambahkan event listener untuk tombol Accept dan Reject
+                        $('.accept-btn').click(function() {
+                            let requestId = $(this).data('id');
+                            $.ajax({
+                                url: `/connections/${requestId}/accept`,
+                                method: 'POST',
+                                success: function() {
+                                    alert('Connection accepted');
+                                    $(`button[data-id="${requestId}"]`)
+                                        .parent().parent().remove();
+                                }
+                            });
+                        });
+
+                        $('.reject-btn').click(function() {
+                            let requestId = $(this).data('id');
+                            $.ajax({
+                                url: `/connections/${requestId}/reject`,
+                                method: 'POST',
+                                success: function() {
+                                    alert('Connection rejected');
+                                    $(`button[data-id="${requestId}"]`)
+                                        .parent().parent().remove();
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
+            // Add csrf token to all ajax requests
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            // Handle Invitations tab click
+            $('#profile-tab').click(function() {
+                loadInvitations();
+            });
+
+            // Handle Connect button click
+            $('.connect-btn').click(function(e) {
+                e.preventDefault();
+                const button = $(this);
+                const form = button.closest('form');
+
+                if (button.hasClass('disabled')) {
+                    return;
+                }
+
+                button.addClass('disabled').text('Sending...');
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function(response) {
+                        button.removeClass('btn-primary')
+                            .addClass('btn-warning')
+                            .text('Pending')
+                            .prop('disabled', true);
+
+                        showNotification('success', 'Connection request sent successfully');
+                    },
+                    error: function(xhr) {
+                        button.removeClass('disabled').text('Connect');
+                        showNotification('error', xhr.responseJSON?.message ||
+                            'Error sending connection request');
+                    }
+                });
+            });
+
+            // Function to load invitations
+            function loadInvitations() {
+                const invitationsList = $('#invitations-list');
+                invitationsList.html(
+                    '<div class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</div>');
+
+                $.ajax({
+                    url: '/connections/requests',
+                    type: 'GET',
+                    success: function(response) {
+                        invitationsList.empty();
+
+                        if (response.requests.length === 0) {
+                            invitationsList.html(
+                                '<p class="text-center p-3">No pending invitations</p>');
+                            return;
+                        }
+
+                        response.requests.forEach(function(request) {
+                            const invitationHtml = `
+                        <li class="list-group-item d-flex justify-content-between align-items-center" id="invitation-${request.id}">
+                            <div class="d-flex align-items-center">
+                                <img src="${request.sender_profile_image}" class="rounded-circle mr-2" width="40" height="40" alt="${request.sender_name}">
+                                <div>
+                                    <strong>${request.sender_name}</strong>
+                                    <small class="text-muted d-block">${request.created_at}</small>
+                                </div>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-success btn-sm accept-invitation" data-id="${request.id}">
+                                    <i class="fas fa-check mr-1"></i> Accept
+                                </button>
+                                <button class="btn btn-danger btn-sm reject-invitation" data-id="${request.id}">
+                                    <i class="fas fa-times mr-1"></i> Reject
+                                </button>
+                            </div>
+                        </li>
+                    `;
+                            invitationsList.append(invitationHtml);
+                        });
+
+                        // Bind events for accept/reject buttons
+                        bindInvitationActions();
+                    },
+                    error: function() {
+                        invitationsList.html(
+                            '<p class="text-center text-danger p-3">Error loading invitations</p>');
+                    }
+                });
+            }
+
+            // Function to bind invitation actions
+            function bindInvitationActions() {
+                // Handle Accept button
+                $(document).on('click', '.accept-invitation', function() {
+                    const button = $(this);
+                    const requestId = button.data('id');
+                    const invitationItem = $(`#invitation-${requestId}`);
+
+                    button.prop('disabled', true);
+
+                    $.ajax({
+                        url: `/connections/${requestId}/accept`,
+                        type: 'POST',
+                        success: function() {
+                            invitationItem.fadeOut(function() {
+                                $(this).remove();
+                                if ($('#invitations-list li').length === 0) {
+                                    $('#invitations-list').html(
+                                        '<p class="text-center p-3">No pending invitations</p>'
+                                    );
+                                }
+                            });
+                            showNotification('success', 'Connection accepted');
+                        },
+                        error: function() {
+                            button.prop('disabled', false);
+                            showNotification('error', 'Error accepting connection');
+                        }
+                    });
+                });
+
+                // Handle Reject button
+                $(document).on('click', '.reject-invitation', function() {
+                    const button = $(this);
+                    const requestId = button.data('id');
+                    const invitationItem = $(`#invitation-${requestId}`);
+
+                    button.prop('disabled', true);
+
+                    $.ajax({
+                        url: `/connections/${requestId}/reject`,
+                        type: 'POST',
+                        success: function() {
+                            invitationItem.fadeOut(function() {
+                                $(this).remove();
+                                if ($('#invitations-list li').length === 0) {
+                                    $('#invitations-list').html(
+                                        '<p class="text-center p-3">No pending invitations</p>'
+                                    );
+                                }
+                            });
+                            showNotification('success', 'Connection rejected');
+                        },
+                        error: function() {
+                            button.prop('disabled', false);
+                            showNotification('error', 'Error rejecting connection');
+                        }
+                    });
+                });
+            }
+
+            // Function to show notifications
+            function showNotification(type, message) {
+                const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+                const notification = `
+            <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+
+                $('#notification-area').html(notification);
+                setTimeout(() => {
+                    $('.alert').alert('close');
+                }, 3000);
+            }
         });
     </script>
 @endsection

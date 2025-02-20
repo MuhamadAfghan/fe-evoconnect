@@ -66,3 +66,40 @@
         <textarea placeholder="Add Comment..." class="form-control border-0 p-0 shadow-none" rows="1"></textarea>
     </div>
 </div>
+
+
+<script>
+    function fetchComments() {
+        $.ajax({
+            url: '/comments',
+            type: 'GET',
+            success: function(response) {
+                console.log(response);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        let addCommentValue = '';
+        $('textarea').on('input', function() {
+            addCommentValue = $(this).val();
+        });
+
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/comments',
+                type: 'POST',
+                data: {
+                    comment: addCommentValue
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+                finally: function() {
+                    fetchComments();
+                }
+            });
+        });
+    });
+</script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiFormatter;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +76,7 @@ class UserController extends Controller
         $user->skills = $request->skills; // Assuming skills is a JSON column in the users table
         $user->save();
 
-        return redirect()->back()->with('success', 'Profile updated successfully!');
+        return ApiFormatter::sendResponse('success', 200, 'Profile updated successfully!');
     }
 
     public function updateSave(Request $request)
@@ -136,8 +137,12 @@ class UserController extends Controller
     public function medsos(Request $request)
     {
         $validatedData = $request->validate([
-            'medsos' => 'required|array',
-            'medsos.*.username' => 'required|string|max:255',
+            'saved_medsos' => 'nullable|array',
+            'saved_medsos.*' => 'nullable|array',
+            'saved_medsos.*.*' => 'required|string|max:255',
+            'medsos' => 'nullable|array',
+            'medsos.*' => 'nullable|array',
+            'medsos.*.*' => 'required|string|max:255',
         ]);
 
         $platformLinks = [
@@ -150,16 +155,34 @@ class UserController extends Controller
 
         $socialLinks = [];
 
-        foreach ($validatedData['medsos'] as $platform => $data) {
-            if (isset($platformLinks[$platform])) {
-                $socialLinks[$platform] = [
-                    'username' => $data['username'],
-                    'link' => $platformLinks[$platform] . $data['username'],
-                ];
+        // Proses data yang sudah tersimpan
+        if (!empty($validatedData['saved_medsos'])) {
+            foreach ($validatedData['saved_medsos'] as $platform => $usernames) {
+                foreach ($usernames as $username) {
+                    if (!empty($username) && isset($platformLinks[$platform])) {
+                        $socialLinks[$platform][] = [
+                            'username' => $username,
+                            'link' => $platformLinks[$platform] . $username,
+                        ];
+                    }
+                }
             }
         }
 
-        // Simpan dalam bentuk JSON di kolom `social_links`
+        // Tambahkan input baru tanpa menghapus yang lama
+        if (!empty($validatedData['medsos'])) {
+            foreach ($validatedData['medsos'] as $platform => $usernames) {
+                foreach ($usernames as $username) {
+                    if (!empty($username) && isset($platformLinks[$platform])) {
+                        $socialLinks[$platform][] = [
+                            'username' => $username,
+                            'link' => $platformLinks[$platform] . $username,
+                        ];
+                    }
+                }
+            }
+        }
+
         User::where('id', Auth::id())->update([
             'medsos' => json_encode($socialLinks),
         ]);
@@ -167,9 +190,16 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Profil media sosial berhasil diperbarui.');
     }
 
+
     public function detailUser(User $user)
     {
         // return $user;
+        return view('profile.profile', compact('user'));
+    }
+
+    public function show($username)
+    {
+        $user = User::where('username', $username)->firstOrFail();
         return view('profile.profile', compact('user'));
     }
 }

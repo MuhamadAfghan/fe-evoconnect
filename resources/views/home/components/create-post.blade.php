@@ -68,8 +68,7 @@
 
     <div class="border-top d-flex align-items-center p-3">
         <div class="flex-shrink-1">
-            <button type="submit" id="btn-submit-post" class="btn btn-primary btn-sm" disabled>Post
-                Status</button>
+            <button type="submit" id="btn-submit-post" class="btn btn-primary btn-sm" disabled>Share an update</button>
         </div>
     </div>
 </form>

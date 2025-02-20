@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiFormatter;
 use App\Models\Education;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class EducationController extends Controller
 {
@@ -13,7 +15,8 @@ class EducationController extends Controller
      */
     public function index()
     {
-        //
+        $educations = Education::where('user_id', auth()->id())->get();
+        return ApiFormatter::sendResponse('success', 200, 'Education list', $educations);
     }
 
     /**
@@ -21,7 +24,7 @@ class EducationController extends Controller
      */
     public function create()
     {
-        //
+        return view('educations.create');
     }
 
     /**
@@ -30,52 +33,33 @@ class EducationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'school_name' => 'required|string|max:255',
+            'schoolName' => 'required|string|max:255',
             'major' => 'required|string|max:255',
-            'period' => 'required|string',
-            'caption' => 'nullable|string',
-            'photo' => 'nullable|image|max:2048'
+            'startMonth' => 'required|string|between:1,12',
+            'startYear' => 'required|string',
+            'endMonth' => 'nullable|string|between:1,12',
+            'endYear' => 'nullable|string',
+            'caption' => 'nullable|string|max:500',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Simpan data pendidikan
-        $education = new Education();
-        $education->school_name = $request->school_name;
-        $education->major = $request->major;
-        $education->period = $request->period;
-        $education->caption = $request->caption;
 
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('education_photos', 'public');
-            $education->photo = $photoPath;
         }
 
-        $education->save();
-
-        return response()->json(['success' => true, 'education' => $education]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Education $education)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Education $education)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Education $education)
-    {
-        //
+        $education = Education::create([
+            'user_id' => Auth::id(),
+            'school_name' => $request->input('schoolName'),
+            'major' => $request->input('major'),
+            'start_month' => $request->input('startMonth'),
+            'start_year' => $request->input('startYear'),
+            'end_month' => $request->input('endMonth'),
+            'end_year' => $request->input('endYear'),
+            'caption' => $request->input('caption'),
+            'photo' => $photoPath ?? null,
+        ]);
+        return ApiFormatter::sendResponse('success', 202, 'Education added successfully.', $education);
     }
 
     /**
@@ -84,7 +68,7 @@ class EducationController extends Controller
     public function destroy(Education $education)
     {
         if ($education->user_id !== auth()->id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return redirect()->route('educations.index')->with('error', 'Unauthorized');
         }
 
         if ($education->photo) {
@@ -92,6 +76,6 @@ class EducationController extends Controller
         }
 
         $education->delete();
-        return response()->json(['success' => true]);
+        return redirect()->route('educations.index')->with('success', 'Education deleted successfully.');
     }
 }

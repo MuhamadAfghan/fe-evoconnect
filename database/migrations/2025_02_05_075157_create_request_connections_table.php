@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('request_connections', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('to_user_id')->constrained('users');
-            $table->foreignUuid('from_user_id')->constrained('users');
-            $table->enum('status', ['pending', 'accepted', 'rejected']);
+            $table->foreignUuid('from_user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('to_user_id')->constrained('users')->cascadeOnDelete();
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('img/logo2.png') }}">
     <title>EVOConnect - Job Portal & Social Media</title>
     <!-- Slick Slider -->
@@ -24,6 +25,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+
+
 
     <style>
         trix-editor ul,
@@ -73,6 +77,38 @@
         #searchButton {
             background-color: #fafbfc !important;
         }
+
+        /* css search */
+        .custom-search {
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .custom-search:focus {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+
+        .custom-search-btn {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            /* background-color: #28a745; */
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .custom-search-btn:hover {
+            background-color: grey;
+            color: white;
+        }
+
+        .custom-search-btn:focus {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
     </style>
 
     @stack('css')
@@ -89,7 +125,7 @@
                     <input type="text" class="form-control custom-search border-0 shadow-none" id="searchButton"
                         placeholder="Search people, jobs & more..." aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success custom-search-btn" type="button" id="searchButton">
+                        <button class="btn custom-search-btn" type="button" id="searchButton">
                             <i class="feather-search"></i>
                         </button>
                     </div>
@@ -260,6 +296,10 @@
                         <h6 class="dropdown-header">
                             Alerts Center
                         </h6>
+                        {{-- @if (isset($notifications) && $notifications->isEmpty())
+                            <p>No new notifications.</p>
+                        @else --}}
+                        {{-- @foreach ($notifications as $notification) --}}
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('notifications') }}">
                             <div class="mr-3">
                                 <div class="icon-circle bg-primary">
@@ -267,10 +307,16 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="small text-gray-500">December 12, 2019</div>
-                                <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                <div class="small text-gray-500">
+                                    {{-- {{ $notification->created_at->format('F j, Y') }} --}}
+                                </div>
+                                {{-- <span class="font-weight-bold">{{ $notification->message }}</span> --}}
                             </div>
                         </a>
+                        {{-- @endforeach
+                        @endif --}}
+
+
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('notifications') }}">
                             <div class="mr-3">
                                 <div class="icon-circle bg-success">

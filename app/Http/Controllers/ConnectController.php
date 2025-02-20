@@ -109,6 +109,16 @@ class ConnectController extends Controller
         return view('blog.blog-single');
     }
 
+    public function createBlog()
+    {
+        return view('blog.create-blog');
+    }
+
+    public function formBlog()
+    {
+        return view('blog.form-blog');
+    }
+
     public function components()
     {
         return view('pricings.components');

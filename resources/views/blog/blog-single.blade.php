@@ -175,7 +175,8 @@
                                     <div class="control-group form-group col-lg-6 col-md-6">
                                         <div class="controls">
                                             <label>Your Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" required="">
+                                            <input placeholder="{{ auth()->user()->email }}" type="text"
+                                                class="form-control">
                                         </div>
                                     </div>
 
