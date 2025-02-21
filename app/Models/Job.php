@@ -10,12 +10,15 @@ class Job extends Model
 {
     use HasFactory;
 
+    protected $table = 'jobs'; // Opsional jika tidak menggunakan konvensi Laravel
+
     protected $fillable = [
         'title',
         'position',
         'location',
         'description',
         'rating',
+        'salary',
         'industry',
         'company_id',
         'job_details',
@@ -50,14 +53,11 @@ class Job extends Model
         return $this->belongsTo(Company::class);
     }
 
+    /**
+     * Relasi many-to-many dengan user (pekerjaan yang disimpan)
+     */
     public function savedByUsers()
     {
         return $this->belongsToMany(User::class, 'job_user_saved', 'job_id', 'user_id')->withTimestamps();
     }
-
-
-
-    /**
-     * Relasi many-to-many dengan user (pekerjaan yang disimpan)
-     */
 }

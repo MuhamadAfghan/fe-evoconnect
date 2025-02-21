@@ -396,7 +396,15 @@
                                         'instagram' => 'https://www.instagram.com/',
                                         'youtube' => 'https://www.youtube.com/@',
                                         'github' => 'https://github.com/',
-                                        'twitter' => 'https://twitter.com/', // Tambahan Twitter/X
+                                        'twitter' => 'https://twitter.com/',
+                                    ];
+
+                                    $icons = [
+                                        'facebook' => 'fa-facebook-f',
+                                        'instagram' => 'fa-instagram',
+                                        'youtube' => 'fa-youtube',
+                                        'github' => 'fa-github',
+                                        'twitter' => 'fa-x-twitter', // Jika masih pakai Twitter, bisa pakai 'fa-twitter'
                                     ];
                                 @endphp
 
@@ -404,20 +412,44 @@
                                     @foreach ($medsos as $platform => $items)
                                         @if (isset($links[$platform]) && is_array($items) && count($items) > 0)
                                             @php
-                                                $firstItem = $items[0]; // Ambil elemen pertama dari array
+                                                $firstItem = $items[0];
                                             @endphp
                                             <a href="{{ $links[$platform] . ($firstItem['username'] ?? '') }}"
-                                                target="_blank" class="social-item {{ $platform }}">
-                                                <i class="fa-brands fa-{{ $platform }}" style="font-size: 1rem;"></i>
-                                                <span class="username">{{ $firstItem['username'] ?? 'Unknown' }}</span>
+                                                target="_blank"
+                                                class="social-item {{ $platform }} text-decoration-none position-relative d-flex flex-column align-items-center p-2">
+                                                <i class="fa-brands {{ $icons[$platform] ?? 'fa-globe' }} social-icon"
+                                                    style="font-size: 2rem;"></i>
+                                                <span
+                                                    class="username text-muted small d-none mt-1">{{ $firstItem['username'] ?? 'Unknown' }}</span>
                                             </a>
                                         @endif
                                     @endforeach
-
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <style>
+                        .social-item {
+                            transition: transform 0.2s ease-in-out;
+                        }
+
+                        .social-item:hover {
+                            transform: scale(1.1);
+                        }
+
+                        .social-item .social-icon {
+                            color: #333;
+                        }
+
+                        .social-item:hover .social-icon {
+                            color: #007bff;
+                        }
+
+                        .social-item:hover .username {
+                            display: block !important;
+                        }
+                    </style>
                 </aside>
                 <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
                     <div class="box mb-3 rounded border bg-white shadow-sm">
@@ -618,6 +650,7 @@
                         @endforeach
                     </div>
                     <div class="container mt-4">
+
                         <h5 id="loading-text" class="text-muted text-center">Loading posts...</h5>
                         <div id="post-container" class="row justify-content-center"></div>
                         <div class="mt-4 text-center">
@@ -787,6 +820,42 @@
                         });
                     </script>
             </div>
+            {{-- <div class="row d-flex flex-row-reverse">
+                <aside class="col col-xl-3 order-xl-3 col-lg-12 order-lg-3 col-12 d-flex">
+                    <div class="box mb-3 rounded border bg-white shadow-sm" style="width: 100%;">
+                        <div class="box-title border-bottom">
+                            <h6 class="m-0">Who viewed your profile</h6>
+                        </div>
+                        <div class="box-body p-3">
+                            <div class="d-flex align-items-center osahan-post-header people-list mb-3">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" src="img/p4.png" alt="">
+                                    <div class="status-indicator bg-success"></div>
+                                </div>
+                                <div class="font-weight-bold mr-2">
+                                    <div class="text-truncate">Sophia Lee</div>
+                                    <div class="small text-gray-500">@Harvard
+                                    </div>
+                                </div>
+                                <span class="ml-auto"><button type="button"
+                                        class="btn btn-light btn-sm">Connent</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
+                            <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
+                            <div class="border-bottom p-3">
+                                <h6 class="font-weight-bold text-gold">Osahanin Premium</h6>
+                                <p class="text-muted mb-0">Grow &amp; nurture your network</p>
+                            </div>
+                            <div class="p-3">
+                                <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div> --}}
+
             <!-- Education Modal -->
             <div class="modal fade" id="addEducationModal" tabindex="-1">
                 <div class="modal-dialog">
@@ -878,37 +947,7 @@
 
             </main>
 
-            <aside class="col col-xl-3 order-xl-3 col-lg-12 order-lg-3 col-12">
-                <div class="box mb-3 rounded border bg-white shadow-sm">
-                    <div class="box-title border-bottom p-3">
-                        <h6 class="m-0">Who viewed your profile</h6>
-                    </div>
-                    <div class="box-body p-3">
-                        <div class="d-flex align-items-center osahan-post-header people-list mb-3">
-                            <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="img/p4.png" alt="">
-                                <div class="status-indicator bg-success"></div>
-                            </div>
-                            <div class="font-weight-bold mr-2">
-                                <div class="text-truncate">Sophia Lee</div>
-                                <div class="small text-gray-500">@Harvard
-                                </div>
-                            </div>
-                            <span class="ml-auto"><button type="button" class="btn btn-light btn-sm">Connent</button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
-                        <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
-                        <div class="border-bottom p-3">
-                            <h6 class="font-weight-bold text-gold">Osahanin Premium</h6>
-                            <p class="text-muted mb-0">Grow &amp; nurture your network</p>
-                        </div>
-                        <div class="p-3">
-                            <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
-                        </div>
-                    </div>
-            </aside>
+
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -1014,8 +1053,8 @@
                                 ${experience.photo_url ?
                                     `<img src="${experience.photo_url}" alt="Company Logo" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">` :
                                     `<div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
-                                                                                                                                                                                                                                            <i class="fas fa-building text-secondary"></i>
-                                                                                                                                                                                                                                        </div>`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="fas fa-building text-secondary"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>`
                                 }
                             </div>
                             <div class="experience-info">
@@ -1164,8 +1203,8 @@
                     <div class="education-photo mr-3">
                         ${data.photo ? `<img src="${data.photo}" alt="School" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">` :
                         `<div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="fas fa-university text-secondary"></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>`}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="fas fa-university text-secondary"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>`}
                     </div>
                     <div class="education-info">
                         <h5 class="font-weight-bold mb-1">${data.schoolName}</h5>

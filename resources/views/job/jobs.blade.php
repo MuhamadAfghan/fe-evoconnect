@@ -98,7 +98,8 @@
                                             <a href="{{ route('jobs-profile', $job->id) }}">
                                                 <div class="job-item mb-3 border" data-title="{{ strtolower($job->title) }}"
                                                     data-company="{{ strtolower($job->company->name) }}"
-                                                    data-location="{{ strtolower($job->location) }}">
+                                                    data-location="{{ strtolower($job->location) }}"
+                                                    data-category="{{ json_decode($job->job_details, true)['Job Functions'] }}">
                                                     <div class="d-flex align-items-center job-item-header p-3">
                                                         <div class="overflow-hidden">
                                                             <h6 class="font-weight-bold text-dark text-truncate mb-0">
@@ -108,13 +109,21 @@
                                                                 {{ $job->company->name }}
                                                             </div>
                                                             <div class="small text-gray-500">
+                                                                Salary: Rp {{ number_format($job->salary, 0, ',', '.') }}
+                                                            </div>
+
+                                                            <div class="small text-gray-500">
                                                                 <i class="feather-map-pin"></i> {{ $job->location }}
                                                             </div>
+                                                            <!-- Hidden span to store job function for filtering -->
+                                                            <span
+                                                                class="job-function d-none">{{ $job->job_functions }}</span>
                                                         </div>
                                                         <img src="{{ $job->job_photo_path ? asset('storage/' . $job->job_photo_path) : auth()->user()->getProfileImage() }}"
                                                             class="img-fluid rounded-circle job-photo ml-auto"
                                                             alt="Job Image">
                                                     </div>
+                                                    <!-- Rest of your job item code remains the same -->
                                                     <div
                                                         class="d-flex align-items-center border-top border-bottom job-item-body p-3">
                                                         <span class="text-warning">
@@ -124,7 +133,6 @@
                                                         </span>
                                                         <span
                                                             class="text-dark font-weight-bold ml-2">{{ $job->rating }}</span>
-                                                        <span class="reviews-count ml-2">0</span> reviews
                                                     </div>
                                                     <div class="job-item-footer p-3">
                                                         <small class="text-gray-500">
@@ -281,8 +289,14 @@
                                         <input type="number" class="form-control" id="rating" name="rating"
                                             placeholder="Enter Rating" min="1" max="5" required>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="salary" class="form-label">Salary</label>
+                                        <input type="number" class="form-control" id="salary" name="salary"
+                                            placeholder="Enter Salary" required>
+                                    </div>
                                     <div class="mb-4">
-                                        <label for="job_details" class="form-label fw-bold mb-3">Job Details</label>
+                                        <label for="job_details" class="form-label fw-bold mb-3"
+                                            style="font-size: 20px;">Job Details</label>
                                         <div class="row gy-4">
                                             <div class="col-md-6">
                                                 <div class="pe-md-3">
@@ -298,7 +312,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-
                                             <div class="col-md-6">
                                                 <div class="ps-md-3">
                                                     <label for="industry" class="form-label">Industry</label>
@@ -314,7 +327,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 pt-2">
                                                 <div class="pe-md-3">
                                                     <label for="employment_type" class="form-label">Employment
                                                         Type</label>
@@ -329,7 +342,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 pt-2">
                                                 <div class="ps-md-3">
                                                     <label for="job_functions" class="form-label">Job
                                                         Functions</label>
@@ -337,7 +350,7 @@
                                                         name="job_functions" required>
                                                         <option value="" disabled selected>Choose Job Functions
                                                         </option>
-                                                        <option value="Other">Other</option>
+                                                        <!-- <option vaslue="Other">Other</option> -->
                                                         <option value="Engineering">Engineering</option>
                                                         <option value="Marketing">Marketing</option>
                                                         <option value="Design">Design</option>
@@ -379,51 +392,6 @@
                             <img class="img-fluid" src="img/l3.png" alt="Image Description">
                         </div>
                         <div class="media-body">
-                            <div class="mb-3">
-                                <h6 class="font-weight-bold mb-0"><a class="text-dark"
-                                        href="{{ route('job-profile') }}">C# Developer</a></h6>
-                                <a class="d-inline-block small pt-1" href="{{ route('job-profile') }}">
-                                    <span class="text-warning">
-                                        <span class="feather-star"></span>
-                                        <span class="feather-star"></span>
-                                        <span class="feather-star"></span>
-                                        <span class="feather-star text-gray-500"></span>
-                                        <span class="feather-star text-gray-500"></span>
-                                    </span>
-                                    <span class="text-dark font-weight-bold ml-2">3.74</span>
-                                    <span class="text-muted">(567 reviews)</span>
-                                </a>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="border-right mr-3 pr-3">
-                                    <a class="text-secondary small" href="{{ route('job-profile') }}">Salaries</a>
-                                </div>
-                                <a class="small" href="{{ route('job-profile') }}">Open jobs</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="job-item-2 mb-3 rounded bg-white p-3 shadow-sm">
-                    <div class="media">
-                        <div class="u-avatar mr-3">
-                            <img class="img-fluid" src="img/l2.png" alt="Image Description">
-                        </div>
-                        <div class="media-body">
-                            <div class="mb-3">
-                                <h6 class="font-weight-bold mb-0"><a class="text-dark"
-                                        href="{{ route('job-profile') }}">Junior UX Designer</a></h6>
-                                <a class="d-inline-block small pt-1" href="{{ route('job-profile') }}">
-                                    <span class="text-warning">
-                                        <span class="feather-star"></span>
-                                        <span class="feather-star"></span>
-                                        <span class="feather-star"></span>
-                                        <span class="feather-star"></span>
-                                        <span class="feather-star"></span>
-                                    </span>
-                                    <span class="text-dark font-weight-bold ml-2">3.74</span>
-                                    <span class="text-muted">(567 reviews)</span>
-                                </a>
-                            </div>
                             <div class="d-flex align-items-center">
                                 <div class="border-right mr-3 pr-3">
                                     <a class="text-secondary small" href="{{ route('job-profile') }}">Salaries</a>
@@ -704,8 +672,8 @@
                             // Reset form setelah submit
                             $("#jobForm")[0].reset();
 
-                            // Sembunyikan modal setelah submit
-                            $("#postJobModal").modal('hide');
+                            // reload page
+                            window.location.reload();
                         }
                     },
                     error: function(response) {
@@ -810,6 +778,58 @@
                         $job.show();
                     }
                 });
+            });
+        });
+    </script>
+
+    <script>
+        // Combined search and category filter functionality
+        $(document).ready(function() {
+            // Variables to track current search term and category
+            let currentSearchTerm = '';
+            let currentCategory = 'All';
+
+            // Search function
+            function filterJobs() {
+                $('.job-item').each(function() {
+                    const $job = $(this);
+                    const title = ($job.data('title') || '').toLowerCase();
+                    const company = ($job.data('company') || '').toLowerCase();
+                    const location = ($job.data('location') || '').toLowerCase();
+                    const category = $job.data('category') || '';
+
+                    // Check if job matches both search term and category filter
+                    const matchesSearch = !currentSearchTerm ||
+                        title.includes(currentSearchTerm) ||
+                        company.includes(currentSearchTerm) ||
+                        location.includes(currentSearchTerm);
+
+                    const matchesCategory = currentCategory === 'All' || category === currentCategory;
+
+                    // Show/hide based on both conditions
+                    if (matchesSearch && matchesCategory) {
+                        $job.closest('.col-md-6').show();
+                    } else {
+                        $job.closest('.col-md-6').hide();
+                    }
+                });
+            }
+
+            // Search input handler
+            $('.job-search-input').on('input', function() {
+                currentSearchTerm = $(this).val().trim().toLowerCase();
+                filterJobs();
+            });
+
+            // Category filter handler
+            $('.filter-btn').on('click', function() {
+                // Update category and button styles
+                currentCategory = $(this).data('filter');
+
+                $('.filter-btn').removeClass('active btn-primary').addClass('btn-outline-secondary');
+                $(this).addClass('active btn-primary').removeClass('btn-outline-secondary');
+
+                filterJobs();
             });
         });
     </script>

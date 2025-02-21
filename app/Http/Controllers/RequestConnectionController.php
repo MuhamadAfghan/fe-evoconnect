@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\RequestConnection;
+use App\Models\MasterConnection;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class RequestConnectionController extends Controller
@@ -90,7 +92,6 @@ class RequestConnectionController extends Controller
                 'message' => 'Connection request sent successfully'
             ]);
         } catch (\Exception $e) {
-            \Log::error('Error sending connection request: ' . $e->getMessage());
             return response()->json([
                 'status' => 'error',
                 'message' => 'Failed to send connection request'
@@ -100,55 +101,91 @@ class RequestConnectionController extends Controller
 
     public function acceptConnection($id)
     {
-        $request = RequestConnection::findOrFail($id);
+        try {
+            DB::beginTransaction();
 
-        // Verify the request is for the authenticated user
-        if ($request->to_user_id !== auth()->id()) {
+            $request = RequestConnection::findOrFail($id);
+
+            if ($request->to_user_id !== auth()->id()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Unauthorized action'
+                ], 403);
+            }
+
+            // Update request status
+            $request->update(['status' => 'accepted']);
+
+            // Create master connection
+            MasterConnection::create([
+                'to_user_id' => $request->to_user_id,
+                'from_user_id' => $request->from_user_id,
+                'request_id' => $request->id,
+                'connected_at' => now(),
+                'status' => 'active'
+            ]);
+
+            // Create notification
+            Notification::create([
+                'user_id' => $request->from_user_id,
+                'message' => auth()->user()->name . ' accepted your connection request.',
+                'type' => 'connection_accepted',
+                'data' => json_encode([
+                    'accepter_id' => auth()->id(),
+                    'accepter_name' => auth()->user()->name
+                ])
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Connection request accepted',
+                'user_id' => $request->from_user_id
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error accepting connection: ' . $e->getMessage());
+
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized action'
-            ], 403);
+                'message' => 'Failed to accept connection request'
+            ], 500);
         }
-
-        $request->update(['status' => 'accepted']);
-
-        // Create notification for the sender
-        Notification::create([
-            'user_id' => $request->from_user_id,
-            'message' => auth()->user()->name . ' accepted your connection request.',
-            'type' => 'connection_accepted',
-            'data' => json_encode([
-                'accepter_id' => auth()->id(),
-                'accepter_name' => auth()->user()->name
-            ])
-        ]);
-
-        return response()->json(['message' => 'Connection request accepted']);
     }
 
     public function rejectConnection($id)
     {
-        $request = RequestConnection::findOrFail($id);
+        try {
+            $request = RequestConnection::findOrFail($id);
 
-        if ($request->to_user_id !== auth()->id()) {
+            if ($request->to_user_id !== auth()->id()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Unauthorized action'
+                ], 403);
+            }
+
+            $request->update(['status' => 'rejected']);
+
+            // Optional: Create notification for the sender
+            Notification::create([
+                'user_id' => $request->from_user_id,
+                'message' => 'Your connection request was not accepted.',
+                'type' => 'connection_rejected'
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Connection request rejected'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error rejecting connection: ' . $e->getMessage());
+
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized action'
-            ], 403);
+                'message' => 'Failed to reject connection request'
+            ], 500);
         }
-
-        $request->update(['status' => 'rejected']);
-
-        // Optional: Create notification for the sender
-        Notification::create([
-            'user_id' => $request->from_user_id,
-            'message' => 'Your connection request was not accepted.',
-            'type' => 'connection_rejected'
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Connection request rejected'
-        ]);
     }
 }

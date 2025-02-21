@@ -183,7 +183,7 @@
                             <a class="dropdown-item" href="{{ route('job-profile') }}"><i
                                     class="feather-globe mr-1"></i>
                                 Job Profile</a>
-                            <a class="dropdown-item" href="{{ route('messages') }}"><i
+                            <a class="dropdown-item" href="{{ route('messages.index') }}"><i
                                     class="feather-message-circle mr-1"></i> Messages</a>
                             <a class="dropdown-item" href="{{ route('notifications') }}"><i
                                     class="feather-bell mr-1"></i> Notifications</a>
@@ -201,8 +201,10 @@
                                 Blog</a>
                             <a class="dropdown-item" href="{{ route('blog-single') }}"><i
                                     class="feather-book-open mr-1"></i> Blog Single</a>
-                            <a class="dropdown-item" href="{{ route('contact') }}"><i class="feather-mail mr-1"></i>
-                                Contact</a>
+                            <a class="dropdown-item" href="{{ route('create-blog') }}"><i
+                                    class="feather-book-open mr-1"></i> Create Blog</a>
+                            <a class="dropdown-item" href="{{ route('contact') }}"><i
+                                    class="feather-mail mr-1"></i>Contact</a>
                             <a class="dropdown-item" href="{{ route('pricing') }}"><i
                                     class="feather-credit-card mr-1"></i> Pricing</a>
                             <a class="dropdown-item" href="{{ route('maintenance') }}"><i
@@ -232,7 +234,7 @@
                         <h6 class="dropdown-header">
                             Message Center
                         </h6>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages.index') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p1.png" alt="">
                                 <div
@@ -245,7 +247,7 @@
                                 <div class="small text-gray-500">Emily Fowler · 58m</div>
                             </div>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages.index') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p2.png" alt="">
                                 <div class="status-indicator"></div>
@@ -256,7 +258,7 @@
                                 <div class="small text-gray-500">Jae Chun · 1d</div>
                             </div>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages.index') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p3.png" alt="">
                                 <div class="status-indicator bg-warning"></div>
@@ -267,7 +269,7 @@
                                 <div class="small text-gray-500">Morgan Alvarez · 2d</div>
                             </div>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages.index') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p4.png" alt="">
                                 <div
@@ -280,7 +282,8 @@
                                 <div class="small text-gray-500">Chicken the Dog · 2w</div>
                             </div>
                         </a>
-                        <a class="dropdown-item small text-center text-gray-500" href="{{ route('messages') }}">Read
+                        <a class="dropdown-item small text-center text-gray-500"
+                            href="{{ route('messages.index') }}">Read
                             More Messages</a>
                     </div>
                 </li>
@@ -385,7 +388,7 @@
         </div>
     </nav>
 
-    <div class="container mt-5">
+    <div class="container">
         @yield('content')
     </div>
 

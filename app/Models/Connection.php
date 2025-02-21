@@ -30,11 +30,6 @@ class Connection extends Model
 
     public function notification()
     {
-        return $this->hasOne(Notification::class, 'user_id', 'to_user_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(Notification::class, 'connection_id');
     }
 }

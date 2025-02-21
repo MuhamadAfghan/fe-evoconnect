@@ -76,7 +76,7 @@ class UserController extends Controller
         $user->skills = $request->skills; // Assuming skills is a JSON column in the users table
         $user->save();
 
-        return ApiFormatter::sendResponse('success', 200, 'Profile updated successfully!');
+        return redirect()->back()->with('success', 'About me updated successfully!');
     }
 
     public function updateSave(Request $request)

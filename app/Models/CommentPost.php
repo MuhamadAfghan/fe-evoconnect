@@ -13,6 +13,7 @@ class CommentPost extends Model
     protected $fillable = [
         'user_id',
         'post_id',
+        'parent_id',
         'content',
     ];
 

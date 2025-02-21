@@ -26,6 +26,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::group(['prefix' => 'posts'], function () {
         Route::get('/', [PostController::class, 'index'])->name('posts.index');
         Route::get('/my-posts', [PostController::class, 'myPosts'])->name('posts.my-posts');
+        Route::get('/{id}', [PostController::class, 'userPosts'])->name('posts.user-posts');
         Route::post('/', [PostController::class, 'store'])->name('posts.store');
         Route::get('/{post}', [PostController::class, 'show'])->name('posts.show');
         Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
@@ -40,7 +41,7 @@ Route::group(['prefix' => 'api'], function () {
         Route::post('/{post_id}', [CommentPostController::class, 'store']);
         Route::delete('/{comment_id}', [CommentPostController::class, 'destroy']);
 
-        Route::post('/{comment}/reply', [CommentPostController::class, 'storeReply']);
+        Route::post('/{commentPost}/reply', [CommentPostController::class, 'storeReply']);
     });
 
     //user

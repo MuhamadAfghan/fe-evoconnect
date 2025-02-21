@@ -2,6 +2,7 @@
 @extends('layouts.templates')
 
 @section('content')
+
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-12">
@@ -18,19 +19,32 @@
                                             <img src="{{ $connection->fromUser->getProfileImage() }}"
                                                 class="rounded-circle mr-3" width="50" height="50">
                                             <div>
-                                                <h6 class="mb-0">{{ $connection->fromUser->name }}</h6>
+                                                <a
+                                                    href="{{ route('user.detail', $connection->fromUser->username != auth()->user()->username ? $connection->fromUser->username : $connection->toUser->username) }}">
+                                                    <h6 class="mb-0">
+                                                        {{ $connection->fromUser->name != auth()->user()->name ? $connection->fromUser->name : $connection->toUser->name }}
+                                                    </h6>
+                                                </a>
                                                 <small class="text-muted">Connected since
                                                     {{ $connection->created_at->diffForHumans() }}</small>
                                             </div>
                                             <div class="ml-auto">
-                                                <button class="btn btn-sm btn-primary message-btn"
-                                                    data-id="{{ $connection->fromUser->id }}">
+                                                <a href="{{ route('connections.messages', $connection->fromUser->id != auth()->user()->id ? $connection->fromUser->id : $connection->toUser->id) }}"
+                                                    class="btn btn-sm btn-primary message-btn">
                                                     Message
-                                                </button>
-                                                <button class="btn btn-sm btn-danger disconnect-btn"
-                                                    data-id="{{ $connection->id }}">
-                                                    Disconnect
-                                                </button>
+                                                </a>
+
+                                                <form action="{{ route('connections.disconnect', $connection->id) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Are you sure you want to disconnect?')">
+                                                        Disconnect
+                                                    </button>
+                                                </form>
+
+
                                             </div>
                                         </div>
                                     </li>
@@ -51,6 +65,7 @@
                 // Handle disconnect button
                 $('.disconnect-btn').click(function() {
                     const connectionId = $(this).data('id');
+
                     if (confirm('Are you sure you want to disconnect?')) {
                         $.ajax({
                             url: `/connections/disconnect/${connectionId}`,
@@ -58,7 +73,8 @@
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-                            success: function() {
+                            success: function(response) {
+                                alert(response.message);
                                 location.reload();
                             },
                             error: function(xhr) {
@@ -67,6 +83,7 @@
                         });
                     }
                 });
+
 
                 // Handle message button
                 $('.message-btn').click(function() {

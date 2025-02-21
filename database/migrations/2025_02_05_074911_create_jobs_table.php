@@ -22,6 +22,7 @@ return new class extends Migration
             $table->json('job_details'); // ✅ Ubah menjadi JSON
             $table->string('industry');
             $table->string('job_photo_path')->nullable();
+            $table->string('salary');
             $table->timestamps();
         });
     }

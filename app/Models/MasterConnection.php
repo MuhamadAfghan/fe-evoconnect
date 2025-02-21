@@ -2,31 +2,37 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class MasterConnection extends Model
 {
-    use HasFactory;
+    use HasUuids;
 
     protected $fillable = [
-        'from_user_id',
         'to_user_id',
+        'from_user_id',
+        'request_id',
+        'connected_at',
+        'status'
     ];
 
     protected $casts = [
-        'id' => 'string',
-        'from_user_id' => 'string',
-        'to_user_id' => 'string',
+        'connected_at' => 'datetime',
     ];
+
+    public function toUser()
+    {
+        return $this->belongsTo(User::class, 'to_user_id');
+    }
 
     public function fromUser()
     {
         return $this->belongsTo(User::class, 'from_user_id');
     }
 
-    public function toUser()
+    public function request()
     {
-        return $this->belongsTo(User::class, 'to_user_id');
+        return $this->belongsTo(RequestConnection::class, 'request_id');
     }
 }

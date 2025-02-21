@@ -16,6 +16,7 @@ class ConnectionController extends Controller
     {
         $users = User::with(['connections', 'receivedConnections'])
             ->where('id', '!=', auth()->id())
+            ->where('username', '!=', null)
             ->get();
 
         $notifications = auth()->user()->notifications;

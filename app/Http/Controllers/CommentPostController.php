@@ -81,4 +81,25 @@ class CommentPostController extends Controller
 
         return ApiFormatter::sendResponse('success', 200, 'Comment deleted successfully.');
     }
+
+    public function storeReply(Request $request, CommentPost $commentPost)
+    {
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        // return [
+        //     'user_id' => auth()->id(),
+        //     'post_id' => $commentPost->post_id,
+        //     'content' => $request->content,
+        // ];
+
+        $reply = $commentPost->replies()->create([
+            'user_id' => auth()->id(),
+            'post_id' => $commentPost->post_id,
+            'content' => $request->content,
+        ]);
+
+        return ApiFormatter::sendResponse('success', 201, 'Reply posted successfully.', $reply);
+    }
 }

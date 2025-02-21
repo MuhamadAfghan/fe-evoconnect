@@ -238,11 +238,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="d-flex align-items-top border-bottom osahan-post-comment p-3">
-                        <div class="dropdown-list-image mr-3">
+                        {{-- <div class="dropdown-list-image mr-3">
                             <img class="rounded-circle" src="{{ auth()->user()->getProfileImage() }}" alt="">
                             <div class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="font-weight-bold">
                             <!-- Template untuk komentar -->
                             <template id="comment-template">
@@ -303,9 +303,29 @@
         let posts = [];
         let currentPostId = null;
 
+        // // Fungsi untuk memuat komentar
+        // function loadComments(currentPostId) {
+        //     axios.get(`/api/posts/${currentPostId}/comments`) // Ganti {post_id} dengan ID post yang sesuai
+        //         .then(response => {
+        //             if (response.data.status === 'success') {
+        //                 const comments = response.data.data;
+        //                 comments.forEach(comment => {
+        //                     const commentElement = createCommentElement(comment);
+        //                     commentsContainer.appendChild(commentElement);
+        //                 });
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.error('Error loading comments:', error);
+        //         });
+        // }
         // Fungsi untuk memuat komentar
-        function loadComments(currentPostId) {
-            axios.get(`/api/posts/${currentPostId}/comments`) // Ganti {post_id} dengan ID post yang sesuai
+        function loadComments(postId) {
+            // Clear existing comments first
+            const commentsContainer = document.getElementById('comments-container');
+            commentsContainer.innerHTML = '';
+
+            axios.get(`/api/posts/${postId}/comments`)
                 .then(response => {
                     if (response.data.status === 'success') {
                         const comments = response.data.data;
@@ -379,12 +399,12 @@
                 });
 
                 // Tampilkan balasan yang sudah ada
-                if (comment.replies && comment.replies.length > 0) {
-                    comment.replies.forEach(reply => {
-                        const replyElement = createCommentElement(reply);
-                        repliesContainer.appendChild(replyElement);
-                    });
-                }
+                // if (comment.replies && comment.replies.length > 0) {
+                //     comment.replies.forEach(reply => {
+                //         const replyElement = createCommentElement(reply);
+                //         repliesContainer.appendChild(replyElement);
+                //     });
+                // }
 
                 return commentElement;
             }
@@ -470,6 +490,12 @@
             if (time) time.textContent = formatPostDate(comment.created_at);
             if (content) content.textContent = comment.content;
 
+            commentElement.querySelector('#comment-user-avatar').src = comment.user.profile_photo_url ||
+                'img/default-avatar.png';
+            commentElement.querySelector('#comment-user-name').textContent = comment.user.name;
+            commentElement.querySelector('#comment-time').textContent = formatPostDate(comment.created_at);
+            commentElement.querySelector('#comment-content').textContent = comment.content;
+
             // Handle reply button click
             replyButton.addEventListener('click', () => {
                 replyForm.classList.toggle('d-none');
@@ -499,11 +525,11 @@
             });
 
             // Load existing replies
-            if (comment.replies && comment.replies.length > 0) {
-                comment.replies.forEach(reply => {
-                    repliesContainer.appendChild(createCommentElement(reply));
-                });
-            }
+            // if (comment.replies && comment.replies.length > 0) {
+            //     comment.replies.forEach(reply => {
+            //         repliesContainer.appendChild(createCommentElement(reply));
+            //     });
+            // }
 
             return commentElement;
         }
@@ -755,6 +781,24 @@
                 });
             };
 
+            // // Modal event handler
+            // $('#modalPost').on('show.bs.modal', function(event) {
+            //     // Get the button that triggered the modal
+            //     const button = $(event.relatedTarget);
+            //     // Extract post id from data attribute
+            //     currentPostId = button.data('postid');
+            //     console.log("Opening modal for post ID:", currentPostId);
+
+            //     // Clear previous comments
+            //     $('#comments-container').empty();
+
+            //     // Load comments for this post
+            //     if (currentPostId) {
+            //         loadComments(currentPostId);
+            //     } else {
+            //         console.error("No post ID available for comments");
+            //     }
+            // });
             // Modal event handler
             $('#modalPost').on('show.bs.modal', function(event) {
                 // Get the button that triggered the modal
@@ -767,11 +811,11 @@
                 $('#comments-container').empty();
 
                 // Load comments for this post
-                if (currentPostId) {
-                    loadComments(currentPostId);
-                } else {
-                    console.error("No post ID available for comments");
-                }
+                // if (currentPostId) {
+                //     loadComments(currentPostId);
+                // } else {
+                //     console.error("No post ID available for comments");
+                // }
             });
 
             // Modal close event handler

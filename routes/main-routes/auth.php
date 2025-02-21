@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConnectController;
 use App\Http\Controllers\ConnectionController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JobRecordController;
@@ -13,9 +14,9 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\JobUserSavedController;
 use App\Http\Controllers\NotificationController;
-use App\Models\RequestConnection;
 use App\Http\Controllers\RequestConnectionController;
 use App\Http\Controllers\MasterConnectionController;
+use App\Http\Controllers\MessagesController;
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -39,7 +40,7 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
     Route::get('/connect', [ConnectionController::class, 'index'])->name('connect.index');
 
 
-    Route::get('/message', [ConnectController::class, 'message'])->name('messages');
+    // Route::get('/message', [ConnectController::class, 'message'])->name('messages');
     Route::get('/notification', [ConnectController::class, 'notification'])->name('notifications');
     Route::get('/job', [ConnectController::class, 'job'])->name('jobs');
     Route::get('/profile', [ConnectController::class, 'profile'])->name('profile');
@@ -68,12 +69,10 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
     Route::post('/profile/save', [UserController::class, 'updateSave'])->name('profile.save');
     Route::get('/profile/{user}', [UserController::class, 'show'])->name('user.detail');
 
-
     Route::middleware(['auth'])->group(function () {
         Route::post('/jobs/save', [JobUserSavedController::class, 'saveJob'])->name('jobs.save');
         Route::get('/jobs/saved', [JobUserSavedController::class, 'savedJobs'])->name('jobs.saved');
     });
-
 
     // 🔹 Routes untuk Jobs (RESTful)
     Route::prefix('jobs')->group(function () {
@@ -86,16 +85,23 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
     });
 
     Route::middleware(['auth'])->group(function () {
-        Route::post('/connections/send/{user}', [RequestConnectionController::class, 'sendConnection'])->name('connections.send');
-        Route::post('/connections/{id}/accept', [RequestConnectionController::class, 'acceptConnection']);
-        Route::post('/connections/{id}/reject', [RequestConnectionController::class, 'rejectConnection']);
-        Route::delete('/connections/disconnect/{user}', [RequestConnectionController::class, 'disconnect'])->name('connections.disconnect');
-        Route::get('/connections/requests', [RequestConnectionController::class, 'getRequests']);
+        Route::post('/connections/{user}/send', [RequestConnectionController::class, 'sendConnection'])->name('connections.send');
+        Route::post('/connections/{id}/accept', [RequestConnectionController::class, 'acceptConnection'])->name('connections.accept');
+        Route::post('/connections/{id}/reject', [RequestConnectionController::class, 'rejectConnection'])->name('connections.reject');
+        Route::get('/connections/requests', [RequestConnectionController::class, 'getRequests'])->name('connections.requests');
+        Route::get('/connections/disconnect/{id}', [MasterConnectionController::class, 'disconnect'])->name('connections.disconnect');
     });
+
 
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/connections/list', [MasterConnectionController::class, 'index'])->name('connection.list');
+        Route::get('/messages', [MessagesController::class, 'index'])->name('messages.index');
+        Route::get('/messages/{id}', [MessagesController::class, 'show'])->name('messages.show');
+    });
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/connections/messages/{user}', [MessagesController::class, 'index'])->name('connections.messages');
     });
 
     Route::get('/notifications', [NotificationController::class, 'showNotifications'])->name('notifications');
@@ -108,4 +114,6 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
 
     Route::post('/experience', [ExperienceController::class, 'store'])->name('experience.store');
     Route::delete('/experience/{experience}', [ExperienceController::class, 'destroy'])->name('experience.destroy');
+
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 });

@@ -6,22 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('master_connections', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('to_user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignUuid('from_user_id')->constrained('users')->cascadeOnDelete(); // Perbaiki di sini
+            $table->foreignUuid('from_user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('request_id')->constrained('request_connections')->cascadeOnDelete();
+            $table->timestamp('connected_at')->nullable();
+            $table->enum('status', ['active', 'blocked', 'removed'])->default('active');
             $table->timestamps();
+
+            // Prevent duplicate connections
+            $table->unique(['from_user_id', 'to_user_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('master_connections');

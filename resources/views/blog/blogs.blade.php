@@ -1,21 +1,24 @@
 @extends('layouts.templates')
 
 @section('content')
+    <style>
+        .bg-primary {
+            padding: 9em;
+        }
+    </style>
     {{-- ini bagian header h1 dan p --}}
-    <div class="bg-primary py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 mx-auto">
-                    <h1 class="font-weight-light text-white"><span class="font-weight-bold">EVOConnect</span> Blog</h1>
-                    <p class="text-white-50 mb-2">Last modified: feb 2, 2025
-                    </p>
-                </div>
-            </div>
+    <div class="bg-primary">
+        <div class="mb-1 text-start">
+            <h1 class="font-weight-light text-white"><span class="font-weight-bold">EVOConnect Blog</span></h1>
+            <h2 class="font-weight-light text-white">Blog Your Way to a Better
+                Career</h2>
+            <a href="create-blog" class="btn btn-light mt-1">Write Your Career Story</a>
         </div>
     </div>
+    <!-- </div> -->
     {{-- ini bagian konten di dalam nya ada gambar, category, title, deskripsi  --}}
     <div class="py-5">
-        <div class="container">
+        <div class="">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="row">
@@ -45,7 +48,8 @@
                                 </div>
                                 <div class="card-footer border-0">
                                     <p class="mb-0"><img class="rounded-circle" src="img/user/2.jpg" alt="Card image cap">
-                                        <strong>Rahul Yadav</strong> On October 05, 2020</p>
+                                        <strong>Rahul Yadav</strong> On October 05, 2020
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +63,8 @@
                                 </div>
                                 <div class="card-footer border-0">
                                     <p class="mb-0"><img class="rounded-circle" src="img/user/1.jpg" alt="Card image cap">
-                                        <strong>Rahul Yadav</strong> On October 06, 2020</p>
+                                        <strong>Rahul Yadav</strong> On October 06, 2020
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +82,8 @@
                                 </div>
                                 <div class="card-footer border-0">
                                     <p class="mb-0"><img class="rounded-circle" src="img/user/4.jpg" alt="Card image cap">
-                                        <strong>Rahul Yadav</strong> On October 03, 2020</p>
+                                        <strong>Rahul Yadav</strong> On October 03, 2020
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +97,8 @@
                                 </div>
                                 <div class="card-footer border-0">
                                     <p class="mb-0"><img class="rounded-circle" src="img/user/5.jpg" alt="Card image cap">
-                                        <strong>Rahul Yadav</strong> On October 05, 2020</p>
+                                        <strong>Rahul Yadav</strong> On October 05, 2020
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +112,8 @@
                                 </div>
                                 <div class="card-footer border-0">
                                     <p class="mb-0"><img class="rounded-circle" src="img/user/1.jpg" alt="Card image cap">
-                                        <strong>Rahul Yadav</strong> On October 06, 2020</p>
+                                        <strong>Rahul Yadav</strong> On October 06, 2020
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +132,8 @@
                                 </div>
                                 <div class="card-footer border-0">
                                     <p class="mb-0"><img class="rounded-circle" src="img/user/4.jpg" alt="Card image cap">
-                                        <strong>Rahul Yadav</strong> On October 03, 2020</p>
+                                        <strong>Rahul Yadav</strong> On October 03, 2020
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +147,9 @@
                                 </div>
                                 <div class="card-footer border-0">
                                     <p class="mb-0"><img class="rounded-circle" src="img/user/3.jpg"
-                                            alt="Card image cap"> <strong>Rahul Yadav</strong> On October 05, 2020</p>
+                                            alt="Card image cap">
+                                        <strong>Rahul Yadav</strong> On October 05, 2020
+                                    </p>
                                 </div>
                                 </a>
                             </div>
@@ -154,7 +165,8 @@
                                     </div>
                                     <div class="card-footer border-0">
                                         <p class="mb-0"><img class="rounded-circle" src="img/user/2.jpg"
-                                                alt="Card image cap"> <strong>Rahul Yadav</strong> On October 06, 2020</p>
+                                                alt="Card image cap"> <strong>Rahul Yadav</strong> On October 06, 2020
+                                        </p>
                                     </div>
                                 </a>
                             </div>

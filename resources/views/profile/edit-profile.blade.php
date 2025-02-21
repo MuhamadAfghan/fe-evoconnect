@@ -407,7 +407,7 @@
                                style="width: 30px; height: 30px; font-size: 1.2rem; margin-right: 10px;"></i>
                             <input type="hidden" name="medsos[${platform}][]" value="${platform}">
                             <input type="text" class="form-control username-input" placeholder="Enter ${platform} username">
-                            <button type="button" class="btn btn-danger btn-sm ms-2 remove-input">X</button>
+                            <button type="button" class="btn btn-danger btn-sm remove-input" style="margin-left: 10px;">X</button>
                         `;
 
                             socialInputs.appendChild(inputGroup);
@@ -473,10 +473,10 @@
                                 inputGroup.classList.add("mb-2", "d-flex", "align-items-center");
 
                                 inputGroup.innerHTML = `
-    <input type="hidden" name="medsos[${platform}][platform]" value="${platform}">
-    <input type="text" name="medsos[${platform}][username]" class="form-control" placeholder="${platform} username">
-    <button type="button" class="btn btn-danger btn-sm ms-2 remove-input">X</button>
-    `;
+                                <input type="hidden" name="medsos[${platform}][platform]" value="${platform}">
+                                <input type="text" name="medsos[${platform}][username]" class="form-control" placeholder="${platform} username">
+                                <button type="button" class="btn btn-danger btn-sm remove-input" style="margin-left: 10px;">X</button>
+                                `;
 
                                 socialInputs.appendChild(inputGroup);
 

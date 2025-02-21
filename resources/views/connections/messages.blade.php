@@ -16,49 +16,34 @@
                                         <i class="feather-search position-absolute"></i>
                                         <input placeholder="Search messages" type="text" class="form-control">
                                     </div>
-                                    {{-- ini bagian list chat --}}
-                                    <div class="osahan-chat-list">
-                                        <div class="container mx-auto p-4">
-                                            <div class="rounded-lg bg-white p-4 shadow">
-                                                <h2 class="mb-4 text-xl font-bold">Pesan Pribadi</h2>
-                                                <div class="divide-y divide-gray-200">
-                                                    @foreach ($conversations as $conversation)
-                                                        <a href="{{ route('messages.show', $conversation->id) }}"
-                                                            class="flex items-center rounded-lg p-3 hover:bg-gray-100">
-                                                            <img class="h-12 w-12 rounded-full"
-                                                                src="{{ $conversation->partner->profile_picture ?? 'default-avatar.png' }}"
-                                                                alt="{{ $conversation->partner->name }}">
-                                                            <div class="ml-3 flex-1 overflow-hidden">
-                                                                <div class="font-semibold text-gray-900">
-                                                                    {{ $conversation->partner->name }}</div>
-                                                                <div class="truncate text-sm text-gray-600">
-                                                                    {{ $conversation->lastMessage->content ?? 'Belum ada pesan' }}
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-xs text-gray-500">
-                                                                {{ $conversation->lastMessage->created_at->diffForHumans() ?? '' }}
-                                                            </div>
-                                                        </a>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="d-flex align-items-center bg-light border-left border-primary border-bottom osahan-post-header overflow-hidden p-3">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle"
-                                                    src="img/p1.png" alt=""></div>
-                                            <div class="font-weight-bold mr-1 overflow-hidden">
-                                                <div class="text-truncate">Carl Jenkins
-                                                </div>
-                                                <div class="small text-truncate text-black-50 overflow-hidden"><i
-                                                        class="feather-check"></i> Semper ex diam, at tristique ipsum varius
-                                                    sed. Pellentesque non metus ullamcorper</div>
-                                            </div>
-                                            <span class="mb-auto ml-auto">
-                                                <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                            </span>
-                                        </div>
+                                    <div class="p-3">
+                                        @foreach ($connections as $connection)
+                                            {{-- @php
+                                                // Tentukan siapa teman kita
+                                                $friend =
+                                                    $connection->fromUser->id == auth()->id()
+                                                        ? $connection->toUser
+                                                        : $connection->fromUser;
+                                            @endphp --}}
 
+                                            <div
+                                                class="d-flex align-items-center bg-light border-left border-primary border-bottom osahan-post-header overflow-hidden p-3">
+                                                <div class="dropdown-list-image mr-3">
+                                                    <img class="rounded-circle" src="{{ $connection->profile_photo_url }}"
+                                                        alt="{{ $connection->name }}">
+                                                </div>
+                                                <div class="font-weight-bold mr-1 overflow-hidden">
+                                                    <div class="text-truncate">{{ $connection->name }}</div>
+                                                    <div class="small text-truncate text-black-50 overflow-hidden">
+                                                        <i class="feather-check"></i> {{ $connection->status ?? 'Online' }}
+                                                    </div>
+                                                </div>
+                                                <span class="mb-auto ml-auto">
+                                                    <div class="text-muted small pt-1 text-right">
+                                                        {{ now()->format('h:i A') }}</div>
+                                                </span>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +51,7 @@
                             <div class="col-lg-7 col-xl-8 px-0">
                                 <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
                                     <div class="font-weight-bold mr-1 overflow-hidden">
-                                        <div class="text-truncate">Carl Jenkins
+                                        <div class="text-truncate">{{ $connection->name }}
                                         </div>
                                         <div class="small text-truncate text-black-50 overflow-hidden">Askbootstap.com -
                                             Become a Product Manager with super power</div>
@@ -105,57 +90,6 @@
                                             <p>Hi Marie</p>
                                             <p>welcome to Live Chat! My name is Jason. How can I help you today?
                                                 <a href="#">{{ auth()->user()->email }}</a>
-                                            </p>
-                                        </div>
-                                        <span class="mb-auto ml-auto">
-                                            <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                        </span>
-                                    </div>
-                                    <div class="my-3 text-center">
-                                        <span class="small rounded bg-white px-3 py-2 shadow-sm">DEC 22, 2020</span>
-                                    </div>
-                                    <div class="d-flex align-items-center osahan-post-header">
-                                        <div class="dropdown-list-image mb-auto mr-3"><img class="rounded-circle"
-                                                src="img/p8.png" alt=""></div>
-                                        <div class="mr-1">
-                                            <div class="text-truncate h6 mb-3">Jack P. Angulo
-                                            </div>
-                                            <p>Hi, I wanted to check my order status. My order number is 0009483021 😀</p>
-                                        </div>
-                                        <span class="mb-auto ml-auto">
-                                            <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                        </span>
-                                    </div>
-                                    <div class="my-3 text-center">
-                                        <span class="small rounded bg-white px-3 py-2 shadow-sm">DEC 23, 2020</span>
-                                    </div>
-                                    <div class="d-flex align-items-center osahan-post-header">
-                                        <div class="dropdown-list-image mb-auto mr-3"><img class="rounded-circle"
-                                                src="img/p1.png" alt=""></div>
-                                        <div class="mr-1">
-                                            <div class="text-truncate h6 mb-3">Carl Jenkins
-                                            </div>
-                                            <p>Is there anything else that I can do for you?</p>
-                                            <p>wI understand your concern… I wouldn’t want my child’s gift to arrive late
-                                                either. It looks like your order is set to arrive in 2 business days, so it
-                                                should arrive by Friday, just in time!</p>
-                                        </div>
-                                        <span class="mb-auto ml-auto">
-                                            <div class="text-muted small pt-1 text-right">00:21PM</div>
-                                        </span>
-                                    </div>
-                                    <div class="my-3 text-center">
-                                        <span class="small rounded bg-white px-3 py-2 shadow-sm">DEC 24, 2020</span>
-                                    </div>
-                                    <div class="d-flex align-items-center osahan-post-header">
-                                        <div class="dropdown-list-image mb-auto mr-3"><img class="rounded-circle"
-                                                src="img/p8.png" alt=""></div>
-                                        <div class="mr-1">
-                                            <div class="text-truncate h6 mb-3">Jack P. Angulo
-                                            </div>
-                                            <p>Great, thank you! Yes, I also wanted to make sure I entered the right
-                                                shipping address. My address is 12390 Mulberry Ln, Coral Springs, FL 33067.
-                                                Is that where it’s being shipped to?
                                             </p>
                                         </div>
                                         <span class="mb-auto ml-auto">

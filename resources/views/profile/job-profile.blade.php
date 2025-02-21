@@ -241,6 +241,11 @@
                                         <th class="p-3">Job Functions</th>
                                         <td class="p-3">{{ $jobDetails['Job Functions'] }}</td>
                                     </tr>
+                                    <tr class="border-bottom">
+                                        <th class="p-3">Salary</th>
+                                        <td class="p-3">Rp {{ number_format($job->salary, 0, ',', '.') }}</td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>

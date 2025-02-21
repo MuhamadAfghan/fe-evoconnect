@@ -16,8 +16,6 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-
-
                 <div class="col-lg-8 col-md-8">
 
                     <div class="blog-card padding-card box mb-3 rounded border-0 bg-white shadow-sm">

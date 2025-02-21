@@ -46,6 +46,19 @@ class PostController extends Controller
         return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
     }
 
+    public function userPosts(Request $request, $id)
+    {
+        $perPage = $request->limit ?? 10;
+        $page = $request->page ?? 1;
+        $posts = Post::where('user_id', $id)
+            ->search($request->query('search'))
+            ->latest()
+            ->with('user', 'likes', 'user.educations')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

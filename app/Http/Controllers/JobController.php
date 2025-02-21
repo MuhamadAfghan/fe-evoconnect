@@ -28,6 +28,7 @@ class JobController extends Controller
             'location' => 'required|string',
             'description' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
+            'salary' => 'required',
             'company_id' => 'required|uuid|exists:companies,id',
         ]);
 
@@ -44,6 +45,7 @@ class JobController extends Controller
             'location' => $request->location,
             'description' => $request->description,
             'rating' => $request->rating,
+            'salary' => $request->salary,
             'industry' => $request->industry,
             'company_id' => $request->company_id,
             'job_details' => json_encode($job_details),

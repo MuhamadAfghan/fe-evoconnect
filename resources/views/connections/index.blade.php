@@ -18,14 +18,6 @@
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                                     aria-controls="profile" aria-selected="false">Invitations</a>
                             </li>
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                                    aria-controls="contact" aria-selected="false">Pages</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="type-tab" data-toggle="tab" href="#type" role="tab"
-                                    aria-controls="type" aria-selected="false">Hashtags</a>
-                            </li> --}}
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel"
@@ -34,7 +26,6 @@
                                     <div class="row">
                                         @foreach ($users as $user)
                                             <div class="col-md-4">
-                                                {{-- rute profile untuk mengarahkan user ke halaman profile --}}
                                                 <a href="{{ route('user.detail', $user->username) }}">
                                                     <div class="network-item mb-3 rounded border">
                                                         <div class="d-flex align-items-center network-item-header p-3">
@@ -94,7 +85,6 @@
                                                                 @endif
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </a>
                                             </div>
@@ -132,17 +122,6 @@
                                     </ul>
                                 </div>
                             </div>
-
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                <div class="w-100 p-3">
-                                    <h6>Soon in next free update</h6>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="type" role="tabpanel" aria-labelledby="type-tab">
-                                <div class="w-100 p-3">
-                                    <h6>Soon in next free update</h6>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </main>
@@ -152,7 +131,7 @@
                             <h6 class="m-0">Manage my network</h6>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <a href="#">
+                            <a href="{{ route('connection.list') }}">
                                 <li class="list-group-item d-flex align-items-center text-dark pl-3 pr-3"><i
                                         class="feather-users text-dark mr-2"></i> Connections <span
                                         class="font-weight-bold ml-auto">68</span></li>
@@ -285,10 +264,12 @@
                 const button = $(this);
                 const form = button.closest('form');
 
+                // Check if the button is already disabled
                 if (button.hasClass('disabled')) {
-                    return;
+                    return; // Exit if the button is disabled
                 }
 
+                // Disable the button and change its text
                 button.addClass('disabled').text('Sending...');
 
                 $.ajax({
@@ -296,21 +277,23 @@
                     type: 'POST',
                     data: form.serialize(),
                     success: function(response) {
+                        // Change button to indicate connection is pending
                         button.removeClass('btn-primary')
                             .addClass('btn-warning')
                             .text('Pending')
                             .prop('disabled', true);
 
+                        // Optionally, you can also show a notification
                         showNotification('success', 'Connection request sent successfully');
                     },
                     error: function(xhr) {
-                        button.removeClass('disabled').text('Connect');
+                        button.removeClass('disabled').text(
+                            'Connect'); // Re-enable the button on error
                         showNotification('error', xhr.responseJSON?.message ||
                             'Error sending connection request');
                     }
                 });
             });
-
             // Function to load invitations
             function loadInvitations() {
                 const invitationsList = $('#invitations-list');
@@ -375,7 +358,17 @@
                     $.ajax({
                         url: `/connections/${requestId}/accept`,
                         type: 'POST',
-                        success: function() {
+                        success: function(response) {
+                            // Change the button to "Connected" in the original user list
+                            const connectButton = $(`#connect-btn-${response.user_id}`);
+                            if (connectButton.length) {
+                                connectButton.removeClass('btn-primary btn-warning')
+                                    .addClass('btn-secondary')
+                                    .text('Connected')
+                                    .prop('disabled', true);
+                            }
+
+                            // Remove the invitation item from the list
                             invitationItem.fadeOut(function() {
                                 $(this).remove();
                                 if ($('#invitations-list li').length === 0) {
@@ -392,7 +385,6 @@
                         }
                     });
                 });
-
                 // Handle Reject button
                 $(document).on('click', '.reject-invitation', function() {
                     const button = $(this);
