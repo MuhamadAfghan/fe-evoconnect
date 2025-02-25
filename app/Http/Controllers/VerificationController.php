@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailVerificationJob;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -30,7 +31,7 @@ class VerificationController extends Controller
     }
 
     /**
-     * User's email verificaiton.
+     * User's email verification.
      *
      * @param  \Illuminate\Http\EmailVerificationRequest $request
      * @return \Illuminate\Http\Response
@@ -42,14 +43,14 @@ class VerificationController extends Controller
     }
 
     /**
-     * Resent verificaiton email to user.
+     * Resend verification email to user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function resend(Request $request)
     {
-        $request->user()->sendEmailVerificationNotification();
+        dispatch(new SendEmailVerificationJob($request->user()));
         return back()
             ->withSuccess('A fresh verification link has been sent to your email address.');
     }

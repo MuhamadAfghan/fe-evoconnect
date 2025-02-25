@@ -78,7 +78,7 @@
                         </div>
                         <div class="border-top d-flex align-items-center p-3">
                             <!-- <div class="mr-auto"><a href="#" class="text-link small"><i class="feather-map-pin"></i>
-                                                                                                                                                                                                                                                                                                                                        Add Location</a></div> -->
+                                                                                                                                                                                                                                                                                                                                                                        Add Location</a></div> -->
                             <div class="flex-shrink-1">
                                 <button type="submit" id="btn-submit-post" class="btn btn-primary btn-sm">Post
                                     Status</button>
@@ -318,16 +318,6 @@
                             <img src="img/chart.png" class="img-fluid" alt="Responsive image">
                         </div>
                     </div>
-                    <!-- <div class="box ads-box mb-3 rounded bg-white text-center shadow-sm">
-                                                                                                                                                                                                                                                                                                                                            <img src="img/job1.png" class="img-fluid" alt="Responsive image">
-                                                                                                                                                                                                                                                                                                                                            <div class="border-bottom p-3">
-                                                                                                                                                                                                                                                                                                                                                <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
-                                                                                                                                                                                                                                                                                                                                                <p class="text-muted mb-0">Looking for talent?</p>
-                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                            <div class="p-3">
-                                                                                                                                                                                                                                                                                                                                                <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
-                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                        </div> -->
                 </aside>
                 <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="box mb-3 rounded border bg-white shadow-sm">
@@ -393,8 +383,7 @@
                     </div>
                     <div class="box mb-3 rounded border bg-white shadow-sm">
                         <div class="box-title border-bottom p-3">
-                            <h6 class="m-0">Jobs
-                            </h6>
+                            <h6 class="m-0">Jobs</h6>
                         </div>
                         <div class="box-body p-3">
                             <a href="{{ route('job-profile') }}">
@@ -541,7 +530,7 @@
                 console.log(error.response.data);
             }).finally(() => {
                 isSubmittingPost = false;
-                document.getElementById('btn-submit-post').innerHTML = 'Post Status';
+                document.getElementById('btn-submit-post').innerHTML = 'Share an update';
                 document.getElementById('btn-submit-post').removeAttribute('disabled');
             });
         }

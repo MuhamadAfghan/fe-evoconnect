@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->string('image');
             $table->string('category'); // category of the blog
             $table->text('content');
-            $table->json('likes');
+            $table->json('likes')->nullable();
             $table->foreignUuid('user_id')->constrained('users');
             $table->timestamps();
         });

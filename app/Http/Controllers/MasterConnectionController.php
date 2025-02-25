@@ -3,63 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterConnection;
+use App\Models\RequestConnection;
 use Illuminate\Http\Request;
 
 class MasterConnectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $connections = MasterConnection::with(['fromUser', 'toUser'])
+            ->where('to_user_id', auth()->id())
+            ->orWhere('from_user_id', auth()->id())
+            ->get();
+
+        return view('connections.list_connection', compact('connections'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function group()
     {
-        //
+        return view('connections.group');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function disconnect($id)
     {
-        //
-    }
+        $connection = MasterConnection::findOrFail($id);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MasterConnection $masterConnection)
-    {
-        //
-    }
+        // Pastikan hanya user terkait yang bisa menghapus koneksi
+        if ($connection->from_user_id == auth()->id() || $connection->to_user_id == auth()->id()) {
+            // Hapus koneksi dari MasterConnection
+            $connection->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MasterConnection $masterConnection)
-    {
-        //
-    }
+            // Update status koneksi di RequestConnection menjadi 'rejected'
+            RequestConnection::where('from_user_id', $connection->from_user_id)
+                ->where('to_user_id', $connection->to_user_id)
+                ->orWhere('from_user_id', $connection->to_user_id)
+                ->where('to_user_id', $connection->from_user_id)
+                ->update(['status' => 'rejected']);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MasterConnection $masterConnection)
-    {
-        //
-    }
+            return redirect()->back()->with('success', 'You have disconnected successfully.');
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MasterConnection $masterConnection)
-    {
-        //
+        return redirect()->back()->with('error', 'Unauthorized action.');
     }
 }

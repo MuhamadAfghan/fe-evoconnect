@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Models\Company;
 use App\Models\User; // Pastikan model User diimport
 
 class ConnectController extends Controller
@@ -61,12 +64,16 @@ class ConnectController extends Controller
 
     public function profile()
     {
-        return view('profile.profile');
+        $posts = Post::where('user_id', auth()->id())->latest()->get();
+
+        return view('profile.profile', compact('posts'));
     }
 
     public function companyProfile()
     {
-        return view('profile.company-profile');
+        $company = Company::where('id', auth()->user()->company_id)->first();
+
+        return view('profile.company-profile', compact('company'));
     }
 
     public function jobProfile()
@@ -96,17 +103,33 @@ class ConnectController extends Controller
 
     public function maintenance()
     {
-        return view('error.maintence');
+        return view('errors.templates');
     }
 
     public function blog()
     {
-        return view('blog.blogs');
+        $blogs = Blog::with('user')->latest()->simplePaginate(6);
+        return view('blog.blogs', compact('blogs'));
     }
 
-    public function blogSingle()
+    public function blogSingle(Blog $blog)
     {
-        return view('blog.blog-single');
+        return view('blog.blog-single', compact('blog'));
+    }
+
+    public function createBlog()
+    {
+        return view('blog.create-blog');
+    }
+
+    public function writeBlog()
+    {
+        return view('blog.write-blog');
+    }
+
+    public function formBlog()
+    {
+        return view('blog.form-blog');
     }
 
     public function components()

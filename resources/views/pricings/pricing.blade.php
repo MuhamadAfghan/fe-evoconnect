@@ -1,7 +1,7 @@
 @extends('layouts.templates')
 
 @section('content')
-    <div class="bg-primary py-5">
+    <div class="bg-primary mt-5 py-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 py-5 text-center">

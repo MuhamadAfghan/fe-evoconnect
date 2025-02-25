@@ -14,7 +14,7 @@ class ApiFormatter
     public static function sendResponse($status = NULL, $status_code = NULL, $message = NULL, $data = [])
     {
         self::$response["status"] = $status;
-        self::$response["status_code"] = $status_code;
+        self::$response["status_code"] = $status_code ?? 200;
         self::$response["message"] = $message;
         self::$response["data"] = $data;
 
@@ -22,6 +22,6 @@ class ApiFormatter
             unset(self::$response["data"]);
         }
 
-        return response()->json(self::$response, self::$response["status_code"]);
+        return response()->json(self::$response, is_numeric(self::$response["status_code"]) ? intval(self::$response["status_code"]) : 500);
     }
 }

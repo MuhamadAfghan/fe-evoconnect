@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('comment_posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('parent_id')->nullable();
             $table->foreignUuid('post_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->text('content');

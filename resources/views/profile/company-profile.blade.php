@@ -3,7 +3,7 @@
 @section('content')
     {{-- menampilkan pada bagian atas --}}
     <div class="profile-cover text-center">
-        <img class="img-fluid" src="img/company-profile.jpg" alt="">
+        <img class="img-fluid" src="{{ asset('img/company-profile.jpg') }}" alt="">
     </div>
     <div class="border-bottom bg-white shadow-sm">
         <div class="container">
@@ -11,10 +11,15 @@
                 <div class="col-md-12">
                     <div class="d-flex align-items-center py-3">
                         <div class="profile-left">
-                            <h5 class="font-weight-bold text-dark mb-1 mt-0">Google <span class="text-info"><i
-                                        data-toggle="tooltip" data-placement="top" title="Verified"
-                                        class="feather-check-circle"></i></span></h5>
-                            <p class="text-muted mb-0"> Internet | Mountain View, CA | 14,128,005 followers</p>
+                            @if ($company)
+                                <h5 class="font-weight-bold text-dark mb-1 mt-0">{{ $company->name }}</h5>
+                                <p class="text-muted mb-0">{{ $company->industry }} | {{ $company->headquarters }} |
+                                    14,128,005 followers</p>
+                            @else
+                                <p class="text-danger">Perusahaan tidak ditemukan atau Anda belum terhubung dengan
+                                    perusahaan.</p>
+                            @endif
+
                         </div>
                         <div class="profile-right ml-auto">
                             <a href="https://www.google.co.id/?hl=id" target="_blank" class="btn btn-light mr-2"><i
@@ -49,9 +54,9 @@
                                     aria-controls="contact" aria-selected="false">Jobs</a>
                             </li>
                             <!-- <li class="nav-item">
-                                                    <a class="nav-link" id="type-tab" data-toggle="tab" href="#type" role="tab"
-                                                        aria-controls="type" aria-selected="false">Life</a>
-                                                </li> -->
+                                                                                                                                                                                    <a class="nav-link" id="type-tab" data-toggle="tab" href="#type" role="tab"
+                                                                                                                                                                                        aria-controls="type" aria-selected="false">Life</a>
+                                                                                                                                                                                </li> -->
                             <li class="nav-item">
                                 <a class="nav-link" id="type-tab" data-toggle="tab" href="#reviews" role="tab"
                                     aria-controls="type" aria-selected="false">Reviews</a>
@@ -65,17 +70,7 @@
                                     <h6 class="m-0">About</h6>
                                 </div>
                                 <div class="box-body p-3">
-                                    <p>Google’s mission is to organize the world‘s information and make it universally
-                                        accessible and useful.
-                                    </p>
-                                    <p class="mb-0">Since our founding in 1998, Google has grown by leaps and bounds. From
-                                        offering search in a single language we now offer dozens of products and
-                                        services—including various forms of advertising and web applications for all kinds
-                                        of tasks—in scores of languages. And starting from two computer science students in
-                                        a university dorm room, we now have thousands of employees and offices around the
-                                        world. A lot has changed since the first Google search engine appeared. But some
-                                        things haven’t changed: our dedication to our users and our belief in the
-                                        possibilities of the Internet itself.
+                                    <p class="mb-0"> Hallo
                                     </p>
                                 </div>
                             </div>
@@ -90,37 +85,37 @@
                                             <tr class="border-bottom">
                                                 <th class="p-3">Website</th>
                                                 <td class="p-3"><a
-                                                        href="https://www.google.co.id/?hl=id">www.google.com</a></td>
+                                                        href="https://www.google.co.id/?hl=id">{{ $company->website }}</a>
+                                                </td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Industry</th>
-                                                <td class="p-3">Internet</td>
+                                                <td class="p-3">{{ $company->industry }}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Company size</th>
-                                                <td class="p-3">10,001+ employees <i data-toggle="tooltip"
+                                                <td class="p-3">{{ $company->company_size }} <i data-toggle="tooltip"
                                                         data-placement="top"
-                                                        title="Google’s mission is to organize the world‘s information and make it universally accessible and useful.
+                                                        le="Google’s mission is to organize the world‘s information and make it universally accessible and useful.
                                           "
-                                                        class="feather-info text-info"></i> </td>
+                                                        class="{# #}her-info text-info"></i> </td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Headquarters</th>
-                                                <td class="p-3">Mountain View, CA</td>
+                                                <td class="p-3">{{ $company->headquarters }}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Type</th>
-                                                <td class="p-3">Public Company</td>
+                                                <td class="p-3">{{ $company->type }}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="p-3">Founded</th>
-                                                <td class="p-3">1998</td>
+                                                <td class="p-3">{{ $company->founded_year }}</td>
                                             </tr>
                                             <tr>
                                                 <th class="p-3">Specialties</th>
-                                                <td class="p-3">search, ads, mobile, android, online video, apps,
-                                                    machine learning, virtual reality, cloud, hardware, artificial
-                                                    intelligence, youtube, and software</td>
+                                                <td class="p-3" style="white-space: normal; word-wrap: break-word;">
+                                                    {{ $company->specialties }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -141,28 +136,13 @@
                                                     allowfullscreen=""></iframe>
                                                 <div class="card-body">
                                                     <h6 class="card-title">Postal Address</h6>
-                                                    <p class="card-text">PO Box 16122 Collins Street West Victoria 8007
-                                                        Australia</p>
+                                                    <p class="card-text">{{ $company->location }}</p>
                                                     <a href="#" class="text-link font-weight-bold"><i
                                                             class="feather-external-link"></i> Get Directions</a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="card overflow-hidden">
-                                                <iframe
-                                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d109552.19658166621!2d75.78663235513761!3d30.900473637624447!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a837462345a7d%3A0x681102348ec60610!2sLudhiana%2C%20Punjab!5e0!3m2!1sen!2sin!4v1575738867148!5m2!1sen!2sin"
-                                                    width="100%" height="150" frameborder="0" style="border:0;"
-                                                    allowfullscreen=""></iframe>
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Envato HQ</h6>
-                                                    <p class="card-text">121 King Street, Melbourne Victoria 3000 Australia
-                                                    </p>
-                                                    <a href="#" class="text-link font-weight-bold"><i
-                                                            class="feather-external-link"></i> Get Directions</a>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -733,13 +713,13 @@
                 <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
                     <div class="box profile-box mb-3 rounded border bg-white text-center shadow-sm">
                         <div class="p-5">
-                            <img src="img/clogo.png" class="img-fluid" alt="Responsive image">
+                            <img src="{{ $company->logo ? asset('storage/' . $company->logo) : asset('img/default-logo.png') }}"
+                                class="card-img-top" alt="Company Logo">
                         </div>
                         {{-- overview pada bagian kiri --}}
                         <div class="border-top border-bottom p-3">
                             <h6 class="font-weight-bold text-dark mb-1 mt-0">Overview</h6>
-                            <p class="text-muted mb-0">Google’s mission is to organize the world‘s information and make it
-                                universally accessible and useful.
+                            <p class="text-muted mb-0">{{ $company->description }}</p>
                             </p>
                         </div>
                         <div class="p-3">
@@ -754,15 +734,15 @@
                         </div>
                     </div>
                     <!-- <div class="box ads-box mb-3 rounded bg-white text-center shadow-sm">
-                                            <img src="img/job1.png" class="img-fluid" alt="Responsive image">
-                                            <div class="border-bottom p-3">
-                                                <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
-                                                <p class="text-muted mb-0">Looking for talent?</p>
-                                            </div>
-                                            <div class="p-3">
-                                                <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
-                                            </div>
-                                        </div> -->
+                                                                                                                                                                            <img src="img/job1.png" class="img-fluid" alt="Responsive image">
+                                                                                                                                                                            <div class="border-bottom p-3">
+                                                                                                                                                                                <h6 class="font-weight-bold text-dark">EVOConnect Solutions</h6>
+                                                                                                                                                                                <p class="text-muted mb-0">Looking for talent?</p>
+                                                                                                                                                                            </div>
+                                                                                                                                                                            <div class="p-3">
+                                                                                                                                                                                <button type="button" class="btn btn-outline-primary pl-4 pr-4"> POST A JOB </button>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </div> -->
                 </aside>
                 {{-- membuat similar page --}}
                 <aside class="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-6 col-12">

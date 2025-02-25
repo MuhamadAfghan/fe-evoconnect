@@ -165,7 +165,7 @@
             <div class="row d-flex align-items-center">
                 <div class="col-md-6">
                     <div class="mr-4 overflow-hidden rounded border p-4"><iframe width="100%" height="455"
-                            src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;coord=30.9090157&amp;q=punjab+(My%20Business%20Name)&amp;ie=UTF8&amp;t=p&amp;z=8&amp;iwloc=B&amp;output=embed"
+                            src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;coord=30.9090157&amp;q=E17%20Course&amp;ie=UTF8&amp;t=p&amp;z=16&amp;iwloc=B&amp;output=embed"
                             frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div>
                 </div>
                 <div class="col-md-6">
@@ -175,16 +175,21 @@
                         <p class="text-muted">Whether you have questions or you would just like to say hello, contact us.
                         </p>
                     </div>
-                    <form action="{{ route('home') }}">
+                    <form action="{{ route('contact.store') }}" method="POST">
+                        @csrf
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group mb-4">
                                     <label class="mb-1">YOUR NAME <small class="text-danger">*</small></label>
                                     <div class="position-relative icon-form-control">
                                         <i class="feather-user position-absolute"></i>
-                                        <input placeholder="{{ auth()->user()->name }}" type="text"
+                                        <input placeholder="{{ auth()->user()->name }}"
+                                            value="{{ old('name', auth()->user()->name) }}" type="text" name="name"
                                             class="form-control">
                                     </div>
+                                    @error('name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col">
@@ -192,9 +197,13 @@
                                     <label class="mb-1">YOUR EMAIL ADDRESS <small class="text-danger">*</small></label>
                                     <div class="position-relative icon-form-control">
                                         <i class="feather-mail position-absolute"></i>
-                                        <input placeholder="{{ auth()->user()->email }}" type="text"
-                                            class="form-control">
+                                        <input placeholder="{{ auth()->user()->email }}"
+                                            value="{{ old('email', auth()->user()->email) }}" type="text"
+                                            name="email" class="form-control">
                                     </div>
+                                    @error('email')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -204,8 +213,12 @@
                                     <label class="mb-1">SUBJECT <small class="text-danger">*</small></label>
                                     <div class="position-relative icon-form-control">
                                         <i class="feather-edit-2 position-absolute"></i>
-                                        <input placeholder="UI/UX Design" type="text" class="form-control">
+                                        <input placeholder="UI/UX Design" type="text" class="form-control"
+                                            name="subject" value="{{ old('subject') }}">
                                     </div>
+                                    @error('subject')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col">
@@ -213,16 +226,23 @@
                                     <label class="mb-1">YOUR PHONE NUMBER <small class="text-danger">*</small></label>
                                     <div class="position-relative icon-form-control">
                                         <i class="feather-phone position-absolute"></i>
-                                        <input placeholder="1-800-643-4500" type="text" class="form-control">
+                                        <input placeholder="1-800-643-4500" type="text" class="form-control"
+                                            name="phone" value="{{ old('phone') }}">
                                     </div>
+                                    @error('phone')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                         <div class="form-group mb-4">
                             <label class="mb-1">HOW CAN WE HELP YOU? <small class="text-danger">*</small></label>
                             <div class="position-relative">
-                                <textarea class="form-control" rows="4" name="text" placeholder="Hi there, I would like to ..."></textarea>
+                                <textarea class="form-control" rows="4" placeholder="Hi there, I would like to ..." name="message"></textarea>
                             </div>
+                            @error('message')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="d-flex align-items-center">
                             <button class="btn btn-primary text-uppercase btn-lg" type="submit"> Submit </button>

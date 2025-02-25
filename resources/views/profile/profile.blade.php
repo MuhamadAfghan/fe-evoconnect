@@ -3,39 +3,57 @@
 
 @section('content')
     <style>
-        #photo {
-            padding: 2px;
-            max-width: 100%;
+        /* Common styles for both Education and Experience sections */
+        .box {
+            background: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* Common styles for both Education and Experience sections */
-        .education-item,
-        .experience-item {
+        .profile-box img.rounded-circle {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Shared styles for Education and Experience sections */
+        .education-item {
             background-color: #ffffff;
             transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
         }
 
-        .education-item:hover,
-        .experience-item:hover {
+        .education-item:hover {
             background-color: #f8f9fa;
         }
 
         .education-content {
             position: relative;
-            padding: 20px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: flex-start;
         }
-
 
         .education-photo {
             width: 60px;
             height: 60px;
+            min-width: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: #e8f0fe;
             border-radius: 12px;
+            margin-right: 1rem;
+            overflow: hidden;
         }
 
+        .education-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         .education-info {
             flex: 1;
@@ -44,183 +62,256 @@
         .education-info h5 {
             font-size: 1.1rem;
             margin-bottom: 0.3rem;
+            color: #2d3748;
+            font-weight: 600;
         }
 
         .education-info h6 {
             font-size: 0.95rem;
             color: #0d6efd;
+            margin-bottom: 0.3rem;
         }
 
-        .education-description {
-            padding-left: 73px;
-        }
-
-        .education-description p {
+        .education-info p {
             font-size: 0.9rem;
-            line-height: 1.5;
             color: #6c757d;
+            margin-bottom: 0;
         }
-
-        .education-actions {
-            margin-left: 15px;
-        }
-
-        .education-actions .btn {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.875rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .education-actions .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .education-divider {
-            height: 1px;
-            background: linear-gradient(to right, #e9ecef 0%, #dee2e6 50%, #e9ecef 100%);
-            margin: 0;
-        }
-
-        .education-item:last-child .education-divider,
-        .experience-item:last-child .education-divider {
-            display: none;
-        }
-
-        /* Photo preview styles */
-        #educationPhotoPreview,
-        #experiencePhotoPreview {
-            border: 2px solid #dee2e6;
-            padding: 2px;
-            transition: all 0.3s ease;
-        }
-
-        /* Animation for new items */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
 
         .experience-item {
-            animation: fadeIn 0.3s ease-out forwards;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
         }
 
-        /* Modal form styles */
-        .modal .form-group {
+        .experience-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .experience-content {
+            position: relative;
+            padding: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .experience-photo {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e8f0fe;
+            border-radius: 12px;
+            margin-right: 1rem;
+            overflow: hidden;
+        }
+
+        .experience-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .experience-info {
+            flex: 1;
+        }
+
+        .experience-info h5 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .experience-info h6 {
+            font-size: 0.95rem;
+            color: #0d6efd;
+            margin-bottom: 0.3rem;
+        }
+
+        .experience-info p {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .date-info {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Box headers */
+        .box-title {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .box-title h6 {
+            margin: 0;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        /* Add buttons */
+        .add-button {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            color: #0d6efd;
+            background: transparent;
+            border: 1px solid #0d6efd;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+
+        .add-button:hover {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .modal-content {
+            border-radius: 0.5rem;
+        }
+
+        .modal-header {
+            background: #f8f9fa;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .form-group {
             margin-bottom: 1rem;
         }
 
-        .modal .form-control {
-            border-radius: 6px;
+        .form-control {
+            border-radius: 0.375rem;
         }
 
-        .modal .form-control:focus {
+        .form-control:focus {
             border-color: #0d6efd;
             box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
         }
 
+        /* Photo preview */
+        .photo-preview {
+            max-width: 200px;
+            margin-top: 0.5rem;
+            border-radius: 0.375rem;
+            border: 2px solid #dee2e6;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .education-content {
-                padding: 15px;
+
+            .education-photo,
+            .experience-photo {
+                width: 45px;
+                height: 45px;
+                min-width: 45px;
             }
 
-            .education-description {
-                padding-left: 45px;
+            .education-content,
+            .experience-content {
+                padding: 1rem;
             }
 
-            .education-photo {
-                width: 40px;
-                height: 40px;
-            }
-
-            .education-info h5 {
+            .education-info h5,
+            .experience-info h5 {
                 font-size: 1rem;
             }
-
-            .education-info h6 {
-                font-size: 0.9rem;
-            }
         }
 
-        /* social media */
-        .social-box {
+        /* Skills section */
+        .skills-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            gap: 0.5rem;
+            padding: 1rem;
         }
 
-        .social-item {
+        .skill-tag {
+            background: #e9ecef;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            color: #495057;
+        }
+
+        /* Social media section */
+        .social-links {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #495057;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: #0d6efd;
+        }
+
+        /* Stats cards */
+        .stats-card {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .stats-card:last-child {
+            border-bottom: none;
+        }
+
+        .stats-icon {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
+            background: #e8f0fe;
+            border-radius: 0.5rem;
+            color: #0d6efd;
         }
 
-        .social-item i {
-            font-size: 40px;
-            transition: transform 0.3s ease;
-        }
-
-        .social-item .username {
-            position: absolute;
-            bottom: -25px;
-            opacity: 0;
-            background: rgba(0, 0, 0, 0.7);
+        .slider-button {
+            width: 40px;
+            /* Atur ukuran yang sama untuk lebar dan tinggi */
+            height: 40px;
+            border-radius: 50%;
+            /* Membuat tombol menjadi lingkaran */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Warna background */
             color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: opacity 0.3s ease, bottom 0.3s ease;
-            white-space: nowrap;
+            /* Warna ikon */
+            border: none;
+            /* Menghapus border */
+            cursor: pointer;
+            display: flex;
+            /* Agar ikon terpusat */
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            /* Ukuran ikon */
+            transition: background 0.3s ease;
+            margin-top: -20px;
         }
 
-        .social-item:hover i {
-            transform: scale(1.2);
-        }
-
-        .social-item:hover .username {
-            opacity: 1;
-            bottom: -35px;
-        }
-
-        .facebook i {
-            color: #1877f2;
-        }
-
-        .twitter i {
-            color: #1da1f2;
-        }
-
-        .instagram i {
-            color: #c13584;
-        }
-
-        youtube i {
-            color: #ff0000;
-        }
-
-        github i {
-            color: #333;
+        .slider-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            /* Efek hover */
         }
     </style>
     <div class="py-4">
@@ -235,44 +326,51 @@
                                 style="width: 100px; height: 100px; object-fit: cover;" alt="Profile Image">
                             <h5 class="font-weight-bold text-dark mb-1 mt-4">
                                 {{ isset($user) ? $user->name : auth()->user()->name }}</h5>
-                            <p class="text-muted mb-0">{{ Auth::user()->headline ?? 'No information yet.' }}</p>
-                        </div>
-                        <div class="box profile-box mb-3 rounded border bg-white p-3 text-center">
-                            <div class="d-flex">
-                                <div class="w-100 text-left">
-                                    <div class="d-flex align-items-center justify-content-between mb-2"
-                                        style="font-size: 0.9rem;">
-                                        <div class="d-flex align-items-center" style="gap: 10px;">
-                                            <i class="fa-solid fa-users"
-                                                style="font-size: 1rem; width: 20px; text-align: center;"></i>
-                                            <p class="text-black-50 mb-0">Connections</p>
+                            <p class="text-muted mb-4">{{ Auth::user()->headline ?? 'No information yet.' }}</p>
+                            <div class="mt-4">
+                                <div class="d-flex">
+                                    <div class="w-100 text-left">
+                                        <div class="d-flex align-items-center justify-content-between mb-2"
+                                            style="font-size: 0.9rem;">
+                                            <div class="d-flex align-items-center" style="gap: 10px;">
+                                                <i class="fa-solid fa-users"
+                                                    style="font-size: 1rem; width: 20px; text-align: center;"></i>
+                                                <p class="text-black-50 mb-0">Connections</p>
+                                            </div>
+                                            <h6 class="font-weight-bold text-dark mb-0">358</h6>
                                         </div>
-                                        <h6 class="font-weight-bold text-dark mb-0">358</h6>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-2"
-                                        style="font-size: 0.9rem;">
-                                        <div class="d-flex align-items-center" style="gap: 10px;">
-                                            <i class="fa-solid fa-eye"
-                                                style="font-size: 1rem; width: 25px; text-align: center;"></i>
-                                            <p class="text-black-50 mb-0">Views</p>
+                                        <div class="d-flex align-items-center justify-content-between mb-2"
+                                            style="font-size: 0.9rem;">
+                                            <div class="d-flex align-items-center" style="gap: 10px;">
+                                                <i class="fa-solid fa-eye"
+                                                    style="font-size: 1rem; width: 25px; text-align: center;"></i>
+                                                <p class="text-black-50 mb-0">Views</p>
+                                            </div>
+                                            <h6 class="font-weight-bold text-dark mb-0">85</h6>
                                         </div>
-                                        <h6 class="font-weight-bold text-dark mb-0">85</h6>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between"
-                                        style="font-size: 0.9rem;">
-                                        <a href="{{ route('jobs.saved') }}" class="d-flex align-items-center"
-                                            style="gap: 10px;">
-                                            <i class="fa-solid fa-bookmark"
-                                                style="font-size: 1rem; width: 25px; text-align: center;color: black;"></i>
-                                            <p class="text-black-50 mb-0">Job Saved</p>
-                                        </a>
-                                        <h6 class="font-weight-bold text-dark mb-0">120</h6>
+                                        <div class="d-flex align-items-center justify-content-between"
+                                            style="font-size: 0.9rem;">
+                                            <a href="{{ route('jobs.saved') }}" class="d-flex align-items-center"
+                                                style="gap: 10px;">
+                                                <i class="fa-solid fa-bookmark"
+                                                    style="font-size: 1rem; width: 25px; text-align: center;color: black;"></i>
+                                                <p class="text-black-50 mb-2">Job Saved</p>
+                                            </a>
+                                            <h6 class="font-weight-bold text-dark mb-0">120</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="border-top overflow-hidden">
-                            <a class="font-weight-bold d-block p-3" href="{{ route('login') }}"> Log Out </a>
+                            <div class="border-top overflow-hidden">
+                                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                    @csrf
+                                    <button
+                                        class="font-weight-bold d-block text-primary w-100 border-0 bg-transparent p-4 text-center"
+                                        type="submit" style="font-size: 13px; margin-bottom: -20px;">
+                                        Log Out
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="box mb-3 rounded border bg-white shadow-sm">
@@ -303,35 +401,83 @@
                             }
                         </style>
 
-                        <div class="d-flex flex-wrap gap-2 rounded bg-white p-2 shadow-sm">
-                            @foreach (isset($user) ? $user->medsos ?? [] : auth()->user()->medsos ?? [] as $platform => $item)
-                                @if ($platform == 'facebook')
-                                    <div class="social-item twitter">
-                                        <i class="fa-brands fa-twitter" style="font-size: 1rem;"></i>
-                                        <span class="username">{{ $item['username'] }}</span>
-                                    </div>
-                                @endif
-                                @if ($platform == 'instagram')
-                                    <div class="social-item instagram">
-                                        <i class="fa-brands fa-instagram" style="font-size: 1rem;"></i>
-                                        <span class="username">{{ $item['username'] }}</span>
-                                    </div>
-                                @endif
-                                @if ($platform == 'youtube')
-                                    <div class="social-item youtube">
-                                        <i class="fa-brands fa-youtube" style="font-size: 1rem;"></i>
-                                        <span class="username">{{ $item['username'] }}</span>
-                                    </div>
-                                @endif
-                                @if ($platform == 'github')
-                                    <div class="social-item github">
-                                        <i class="fa-brands fa-github" style="font-size: 1rem;"></i>
-                                        <span class="username">{{ $item['username'] }}</span>
-                                    </div>
-                                @endif
-                            @endforeach
+
+
+                        {{-- <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
+                            <p>slkdajf</p>
                         </div>
-                        <!-- <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">                                                                                                                                                                                                                             </div> -->
+                        <p>slkdajf</p> --}}
+                    </div>
+                    <div class="box mb-3 rounded border bg-white shadow-sm">
+                        <div class="box-title border-bottom p-3">
+                            <h6 class="m-s0">Social Media</h6>
+                        </div>
+                        <div class="box-body">
+                            <div class="d-flex flex-wrap">
+                                @php
+                                    $medsos = isset($user)
+                                        ? json_decode(json_encode($user->medsos), true) ?? []
+                                        : json_decode(json_encode(auth()->user()->medsos), true) ?? [];
+
+                                    $links = [
+                                        'facebook' => 'https://www.facebook.com/',
+                                        'instagram' => 'https://www.instagram.com/',
+                                        'youtube' => 'https://www.youtube.com/@',
+                                        'github' => 'https://github.com/',
+                                        'twitter' => 'https://twitter.com/',
+                                    ];
+
+                                    $icons = [
+                                        'facebook' => 'fa-facebook-f',
+                                        'instagram' => 'fa-instagram',
+                                        'youtube' => 'fa-youtube',
+                                        'github' => 'fa-github',
+                                        'twitter' => 'fa-x-twitter', // Jika masih pakai Twitter, bisa pakai 'fa-twitter'
+                                    ];
+                                @endphp
+
+                                <div class="d-flex flex-wrap gap-2 rounded bg-white p-2 shadow-sm">
+                                    @foreach ($medsos as $platform => $items)
+                                        @if (isset($links[$platform]) && is_array($items) && count($items) > 0)
+                                            @php
+                                                $firstItem = $items[0];
+                                            @endphp
+                                            <a href="{{ $links[$platform] . ($firstItem['username'] ?? '') }}"
+                                                target="_blank"
+                                                class="social-item {{ $platform }} text-decoration-none position-relative d-flex flex-column align-items-center p-2">
+                                                <i class="fa-brands {{ $icons[$platform] ?? 'fa-globe' }} social-icon"
+                                                    style="font-size: 2rem;"></i>
+                                                <span
+                                                    class="username text-muted small d-none mt-1">{{ $firstItem['username'] ?? 'Unknown' }}</span>
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        .social-item {
+                            transition: transform 0.2s ease-in-out;
+                        }
+
+                        .social-item:hover {
+                            transform: scale(1.1);
+                        }
+
+                        .social-item .social-icon {
+                            color: #333;
+                        }
+
+                        .social-item:hover .social-icon {
+                            color: #007bff;
+                        }
+
+                        .social-item:hover .username {
+                            display: block !important;
+                        }
+                    </style>
                 </aside>
                 <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
                     <div class="box mb-3 rounded border bg-white shadow-sm">
@@ -342,506 +488,663 @@
                             <p>{{ Auth::user()->about ?? 'No information provided yet.' }}</p>
                         </div>
                     </div>
-                    <!-- experience -->
                     <div class="box mb-3 rounded border bg-white shadow-sm">
-                        <div class="box-title border-bottom p-3">
+                        <div class="box-title border-bottom d-flex justify-content-between align-items-center p-3">
                             <h6 class="m-0">Experience</h6>
-                            <a href="#" data-toggle="modal" data-target="#addExperienceModal">
-                                <span>+</span> Add Experience
-                            </a>
+                            @isset($user)
+                            @else
+                                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal"
+                                    data-target="#addExperienceModal">
+                                    <i class="fas fa-plus"></i> Add Experience
+                                </a>
+                            @endisset
                         </div>
 
-                        <!-- Wadah untuk Experience List -->
-                        <div class="box-body border-bottom p-3" id="experienceList">
-                            @foreach (auth()->user()->experiences as $experience)
-                                <div class="experience-item">
-                                    <!-- Experience display template -->
+                        <!-- Experience List -->
+                        <div id="experienceList" class="box-body p-3">
+                            @foreach (isset($user) ? $user->experiences : auth()->user()->experiences as $experience)
+                                <div class="experience-item bg-light mb-3 rounded border p-3 shadow-sm">
+                                    <div class="experience-content d-flex align-items-center">
+                                        <div class="experience-photo mr-3">
+                                            @if ($experience->photo)
+                                                <img src="{{ asset('storage/' . $experience->photo) }}" alt="Company Logo"
+                                                    class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                            @else
+                                                <div class="d-flex align-items-center justify-content-center rounded border bg-white"
+                                                    style="width: 60px; height: 60px;">
+                                                    <i class="fas fa-building text-secondary"></i>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="experience-info">
+                                            <h5 class="font-weight-bold text-dark mb-1">{{ $experience->job_title }}</h5>
+                                            <h6 class="text-primary mb-1">{{ $experience->company_name }}</h6>
+                                            <p class="text-muted mb-1">
+                                                {{ date('F', mktime(0, 0, 0, $experience->start_month, 1)) }}
+                                                {{ $experience->start_year }} -
+                                                @if ($experience->end_month && $experience->end_year)
+                                                    {{ date('F', mktime(0, 0, 0, $experience->end_month, 1)) }}
+                                                    {{ $experience->end_year }}
+                                                @else
+                                                    Present
+                                                @endif
+                                            </p>
+                                            @if ($experience->caption)
+                                                <p class="text-dark mb-0">{{ $experience->caption }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="addExperienceModal" tabindex="-1" role="dialog"
-                        aria-labelledby="addExperienceModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                    <!-- Experience Modal -->
+                    <div class="modal fade" id="addExperienceModal" tabindex="-1">
+                        <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addExperienceModalLabel">Add Experience</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <h5 class="modal-title">Add Experience</h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span>&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    <form>
+                                <form id="experienceForm" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <!-- Form fields for experience -->
                                         <div class="form-group">
-                                            <label for="jobTitle">Job Title</label>
-                                            <input type="text" class="form-control" id="jobTitle"
-                                                placeholder="Enter your job title">
+                                            <label>Job Title <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="jobTitle" name="job_title"
+                                                required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="companyName">Company</label>
+                                            <label>Company Name <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="companyName"
-                                                placeholder="Enter your company">
+                                                name="company_name" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="startDate" class="form-label">Start date<span
-                                                    class="text-danger">*</span></label>
-                                            <div class="d-flex" style="width: 50px">
-                                                <select class="form-select" id="startMonth">
-                                                    <option selected disabled>Month</option>
-                                                </select>
-                                                <select class="form-select" id="startYear">
-                                                    <option selected disabled>Year</option>
-                                                </select>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Start Date <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="startMonth" name="start_month"
+                                                        required>
+                                                        <option value="" disabled selected>Month</option>
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <option value="{{ $i }}">
+                                                                {{ date('F', mktime(0, 0, 0, $i, 10)) }}</option>
+                                                        @endfor
+                                                    </select>
+                                                    <select class="form-control" id="startYear" name="start_year"
+                                                        required>
+                                                        <option value="" disabled selected>Year</option>
+                                                        @for ($i = date('Y'); $i >= 1950; $i--)
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>End Date</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="endMonth" name="end_month">
+                                                        <option value="" disabled selected>Month</option>
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <option value="{{ $i }}">
+                                                                {{ date('F', mktime(0, 0, 0, $i, 10)) }}</option>
+                                                        @endfor
+                                                    </select>
+                                                    <select class="form-control" id="endYear" name="end_year">
+                                                        <option value="" disabled selected>Year</option>
+                                                        @for ($i = date('Y'); $i >= 1950; $i--)
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="form-group mt-3">
-                                            <label for="endDate" class="form-label">End date<span
-                                                    class="text-danger">*</span></label>
-                                            <div class="d-flex gap-2">
-                                                <select class="form-select" id="endMonth" disabled>
-                                                    <option selected>Month</option>
-                                                </select>
-                                                <select class="form-select" id="endYear" disabled>
-                                                    <option selected>Year</option>
-                                                </select>
-                                            </div>
-                                            <div class="text-danger mt-1" style="font-size: 0.875rem;">
-                                                <i class="bi bi-exclamation-circle-fill"></i> Start and end dates are
-                                                required
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea class="form-control" id="caption" name="caption" rows="3"></textarea>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="caption">Caption</label>
-                                            <input type="text" class="form-control" id="caption"
-                                                placeholder="Enter your caption">
+                                            <label>Company Logo</label>
+                                            <input type="file" class="form-control-file" id="photo"
+                                                name="photo" accept="image/*">
+                                            <img id="photoPreview" src="#" alt="Preview"
+                                                style="display: none; max-width: 200px; margin-top: 10px;">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="photo">Photo</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="photo"
-                                                    accept="image/*">
-                                                <label class="custom-file-label" for="photo">Choose file...</label>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="saveExperience">Save
-                                        Experience</button>
-                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save Experience</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-
+                    <!-- Education Section -->
                     <div class="box mb-3 rounded border bg-white shadow-sm">
-                        <div class="box-title border-bottom p-3">
+                        <div class="box-title border-bottom d-flex justify-content-between align-items-center p-3">
                             <h6 class="m-0">Education</h6>
-                            <a href="#" data-toggle="modal" data-target="#addEducationModal">
-                                <span>+</span> Add Education
-                            </a>
+                            @if (!isset($user))
+                                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal"
+                                    data-target="#addEducationModal">
+                                    <i class="fas fa-plus"></i> Add Education
+                                </a>
+                            @endif
                         </div>
-                        <!-- Tempat untuk menampilkan daftar pendidikan -->
-                        <div id="educationList" class="box-body border-bottom p-3">
-                            @foreach (auth()->user()->educations as $education)
-                                <div class="education-item">
-                                    <!-- Education display template -->
+
+                        <!-- Education List -->
+                        <div id="educationList" class="box-body p-3">
+                            @foreach (isset($user) ? $user->educations : auth()->user()->educations as $education)
+                                <div class="education-item bg-light mb-3 rounded border p-3 shadow-sm">
+                                    <div class="education-content d-flex align-items-center">
+                                        <div class="education-photo mr-3">
+                                            @if ($education->photo)
+                                                <img src="{{ asset('storage/' . $education->photo) }}" alt="School Logo"
+                                                    class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                            @else
+                                                <div class="d-flex align-items-center justify-content-center rounded border bg-white"
+                                                    style="width: 60px; height: 60px;">
+                                                    <i class="fas fa-university text-secondary"></i>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="education-info">
+                                            <h5 class="font-weight-bold text-dark mb-1">{{ $education->school_name }}</h5>
+                                            <h6 class="text-primary mb-1">{{ $education->major }}</h6>
+                                            <p class="text-muted mb-1">
+                                                {{ date('F', mktime(0, 0, 0, $education->start_month, 1)) }}
+                                                {{ $education->start_year }} -
+                                                @if ($education->end_month && $education->end_year)
+                                                    {{ date('F', mktime(0, 0, 0, $education->end_month, 1)) }}
+                                                    {{ $education->end_year }}
+                                                @else
+                                                    Present
+                                                @endif
+                                            </p>
+                                            @if ($education->caption)
+                                                <p class="text-dark mb-0">{{ $education->caption }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
-                    <!-- Modal Add Education -->
-                    <div class="modal fade" id="addEducationModal" tabindex="-1" role="dialog"
-                        aria-labelledby="addEducationModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+
+                    <!-- Education Modal -->
+                    <div class="modal fade" id="addEducationModal" tabindex="-1">
+                        <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addEducationModalLabel">Add Education</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <h5 class="modal-title">Add Education</h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span>&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    <form id="educationForm">
+                                <form id="educationForm" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="schoolName">School Name</label>
-                                            <input type="text" class="form-control" id="schoolName" required
-                                                placeholder="Enter your school name">
+                                            <label>School Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="schoolName"
+                                                name="school_name" required>
                                         </div>
+
                                         <div class="form-group">
-                                            <label for="major">Major</label>
-                                            <input type="text" class="form-control" id="major"
-                                                placeholder="Enter your major">
+                                            <label>Major <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="major" name="major"
+                                                required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="educationPeriod">Period</label>
-                                            <input type="text" class="form-control" id="educationPeriod"
-                                                placeholder="Start date - end date">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="captionEdu">Caption</label>
-                                            <input type="text" class="form-control" id="captionEdu"
-                                                placeholder="Enter captionEdu">
-                                        </div>
-                                        {{-- <div class="form-group">
-                                            <label for="educationPhoto">Photo</label>
-                                            <input type="file" class="form-control" id="educationPhoto"
-                                                accept="image/*">
-                                            <div class="mt-2">
-                                                <img id="educationPhotoPreview" src="#" alt="Preview"
-                                                    style="display: none; max-width: 100px; max-height: 100px; object-fit: cover; border-radius: 8px;">
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Start Date <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="eduStartMonth" name="start_month"
+                                                        required>
+                                                        <option value="" disabled selected>Month</option>
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <option value="{{ $i }}">
+                                                                {{ date('F', mktime(0, 0, 0, $i, 10)) }}</option>
+                                                        @endfor
+                                                    </select>
+                                                    <select class="form-control" id="eduStartYear" name="start_year"
+                                                        required>
+                                                        <option value="" disabled selected>Year</option>
+                                                        @for ($i = date('Y'); $i >= 1950; $i--)
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div> --}}
-                                    </form>
-                                </div>
-                                <meta name="csrf-token" content="{{ csrf_token() }}">
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="saveEducation">Save
-                                        Education</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-                <aside class="col col-xl-3 order-xl-3 col-lg-12 order-lg-3 col-12">
-                    <div class="box mb-3 rounded border bg-white shadow-sm">
-                        <div class="box-title border-bottom p-3">
-                            <h6 class="m-0">Who viewed your profile</h6>
-                        </div>
-                        <div class="box-body p-3">
-                            <div class="d-flex align-items-center osahan-post-header people-list mb-3">
-                                <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="img/p4.png" alt="">
-                                    <div
-                                        class="status-indicator {{ auth()->user()->isOnline() ? 'bg-success' : 'bg-secondary' }}">
-                                    </div>
-                                </div>
-                                <div class="font-weight-bold mr-2">
-                                    <div class="text-truncate">Sophia Lee</div>
-                                    <div class="small text-gray-500">@Harvard
-                                    </div>
-                                </div>
-                                <span class="ml-auto">
-                                    <button type="button" class="btn btn-light btn-sm connect-btn">Connect</button>
-                                </span>
+                                            <div class="form-group col-md-6">
+                                                <label>End Date</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="eduEndMonth" name="end_month">
+                                                        <option value="" disabled selected>Month</option>
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <option value="{{ $i }}">
+                                                                {{ date('F', mktime(0, 0, 0, $i, 10)) }}</option>
+                                                        @endfor
+                                                    </select>
+                                                    <select class="form-control" id="eduEndYear" name="end_year">
+                                                        <option value="" disabled selected>Year</option>
+                                                        @for ($i = date('Y'); $i >= 1950; $i--)
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea class="form-control" id="eduCaption" name="caption" rows="3"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>School Logo</label>
+                                            <input type="file" class="form-control-file" id="educationPhoto"
+                                                name="photo" accept="image/*">
+                                            <img id="educationPhotoPreview" src="#" alt="Preview"
+                                                style="display: none; max-width: 200px; margin-top: 10px;">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save Education</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
-                        <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
-                        <div class="border-bottom p-3">
-                            <h6 class="font-weight-bold text-gold">Osahanin Premium</h6>
-                            <p class="text-muted mb-0">Grow &amp; nurture your network</p>
-                        </div>
-                        <div class="p-3">
-                            <a href="{{ route('pricing') }}">
-                                <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
-                            </a>
+                    <div class="container mt-4">
+                        <h5 id="loading-text" class="text-muted text-center">Loading</h5>
+                        <div id="post-container" class="row justify-content-center"></div>
+                        <div class="mt-4 text-center">
+                            <button id="load-more" class="btn btn-primary d-none">Load More</button>
                         </div>
                     </div>
-                    {{-- menyambungkan ke halaman job profile --}}
-                    <a href="{{ route('job-profile') }}">
-                        <div class="job-item mb-3 rounded border bg-white shadow-sm">
-                            <div class="d-flex align-items-center job-item-header p-3">
-                                <div class="mr-2 overflow-hidden">
-                                    <h6 class="font-weight-bold text-dark text-truncate mb-0">Product Director</h6>
-                                    <div class="text-truncate text-primary">Spotify Inc.</div>
-                                    <div class="small text-gray-500"><i class="feather-map-pin"></i> India, Punjab
-                                    </div>
-                                </div>
-                                <img class="img-fluid ml-auto" src="img/l3.png" alt="">
-                            </div>
-                            <div class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                <div class="overlap-rounded-circle">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p9.png" alt="" data-original-title="Sophia Lee">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p10.png" alt="" data-original-title="John Doe">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p10.png" alt="" data-original-title="John Doe">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p11.png" alt="" data-original-title="Julia Cox">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p12.png" alt=""
-                                        data-original-title="Robert Cook">
-                                </div>
-                                <span class="font-weight-bold text-muted">18 connections</span>
-                            </div>
-                            <div class="job-item-footer p-3">
-                                <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-                            </div>
-                        </div>
-                    </a>
-                    {{-- manyambungkan ke halaman job profile --}}
-                    <a href="{{ route('job-profile') }}">
-                        <div class="job-item mb-3 rounded border bg-white shadow-sm">
-                            <div class="d-flex align-items-center job-item-header p-3">
-                                <div class="mr-2 overflow-hidden">
-                                    <h6 class="font-weight-bold text-dark text-truncate mb-0">.NET Developer</h6>
-                                    <div class="text-truncate text-primary">Invision</div>
-                                    <div class="small text-gray-500"><i class="feather-map-pin"></i> London, UK
-                                    </div>
-                                </div>
-                                <img class="img-fluid ml-auto" src="img/l4.png" alt="">
-                            </div>
-                            <div class="d-flex align-items-center border-top border-bottom job-item-body p-3">
-                                <div class="overlap-rounded-circle">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p13.png" alt=""
-                                        data-original-title="Sophia Lee">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p1.png" alt="" data-original-title="John Doe">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p2.png" alt="" data-original-title="Julia Cox">
-                                    <img class="rounded-circle shadow-sm" data-toggle="tooltip" data-placement="top"
-                                        title="" src="img/p3.png" alt=""
-                                        data-original-title="Robert Cook">
-                                </div>
-                                <span class="font-weight-bold text-muted">18 connections</span>
-                            </div>
-                            <div class="job-item-footer p-3">
-                                <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days ago</small>
-                            </div>
-                        </div>
-                    </a>
-                </aside>
+                    {{-- ini js buat ngeliat postingan --}}
+                    <style>
+                        .post-wrapper {
+                            background: #fff;
+                            padding: 20px;
+                            border-radius: 10px;
+                            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                            text-align: center;
+                            max-width: 600px;
+                            margin: auto;
+                            position: relative;
+                            overflow: hidden;
+                        }
+
+                        .post-card-container {
+                            display: flex;
+                            transition: transform 0.5s ease-in-out;
+                        }
+
+                        .post-card {
+                            flex: 0 0 100%;
+                            background: #f8f9fa;
+                            padding: 20px;
+                            border-radius: 8px;
+                            margin: 0;
+                            box-sizing: border-box;
+                            max-width: 100%;
+                        }
+
+                        .post-image {
+                            width: 100%;
+                            max-height: 250px;
+                            object-fit: cover;
+                            border-radius: 8px;
+                        }
+
+                        .view-post-btn {
+                            display: block;
+                            width: auto;
+                            margin-top: 15px;
+                        }
+
+                        .slider-button {
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            background: rgba(0, 0, 0, 0.5);
+                            color: white;
+                            border: none;
+                            padding: 10px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            z-index: 10;
+                        }
+
+                        .slider-button.left {
+                            left: 10px;
+                        }
+
+                        .slider-button.right {
+                            right: 10px;
+                        }
+                    </style>
+
+                    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const postContainer = document.getElementById("post-container");
+                            const loadingText = document.getElementById("loading-text");
+                            const loadMoreBtn = document.getElementById("load-more");
+                            let currentPage = 1;
+                            let posts = [];
+                            let currentIndex = 0;
+
+                            function fetchPosts(page) {
+                                let url =
+                                    @isset($user)
+                                        "/api/users/{{ $user->id }}/posts"
+                                    @else
+                                        "/api/posts/my-posts";
+                                    @endisset
+
+                                axios
+                                    .get(url)
+                                    .then((response) => {
+                                        posts = response.data.data.data;
+                                        loadingText.style.display = "none";
+
+                                        if (!posts.length && page === 1) {
+                                            postContainer.innerHTML =
+                                                "<p class='text-muted text-center'>No posts available.</p>";
+                                            return;
+                                        }
+
+                                        renderPosts();
+
+                                        if (response.data.data.next_page_url) {
+                                            loadMoreBtn.classList.remove("d-none");
+                                        } else {
+                                            loadMoreBtn.classList.add("d-none");
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error fetching posts:", error);
+                                        loadingText.innerText = "Failed to load posts!";
+                                    });
+                            }
+
+                            function renderPosts() {
+                                const sliderContent = posts
+                                    .map((post) => {
+                                        const image = post.image ?
+                                            `<img class='post-image' src='${post.image}' alt='Post Image'>` :
+                                            "";
+                                        const formattedDate = new Date(post.created_at).toLocaleDateString("en-GB", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        });
+
+                                        // In the renderPosts() function, modify the post card template:
+
+                                        const postType = post.type || 'article'; // Default to article if type not specified
+                                        return `
+                                        <div class="post-card">
+                                            <h6 class="font-weight-bold mt-2">${post.content}</h6>
+                                            <p class="text-primary mb-1">${post.user.name}</p>
+                                            <small class="text-muted"><i class="feather-clock"></i> Posted on ${formattedDate}</small>
+                                            ${image}
+                                            <a href="/profile/${post.user.username}/posts/all" class="btn btn-primary view-post-btn">View Full Post</a>
+                                        </div>
+                                    `;
+                                    })
+                                    .join("");
+
+                                postContainer.innerHTML = `
+                                        <div class="post-wrapper w-100">
+                                            <button class="slider-button left" onclick="prevPost()">&#10094;</button>
+                                            <div class="post-card-container" style="transform: translateX(-${currentIndex * 100}%);">
+                                                ${sliderContent}
+                                            </div>
+                                            <button class="slider-button right" onclick="nextPost()">&#10095;</button>
+                                        </div>
+                                    `;
+                            }
+
+                            window.nextPost = function() {
+                                if (currentIndex < posts.length - 1) {
+                                    currentIndex++;
+                                    document.querySelector(
+                                        ".post-card-container"
+                                    ).style.transform = `translateX(-${currentIndex * 100}%)`;
+                                }
+                            };
+
+                            window.prevPost = function() {
+                                if (currentIndex > 0) {
+                                    currentIndex--;
+                                    document.querySelector(
+                                        ".post-card-container"
+                                    ).style.transform = `translateX(-${currentIndex * 100}%)`;
+                                }
+                            };
+
+                            loadMoreBtn.addEventListener("click", function() {
+                                currentPage++;
+                                fetchPosts(currentPage);
+                            });
+
+                            fetchPosts(currentPage);
+                        });
+                    </script>
             </div>
+            </main>
         </div>
-    </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const experienceForm = document.getElementById('experienceForm');
+                const experienceList = document.getElementById('experienceList');
+                const photoInput = document.getElementById('photo');
+                const photoPreview = document.getElementById('photoPreview');
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const startMonth = document.getElementById("startMonth");
-            const startYear = document.getElementById("startYear");
-            const endMonth = document.getElementById("endMonth");
-            const endYear = document.getElementById("endYear");
+                // Tampilkan preview gambar
+                photoInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            photoPreview.src = e.target.result;
+                            photoPreview.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        photoPreview.style.display = 'none';
+                        photoPreview.src = '#';
+                    }
+                });
 
-            // Tambahkan opsi bulan
-            const months = [
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            ];
+                experienceForm.addEventListener("submit", async function(e) {
+                    e.preventDefault();
 
-            months.forEach((month, index) => {
-                const optionStart = document.createElement("option");
-                optionStart.value = index + 1;
-                optionStart.text = month;
-                startMonth.add(optionStart);
+                    const formData = new FormData(this);
 
-                const optionEnd = document.createElement("option");
-                optionEnd.value = index + 1;
-                optionEnd.text = month;
-                endMonth.add(optionEnd);
-            });
+                    try {
+                        const response = await axios.post('/api/users/experience', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .content
+                            }
+                        });
 
-            // Tambahkan opsi tahun (dari 1900 hingga tahun saat ini)
-            const currentYear = new Date().getFullYear();
-            for (let i = currentYear; i >= 1900; i--) {
-                const optionStartYear = document.createElement("option");
-                optionStartYear.value = i;
-                optionStartYear.text = i;
-                startYear.add(optionStartYear);
+                        if (response.data.success) {
+                            // Close the modal
+                            $('#addExperienceModal').modal('hide');
 
-                const optionEndYear = document.createElement("option");
-                optionEndYear.value = i;
-                optionEndYear.text = i;
-                endYear.add(optionEndYear);
-            }
+                            // Clear the form
+                            experienceForm.reset();
 
-            // Aktifkan End date setelah memilih Start date
-            startMonth.addEventListener("change", enableEndDate);
-            startYear.addEventListener("change", enableEndDate);
+                            // Add the new experience to the DOM
+                            const newExperience = response.data.experience;
+                            const experienceItem = document.createElement("div");
+                            experienceItem.classList.add("experience-item", "bg-light", "mb-3", "rounded",
+                                "border", "p-3", "shadow-sm");
 
-            function enableEndDate() {
-                if (startMonth.value && startYear.value) {
-                    endMonth.disabled = false;
-                    endYear.disabled = false;
-                } else {
-                    endMonth.disabled = true;
-                    endYear.disabled = true;
-                }
-            }
-
-            // Script JavaScript untuk Menambah Experience
-            document.getElementById('saveExperience').addEventListener('click', function() {
-                // Ambil Nilai dari Input
-                var jobTitle = document.getElementById('jobTitle').value;
-                var companyName = document.getElementById('companyName').value;
-                var startMonthText = startMonth.options[startMonth.selectedIndex].text;
-                var startYearText = startYear.value;
-                var endMonthText = endMonth.options[endMonth.selectedIndex]?.text || '';
-                var endYearText = endYear.value || '';
-                var caption = document.getElementById('caption').value;
-                var photoInput = document.getElementById('photo');
-                var photoUrl = '';
-
-                // Format Job Period
-                var jobPeriod = `${startMonthText} ${startYearText}`;
-                if (endMonthText && endYearText) {
-                    jobPeriod += ` - ${endMonthText} ${endYearText}`;
-                } else {
-                    jobPeriod += ' - Present';
-                }
-
-                // Cek jika ada foto yang diunggah
-                if (photoInput.files && photoInput.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        photoUrl = e.target.result;
-
-                        // Buat Elemen Experience Baru dengan Foto
-                        var newExperience = `
-                    <!-- Garis Tipis Pemisah -->
-                    <div class="experience-item border-bottom pb-2 mb-2" style="border-bottom: 1px solid #e0e0e0;">
-                        <div class="d-flex align-items-top experience-item-header">
-                            <div class="mr-2">
-                                <h6 class="font-weight-bold text-dark mb-0">${jobTitle}</h6>
-                                <div class="text-truncate text-primary">${companyName}</div>
-                                <div class="small text-gray-500">${jobPeriod}</div>
-                            </div>
-                            <div class="ml-auto">
-                                <img src="${photoUrl}" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" alt="Experience Photo">
-                            </div>
+                            experienceItem.innerHTML = `
+                    <div class="experience-content d-flex align-items-center">
+                        <div class="experience-photo mr-3">
+                            ${newExperience.photo ? `<img src="${newExperience.photo}" alt="Company Logo" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">` :
+                            `<div class="d-flex align-items-center justify-content-center rounded border bg-white" style="width: 60px; height: 60px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="fas fa-building text-secondary"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>`}
                         </div>
-                        <p class="mb-0">${caption}</p>
+                        <div class="experience-info">
+                            <h5 class="font-weight-bold text-dark mb-1">${newExperience.job_title}</h5>
+                            <h6 class="text-primary mb-1">${newExperience.company_name}</h6>
+                            <p class="text-muted mb-1">
+                                ${new Date(newExperience.start_year, newExperience.start_month - 1).toLocaleString('default', { month: 'long' })} ${newExperience.start_year} -
+                                ${newExperience.end_year ? `${new Date(newExperience.end_year, newExperience.end_month - 1).toLocaleString('default', { month: 'long' })} ${newExperience.end_year}` : 'Present'}
+                            </p>
+                            ${newExperience.caption ? `<p class="text-dark mb-0">${newExperience.caption}</p>` : ''}
+                        </div>
                     </div>
                 `;
 
-                        // Tambahkan ke Daftar Experience
-                        document.getElementById('experienceList').innerHTML += newExperience;
+                            experienceList.appendChild(experienceItem);
 
-                        // Reset Form
-                        resetForm();
-
-                        // Tutup Modal menggunakan jQuery
-                        $('#addExperienceModal').modal('hide');
-
-                        // Optional: Remove modal backdrop if it persists
-                        $('.modal-backdrop').remove();
-                        $('body').removeClass('modal-open');
-                    };
-                    reader.readAsDataURL(photoInput.files[0]);
-                } else {
-                    alert('Please upload a photo!');
-                }
-            });
-
-            // Function to reset the form
-            function resetForm() {
-                document.getElementById('jobTitle').value = '';
-                document.getElementById('companyName').value = '';
-                startMonth.selectedIndex = 0;
-                startYear.selectedIndex = 0;
-                endMonth.selectedIndex = 0;
-                endYear.selectedIndex = 0;
-                endMonth.disabled = true;
-                endYear.disabled = true;
-                document.getElementById('caption').value = '';
-                document.getElementById('photo').value = '';
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Script for Education Form
-            document.getElementById('saveEducation').addEventListener('click', function() {
-                // Get values from the education form
-                const schoolName = document.getElementById('schoolName').value;
-                const major = document.getElementById('major').value;
-                const period = document.getElementById('educationPeriod').value;
-                const caption = document.getElementById('captionEdu').value;
-
-                // Validate required fields
-                if (!schoolName || !period) {
-                    alert('School name and period are required!');
-                    return;
-                }
-
-                // Create new education entry HTML
-                const newEducation = `
-            <div class="education-item border-bottom pb-2 mb-2" style="border-bottom: 1px solid #e0e0e0;">
-                <div class="d-flex align-items-top education-content">
-                    <div class="education-photo mr-3">
-                        <i class="fa-solid fa-graduation-cap" style="font-size: 2rem; color: #0d6efd;"></i>
-                    </div>
-                    <div class="education-info">
-                        <h5 class="font-weight-bold text-dark mb-0">${schoolName}</h5>
-                        <h6 class="text-primary mb-1">${major}</h6>
-                        <div class="small text-gray-500 mb-2">${period}</div>
-                        <p class="education-description mb-0">${caption}</p>
-                    </div>
-                    <div class="education-actions ml-auto">
-                        <button class="btn btn-sm btn-outline-primary edit-education mr-2">
-                            <i class="fa-solid fa-pencil"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger delete-education">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-                // Add the new education entry to the list
-                document.getElementById('educationList').innerHTML += newEducation;
-
-                // Reset the form
-                resetEducationForm();
-
-                // Close the modal
-                $('#addEducationModal').modal('hide');
-                $('.modal-backdrop').remove();
-                $('body').removeClass('modal-open');
-            });
-
-            // Function to reset the education form
-            function resetEducationForm() {
-                document.getElementById('schoolName').value = '';
-                document.getElementById('major').value = '';
-                document.getElementById('educationPeriod').value = '';
-                document.getElementById('captionEdu').value = '';
-            }
-
-            // Add event listeners for edit and delete buttons
-            document.getElementById('educationList').addEventListener('click', function(e) {
-                if (e.target.closest('.edit-education')) {
-                    const educationItem = e.target.closest('.education-item');
-                    // Implement edit functionality
-                    // You can populate the modal with existing data and update instead of creating new
-                    $('#addEducationModal').modal('show');
-                } else if (e.target.closest('.delete-education')) {
-                    const educationItem = e.target.closest('.education-item');
-                    if (confirm('Are you sure you want to delete this education entry?')) {
-                        educationItem.remove();
+                            // Show success message
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Experience has been added successfully.',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        } else {
+                            throw new Error(response.data.message || 'Failed to save experience');
+                        }
+                    } catch (error) {
+                        console.error("Error:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Failed to save experience. Please try again.',
+                        });
                     }
-                }
-            });
-
-            // Initialize datepicker for education period if needed
-            if ($.fn.datepicker) {
-                $('#educationPeriod').datepicker({
-                    format: 'MM yyyy',
-                    viewMode: 'years',
-                    minViewMode: 'months',
-                    autoclose: true
                 });
-            }
-        });
-    </script>
-    {{-- end button --}}
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- slick Slider JS-->
-    <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/osahan.js"></script>
-@endsection
+            });
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const educationForm = document.getElementById("educationForm");
+                const educationList = document.getElementById("educationList");
+                const educationPhoto = document.getElementById("photo");
+                const photoPreview = document.getElementById("photoPreview");
+
+                educationForm.addEventListener("submit", async function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(this);
+
+                    try {
+                        const response = await axios.post('/api/users/education', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .content
+                            }
+                        });
+
+                        if (response.data.success) {
+                            // Close the modal
+                            $('#addEducationModal').modal('hide');
+
+                            // Clear the form
+                            educationForm.reset();
+
+                            // Add the new education to the DOM
+                            const newEducation = response.data.education;
+                            const educationItem = document.createElement("div");
+                            educationItem.classList.add("education-item", "bg-light", "mb-3", "rounded",
+                                "border", "p-3", "shadow-sm");
+
+                            educationItem.innerHTML = `
+                    <div class="education-content d-flex align-items-center">
+                        <div class="education-photo mr-3">
+                            ${newEducation.photo ? `<img src="${newEducation.photo}" alt="School Logo" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">` :
+                            `<div class="d-flex align-items-center justify-content-center rounded border bg-white" style="width: 60px; height: 60px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="fas fa-university text-secondary"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>`}
+                        </div>
+                        <div class="education-info">
+                            <h5 class="font-weight-bold text-dark mb-1">${newEducation.school_name}</h5>
+                            <h6 class="text-primary mb-1">${newEducation.major}</h6>
+                            <p class="text-muted mb-1">
+                                ${new Date(newEducation.start_year, newEducation.start_month - 1).toLocaleString('default', { month: 'long' })} ${newEducation.start_year} -
+                                ${newEducation.end_year ? `${new Date(newEducation.end_year, newEducation.end_month - 1).toLocaleString('default', { month: 'long' })} ${newEducation.end_year}` : 'Present'}
+                            </p>
+                            ${newEducation.caption ? `<p class="text-dark mb-0">${newEducation.caption}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+
+                            educationList.appendChild(educationItem);
+
+                            // Show success message
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Education has been added successfully.',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        } else {
+                            throw new Error(response.data.message || 'Failed to save education');
+                        }
+                    } catch (error) {
+                        console.error("Error:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Failed to save education. Please try again.',
+                        });
+                    }
+                });
+
+                // Handle photo preview
+                educationPhoto.addEventListener("change", function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            photoPreview.src = event.target.result;
+                            photoPreview.style.display = "block";
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        photoPreview.style.display = "none";
+                        photoPreview.src = "#";
+                    }
+                });
+            });
+        </script>
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- slick Slider JS-->
+        <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
+        <script src="js/osahan.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    @endsection

@@ -16,8 +16,11 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->string('job_title');
             $table->string('company_name');
-            $table->string('period');
-            $table->text('caption');
+            $table->integer('start_month');
+            $table->integer('start_year');
+            $table->integer('end_month')->nullable();
+            $table->integer('end_year')->nullable();
+            $table->text('caption')->nullable();
             $table->string('photo')->nullable();
             $table->timestamps();
         });

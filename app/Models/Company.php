@@ -13,6 +13,7 @@ class Company extends Model
         'name',
         'logo',
         'description',
+        'about',
         'industry',
         'location',
         'website',

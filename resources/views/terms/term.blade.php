@@ -1,161 +1,192 @@
-m@extends('errors.templates')
-
-@section('content')
-    <div class="bg-white py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-9">
+@extends('errors.templates')
+<div class="bg-primary p-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="mx-auto text-center">
+                <h1 class="font-weight-light text-white"><span class="font-weight-bold">REGULATIONS </span> AND <span
+                        class="font-weight-bold">TERMS </span>
+                    OF EVOConnect</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto">
+                <div class="box rounded border bg-white p-5 shadow-sm">
                     <div id="intro" class="mb-4">
-                        <!-- Title -->
-                        <div class="border-bottom mb-5 pb-5">
-                            <h1 class="text-primary font-weight-light"><span class="font-weight-bold">EVOConnect</span> Terms
-                                &amp; conditions</h1>
-                            <p class="mb-0">Effective date: 1 January 2020</p>
-                        </div>
-                        <!-- End Title -->
-                        <!-- Title -->
                         <div class="mb-3">
-                            <h2 class="h5">Welcome to EVOConnect</h2>
+                            <h2 class="h5 text-primary">Introduction</h2>
                         </div>
-                        <!-- End Title -->
-                        <p>Thanks for using our products and services ("Services"). The Services are provided by Pixeel Ltd.
-                            ("EVOConnect"), located at 153 Williamson Plaza, Maggieberg, MT 09514, England, United Kingdom.
-                        </p>
-                        <p>By using our Services, you are agreeing to these terms. Please read them carefully.</p>
-                        <p>Our Services are very diverse, so sometimes additional terms or product requirements (including
-                            age requirements) may apply. Additional terms will be available with the relevant Services, and
-                            those additional terms become part of your agreement with us if you use those Services.</p>
-                    </div>
-                    <div id="services" class="mb-4">
-                        <!-- Title -->
-                        <div class="mb-3">
-                            <h3 class="h5">1. Using our services</h3>
-                        </div>
-                        <!-- End Title -->
-                        <p>You must follow any policies made available to you within the Services.</p>
-                        <p>Don't misuse our Services. For example, don't interfere with our Services or try to access them
-                            using a method other than the interface and the instructions that we provide. You may use our
-                            Services only as permitted by law, including applicable export and re-export control laws and
-                            regulations. We may suspend or stop providing our Services to you if you do not comply with our
-                            terms or policies or if we are investigating suspected misconduct.</p>
-                        <p>Using our Services does not give you ownership of any intellectual property rights in our
-                            Services or the content you access. You may not use content from our Services unless you obtain
-                            permission from its owner or are otherwise permitted by law. These terms do not grant you the
-                            right to use any branding or logos used in our Services. Don't remove, obscure, or alter any
-                            legal notices displayed in or along with our Services.</p>
-                        <!-- Title -->
-                        <div id="personal-data" class="active mb-3">
-                            <h4 class="h6">A. Personal Data that we collect about you.</h4>
-                        </div>
-                        <!-- End Title -->
-                        <p>Personal Data is any information that relates to an identified or identifiable individual. The
-                            Personal Data that you provide directly to us through our Sites will be apparent from the
-                            context in which you provide the data. In particular:</p>
+                        <p>Welcome to EVOConnect! EVOConnect is a platform for job seekers and companies to discover
+                            and
+                            fill job opportunities managed by Evolusi Kreatif Solusi. This platform is designed to
+                            help
+                            users connect professionally, build networks, and find job opportunities in a more
+                            interactive and dynamic way.</p>
                         <ul class="text-secondary">
-                            <li class="pb-2">When you register for a EVOConnect account we collect your full name, email
-                                address, and account log-in credentials.</li>
-                            <li class="pb-2">When you fill-in our online form to contact our sales team, we collect your
-                                full name, work email, country, and anything else you tell us about your project, needs and
-                                timeline.</li>
-                            <li class="pb-2">When you use the "Remember Me" feature of EVOConnect Checkout, we collect
-                                your email address, payment card number, CVC code and expiration date.</li>
+                            <li class="pb-2">Social Media: A space to build professional connections, share
+                                insights,
+                                and engage with the industry community.</li>
+                            <li class="pb-2">Job Portal: A flexible and transparent job search and recruitment
+                                system.
+                            </li>
                         </ul>
-                        <p>When you respond to EVOConnect emails or surveys we collect your email address, name and any
-                            other information you choose to include in the body of your email or responses. If you contact
-                            us by phone, we will collect the phone number you use to call EVOConnect. If you contact us by
-                            phone as a EVOConnect User, we may collect additional information in order to verify your
-                            identity.</p>
-                        <!-- Title -->
-                        <div id="information" class="active mb-3">
-                            <h4 class="h6">B. Information that we collect automatically on our Sites.</h4>
-                        </div>
-                        <!-- End Title -->
-                        <p>We also may collect information about your online activities on websites and connected devices
-                            over time and across third-party websites, devices, apps and other online features and services.
-                            We use Google Analytics on our Sites to help us analyze Your use of our Sites and diagnose
-                            technical issues.</p>
-                        <p>To learn more about the cookies that may be served through our Sites and how You can control our
-                            use of cookies and third-party analytics, please see our Cookie Policy.</p>
+                        <p>By using this service, users agree to comply with and be bound by the following terms and
+                            conditions. Please read carefully before using our services.</p>
                     </div>
+
+                    <div id="definitions" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Definition</h3>
+                        </div>
+                        <ul class="text-secondary">
+                            <li class="pb-2">"User," "You": Refers to individuals or entities using our services,
+                                whether as job seekers or companies.</li>
+                            <li class="pb-2">"We," "EVOConnect," "Site": Refers to the job portal platform owned
+                                and
+                                operated by Evolusi Kreatif Solusi.</li>
+                            <li class="pb-2">Service: Refers to all features available on the EVOConnect platform,
+                                including job search, recruitment, and candidate data management.</li>
+                            <li class="pb-2">Personal Data: Refers to any information related to an individual
+                                that
+                                uses our services, whether as a job seeker or a company.</li>
+                        </ul>
+                    </div>
+
+                    <div id="registration" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Registration and User Account</h3>
+                        </div>
+                        <ul class="text-secondary">
+                            <li class="pb-2">To use our services, users must be at least 18 years old and have the
+                                legal capacity to enter into binding agreements.</li>
+                            <li class="pb-2">Users must provide accurate, complete, and up-to-date information
+                                during
+                                the registration process.</li>
+                            <li class="pb-2">Users are responsible for maintaining the confidentiality of their
+                                account information and password.</li>
+                            <li class="pb-2">Users are responsible for all activities that occur under their user
+                                account.</li>
+                        </ul>
+                    </div>
+
+                    <div id="service-usage" class="mb-4">
+                        <div class="mb-3">
+                            <strong>
+                                <h2 class="h4 text-primary">Use of Services</h2>
+                            </strong>
+                        </div>
+                        <h4 class="h6 text-primary mb-3">User Obligations</h4>
+                        <p>You agree to:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Use our website only for lawful purposes and in accordance with all
+                                applicable laws and regulations.</li>
+                            <li class="pb-2">Fully responsible for the content you upload to the platform,
+                                including
+                                profiles, CVs, documents, posts, and social interactions.</li>
+                        </ul>
+
+                        <h4 class="h6 text-primary mb-3 mt-4">Prohibited Uses</h4>
+                        <p>You agree to:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Do not use this service for illegal activities, fraud, or violations
+                                of
+                                third-party rights.</li>
+                            <li class="pb-2">Do not upload content that is discriminatory, misleading, or violates
+                                professional ethical standards.</li>
+                            <li class="pb-2">Do not infringe on the intellectual property rights of third parties.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="data-processing" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Collection and Processing of Personal Data</h3>
+                        </div>
+                        <p>Our Privacy Policy explains how we collect, use, and protect your personal information.
+                            By
+                            using our site, you agree to the terms outlined in our Privacy Policy.</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">EVOConnect collects users' personal data for recruitment purposes,
+                                professional networking, and social profile management.</li>
+                            <li class="pb-2">The data collected includes name, contact information, work
+                                experience,
+                                skills, supporting documents, and social interactions within the platform.</li>
+                            <li class="pb-2">EVOConnect will seek explicit consent before collecting, processing,
+                                or
+                                sharing users' data with third parties.</li>
+                            <li class="pb-2">Users have the right to withdraw consent or request the deletion of
+                                their
+                                data.</li>
+                        </ul>
+                    </div>
+
                     <div id="privacy" class="mb-4">
-                        <!-- Title -->
                         <div class="mb-3">
-                            <h3 class="h5">2. Privacy and copyright protection</h3>
+                            <h3 class="h5 text-primary">Privacy</h3>
                         </div>
-                        <!-- End Title -->
-                        <p>EVOConnect's privacy policies explain how we treat your personal data and protect your privacy
-                            when you use our Services. By using our Services, you agree that EVOConnect can use such data in
-                            accordance with our privacy policies.</p>
-                        <p>We respond to notices of alleged copyright infringement and terminate accounts of repeat
-                            infringers according to the process set out in the U.S. Digital Millennium Copyright Act.</p>
-                        <p>We provide information to help copyright holders manage their intellectual property online. If
-                            you think somebody is violating your copyrights and want to notify us, you can find information
-                            about submitting notices and EVOConnect's policy about responding to notices in <a
-                                href="{{ route('contact') }}">our Help Center</a>.</p>
-                    </div>
-                    <div id="yourContent" class="active">
-                        <!-- Title -->
-                        <div class="mb-3">
-                            <h3 class="h5">3. Your content in our services</h3>
-                        </div>
-                        <!-- End Title -->
-                        <p>Some of our Services allow you to upload, submit, store, send or receive content. You retain
-                            ownership of any intellectual property rights that you hold in that content. In short, what
-                            belongs to you stays yours.</p>
-                        <p>When you upload, submit, store, send or receive content to or through our Services, you give
-                            EVOConnect (and those we work with) a worldwide license to use, host, store, reproduce, modify,
-                            create derivative works (such as those resulting from translations, adaptations or other changes
-                            we make so that your content works better with our Services), communicate, publish, publicly
-                            perform, publicly display and distribute such content. The rights you grant in this license are
-                            for the limited purpose of operating, promoting, and improving our Services, and to develop new
-                            ones. This license continues even if you stop using our Services (for example, for a business
-                            listing you have added to EVOConnect Maps). Some Services may offer you ways to access and
-                            remove content that has been provided to that Service. Also, in some of our Services, there are
-                            terms or settings that narrow the scope of our use of the content submitted in those Services.
-                            Make sure you have the necessary rights to grant us this license for any content that you submit
-                            to our Services.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="list-sidebar mb-3 overflow-hidden rounded border">
-                        <div class="box-title border-bottom p-3">
-                            <h6 class="m-0">All List</h6>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="active">
-                                <a class="list-group-item list-group-item-action font-weight-medium text-primary p-3"
-                                    href="#services">1. Using our services</a>
-                                <ul class="list-group list-group-flush py-3 pl-5">
-                                    <li>
-                                        <a class="list-group-item-action" href="#personal-data">A. Personal Data that we
-                                            collect about you</a>
-                                    </li>
-                                    <li class="mt-3">
-                                        <a class="list-group-item-action" href="#information">B. Information that we collect
-                                            automatically on our Sites</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="list-group-item list-group-item-action p-3">
-                                <a class="list-group-item-action" href="#privacy">2. Privacy and copyright protection</a>
-                            </li>
-                            <li class="list-group-item list-group-item-action p-3">
-                                <a class="list-group-item-action" href="#yourContent">3. Your content in our services</a>
-                            </li>
+                        <ul class="text-secondary">
+                            <li class="pb-2">EVOConnect implements security measures in accordance with Law No. 27
+                                of
+                                2022 on Personal Data Protection..</li>
+                            <li class="pb-2">Users' data will not be misused, sold, or shared with third parties
+                                without permission.</li>
+                            <li class="pb-2">In the event of a data breach or leak, EVOConnect will notify
+                                affected
+                                users and take mitigation steps in accordance with legal requirements.</li>
                         </ul>
+                    </div>
+
+                    <div id="rights" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Rights and Obligations of EVOConnect</h3>
+                        </div>
+                        <ul class="text-secondary">
+                            <li class="pb-2">EVOConnect has the right to process and analyze user data to improve
+                                services.</li>
+                            <li class="pb-2">EVOConnect is not responsible for any errors in the data provided by
+                                users or third parties.</li>
+                            <li class="pb-2">EVOConnect is committed to complying with data protection regulations
+                                and
+                                ensuring the security of user information.</li>
+                        </ul>
+
+                        <p class="mt-4">EVOConnect is not responsible for:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Errors or omissions in content provided by users.</li>
+                            <li class="pb-2">Loss or damage caused by the use or inability to use our site.</li>
+                            <li class="pb-2">Content or actions of third parties using our site..</li>
+                        </ul>
+                    </div>
+
+                    <div id="applicable-law" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Governing Law</h3>
+                        </div>
+                        <p>These terms and conditions are governed by and construed in accordance with the laws
+                            applicable in Indonesia.</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Any disputes arising will first be resolved through mediation.</li>
+                            <li class="pb-2">If no agreement is reached, the resolution will be carried out in
+                                accordance with the laws applicable in Indonesia.</li>
+                        </ul>
+                    </div>
+
+                    <div id="contact" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Support Contact</h3>
+                        </div>
+                        <p>If you need further assistance, please contact our support team at:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Email: example@evoconnect.id</li>
+                            <li class="pb-2">Operating Hours: Monday - Friday, 09:00 - 17:00 WIB</li>
+                        </ul>
+                        <p class="mt-4">Thank you for choosing EVOConnect!</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    {{-- untuk mendukung fitur Bootstrap seperti modal dan dropdown. --}}
-    <!-- slick Slider JS-->
-    {{-- untuk menambahkan fitur slider (meskipun tidak terlihat penggunaannya di kode ini). --}}
-    <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/osahan.js"></script>
-    {{-- adalah file custom yang mungkin berisi script tambahan untuk fitur spesifik halaman ini. --}}
-@endsection
+</div>

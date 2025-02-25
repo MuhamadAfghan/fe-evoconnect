@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ApiFormatter;
 use App\Models\Blog;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Helpers\ApiFormatter;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -13,11 +15,13 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->per_page ?? 10;
+        $perPage = $request->limit ?? 10;
         $page = $request->page ?? 1;
-        $blogs = Blog::latest()->simplePaginate($perPage, ['*'], 'page', $page);
+        $posts = Blog::latest()
+            ->with('user')
+            ->paginate($perPage, ['*'], 'page', $page);
 
-        return ApiFormatter::sendResponse('success', 200, 'Blogs retrieved successfully.', $blogs);
+        return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
     }
 
     /**
@@ -33,22 +37,33 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+
+        // Jika tidak ada file, berarti ini request buat simpan artikel
+        $data = $request->validate([
             'title' => 'required',
+            'category' => 'required',
             'content' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $blog = Blog::create($request->all());
+        $data['user_id'] = Auth::id();
+        $data['image'] = $request->file('image')->store('images/blog', 'public');
+        $data['likes'] = [];
+        $data['slug'] = Str::slug($data['title']) . '-' . Str::random(5);
 
-        return ApiFormatter::sendResponse('success', 201, 'Blog created successfully.', $blog);
+        $blog = Blog::create($data);
+
+        return ApiFormatter::sendResponse('success', 201, 'Post created successfully.', $blog);
     }
+
+
 
     /**
      * Display the specified resource.
      */
     public function show(Blog $blog)
     {
-        //
+        return ApiFormatter::sendResponse('success', 200, 'Post retrieved successfully.', $blog->load('user'));
     }
 
     /**

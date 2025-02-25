@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('img/logo2.png') }}">
     <title>EVOConnect - Job Portal & Social Media</title>
     <!-- Slick Slider -->
@@ -24,6 +25,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
 
     <style>
         trix-editor ul,
@@ -73,6 +79,38 @@
         #searchButton {
             background-color: #fafbfc !important;
         }
+
+        /* css search */
+        .custom-search {
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .custom-search:focus {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+
+        .custom-search-btn {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            /* background-color: #28a745; */
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .custom-search-btn:hover {
+            background-color: grey;
+            color: white;
+        }
+
+        .custom-search-btn:focus {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
     </style>
 
     @stack('css')
@@ -89,7 +127,7 @@
                     <input type="text" class="form-control custom-search border-0 shadow-none" id="searchButton"
                         placeholder="Search people, jobs & more..." aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success custom-search-btn" type="button" id="searchButton">
+                        <button class="btn custom-search-btn" type="button" id="searchButton">
                             <i class="feather-search"></i>
                         </button>
                     </div>
@@ -126,6 +164,11 @@
                     <a class="nav-link" href="{{ route('connect.index') }}"><i class="feather-users mr-2"></i><span
                             class="d-none d-lg-inline">Connection</span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('blogs') }}">
+                        <i class="bi bi-pen mr-2"></i><span class="d-none d-lg-inline">Blog</span>
+                    </a>
+                </li>
                 @if (env('SHOW_LIST_PAGES'))
                     <li class="nav-item dropdown mr-2">
                         <a class="nav-link dropdown-toggle pr-0" href="#" role="button" data-toggle="dropdown"
@@ -142,12 +185,12 @@
                             <a class="dropdown-item" href="{{ route('connect.index') }}"><i
                                     class="feather-users mr-1"></i>
                                 Connection</a>
-                            <a class="dropdown-item" href="{{ route('company-profile') }}"><i
-                                    class="feather-user-plus mr-1"></i> Company Profile</a>
+                            {{-- <a class="dropdown-item" href="{{ route('company-profile') }}"><i
+                                    class="feather-user-plus mr-1"></i> Company Profile</a> --}}
                             <a class="dropdown-item" href="{{ route('job-profile') }}"><i
                                     class="feather-globe mr-1"></i>
                                 Job Profile</a>
-                            <a class="dropdown-item" href="{{ route('messages') }}"><i
+                            <a class="dropdown-item" href="{{ route('messages.index') }}"><i
                                     class="feather-message-circle mr-1"></i> Messages</a>
                             <a class="dropdown-item" href="{{ route('notifications') }}"><i
                                     class="feather-bell mr-1"></i> Notifications</a>
@@ -163,10 +206,12 @@
                                 Privacy</a>
                             <a class="dropdown-item" href="{{ route('blogs') }}"><i class="feather-book mr-1"></i>
                                 Blog</a>
-                            <a class="dropdown-item" href="{{ route('blog-single') }}"><i
-                                    class="feather-book-open mr-1"></i> Blog Single</a>
-                            <a class="dropdown-item" href="{{ route('contact') }}"><i class="feather-mail mr-1"></i>
-                                Contact</a>
+                            {{-- <a class="dropdown-item" href="{{ route('blog-single') }}"><i
+                                    class="feather-book-open mr-1"></i> Blog Single</a> --}}
+                            <a class="dropdown-item" href="{{ route('create-blog') }}"><i
+                                    class="feather-book-open mr-1"></i> Create Blog</a>
+                            <a class="dropdown-item" href="{{ route('contact') }}"><i
+                                    class="feather-mail mr-1"></i>Contact</a>
                             <a class="dropdown-item" href="{{ route('pricing') }}"><i
                                     class="feather-credit-card mr-1"></i> Pricing</a>
                             <a class="dropdown-item" href="{{ route('maintenance') }}"><i
@@ -196,7 +241,7 @@
                         <h6 class="dropdown-header">
                             Message Center
                         </h6>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages.index') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p1.png" alt="">
                                 <div
@@ -209,7 +254,7 @@
                                 <div class="small text-gray-500">Emily Fowler · 58m</div>
                             </div>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages.index') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p2.png" alt="">
                                 <div class="status-indicator"></div>
@@ -220,7 +265,7 @@
                                 <div class="small text-gray-500">Jae Chun · 1d</div>
                             </div>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages.index') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p3.png" alt="">
                                 <div class="status-indicator bg-warning"></div>
@@ -231,7 +276,7 @@
                                 <div class="small text-gray-500">Morgan Alvarez · 2d</div>
                             </div>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('messages.index') }}">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle" src="img/p4.png" alt="">
                                 <div
@@ -244,7 +289,8 @@
                                 <div class="small text-gray-500">Chicken the Dog · 2w</div>
                             </div>
                         </a>
-                        <a class="dropdown-item small text-center text-gray-500" href="{{ route('messages') }}">Read
+                        <a class="dropdown-item small text-center text-gray-500"
+                            href="{{ route('messages.index') }}">Read
                             More Messages</a>
                     </div>
                 </li>
@@ -260,6 +306,10 @@
                         <h6 class="dropdown-header">
                             Alerts Center
                         </h6>
+                        {{-- @if (isset($notifications) && $notifications->isEmpty())
+                            <p>No new notifications.</p>
+                        @else --}}
+                        {{-- @foreach ($notifications as $notification) --}}
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('notifications') }}">
                             <div class="mr-3">
                                 <div class="icon-circle bg-primary">
@@ -267,10 +317,16 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="small text-gray-500">December 12, 2019</div>
-                                <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                <div class="small text-gray-500">
+                                    {{-- {{ $notification->created_at->format('F j, Y') }} --}}
+                                </div>
+                                {{-- <span class="font-weight-bold">{{ $notification->message }}</span> --}}
                             </div>
                         </a>
+                        {{-- @endforeach
+                        @endif --}}
+
+
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('notifications') }}">
                             <div class="mr-3">
                                 <div class="icon-circle bg-success">
@@ -339,10 +395,11 @@
         </div>
     </nav>
 
-    <div class="container mt-5">
+    <div class="container">
         @yield('content')
     </div>
 
+    <audio id="notif-sound" src="{{ asset('music/notif.mp3') }}"></audio>
 
     <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
         @if (session('success'))
@@ -372,8 +429,39 @@
             </div>
         @endif
     </div>
-
+    {{-- <audio id="notif-sound" src="{{ asset('assets/music/notif.mp3') }}"></audio> --}}
     @stack('js')
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+        const sendNotifSound = () => {
+            const audio = document.getElementById("notif-sound");
+            audio.play();
+        };
+
+        window.addEventListener('load', async (ev) => {
+            // Connect to pusher
+            const pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
+                cluster: "{{ env('PUSHER_APP_CLUSTER') }}"
+            })
+
+            // Connect to chat channel
+            const channel = pusher.subscribe('chat-channel')
+
+            // Listen for chat-send event
+            channel.bind('chat-send', async (data) => {
+                if (window.location.pathname.includes('messages/chat/room')) {
+                    await getChat()
+                }
+                console.log(data);
+                if (data.sender != "{{ Auth::user()->id }}" && data.receiver ==
+                    "{{ Auth::user()->id }}") {
+                    sendNotifSound()
+                    //
+                }
+            })
+
+        });
+    </script>
 
 </body>
 

@@ -1,199 +1,148 @@
 @extends('layouts.templates')
 
 @section('content')
-    <div class="bg-primary py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 mx-auto">
-                    <h1 class="font-weight-light text-white"><span class="font-weight-bold">Blog
-                        </span> Single</h1>
-                    <p class="text-white-50 mb-2">Last modified: March 27, 202 (view archived versions)
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <style>
+        /* Container utama komentar */
+        #comments-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Setiap komentar */
+        .media {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding-bottom: 15px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Garis pemisah penuh */
+        .media::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        /* Styling untuk gambar profil */
+        .media img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Bagian teks dalam komentar */
+        .media-body {
+            flex: 1;
+        }
+
+        .media-body h5 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .media-body small {
+            color: gray;
+            font-size: 12px;
+        }
+
+        .media-body p {
+            margin-bottom: 0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        *::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+        }
+
+        *::-webkit-scrollbar-thumb:hover {
+            background: #c1c1c1;
+        }
+
+        .blog {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .blog img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+        }
+    </style>
     <div class="py-5">
         <div class="container">
             <div class="row">
-
-
                 <div class="col-lg-8 col-md-8">
-
+                    <!-- <div id="blogs"></div> -->
                     <div class="blog-card padding-card box mb-3 rounded border-0 bg-white shadow-sm">
-                        <img class="card-img-top" src="img/blog/2.png" alt="Card image cap">
+                        <img class="card-img-top" style="width: 100%; max-height: 400px; object-fit: cover;"
+                            src="{{ $blog->image ? asset('storage/' . $blog->image) : asset('default-group.png') }}"
+                            alt="Card image cap">
                         <div class="card-body">
-                            <span class="badge badge-success">House/Villa</span>
-                            <h2>Possimus aut mollitia eum ipsum</h2>
-                            <h6 class="mb-3"><i class="feather-calendar"></i> March 09, 2020 / 3 Comments</h6>
-                            <p>
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in
-                                some form, by injected humour, or randomised words which don't look even slightly
-                                believable. If you are going to use a passage of Lorem Ipsum...
-                            </p>
-                            <p>
-                                Praesent eget euismod nibh. Fusce ac tellus eu nisl lobortis maximus ac eget sapien. Nulla
-                                malesuada mauris non nulla imperdiet ullamcorper.
-                            </p>
-                            <p>Spacial has both a web app and an android app to make your website easy and always available.
-                                It offers you all the designs in collaboration with some smart people. Your projects will
-                                look great everywhere you go. Use new components that come included!</p>
-                            <div class="row">
-                                <div class="col-xl-10 offset-xl-1">
-                                    <blockquote class="margin-top-1x margin-bottom-1x">
-                                        <p class="font-weight-bold">Perspiciatis unde omnis iste natus error sit voluptatem
-                                            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.
-                                        </p>
-                                        <cite>Someone famous</cite>
-                                    </blockquote>
-                                </div>
-                            </div>
-                            <p>
-                                Focus on creating and growing your projects and websites, and we‘ll take care of spinning up
-                                new designs for your users and making sure they’re great. Work with all types of customers
-                                right out of the box while still getting paid in your preferred currency.
-                            </p>
-                            <p class="mb-0">Sed porta libero metus, nec feugiat enim pharetra vel. Sed vel sagittis augue.
-                                Donec hendrerit nibh ac dolor lobortis, eu varius odio sollicitudin. Proin non condimentum
-                                nulla, quis dictum leo. Vestibulum lobortis urna eu mauris viverra porttitor. Cras consequat
-                                leo condimentum lacus viverra sollicitudin. Donec dignissim ornare est, nec scelerisque
-                                purus mollis eu. Phasellus dictum suscipit ligula. Donec malesuada gravida velit. Nulla
-                                egestas diam in ligula mollis, nec tincidunt diam porta. Proin eleifend lacinia diam quis
-                                pretium. Sed lacinia varius nisi et euismod. Ut ac arcu vulputate, porta nibh non, ultricies
-                                erat. Nulla facilisi. </p>
-                        </div>
-                        <div class="card-footer border-0">
-                            <div class="footer-social"><span>Share</span> : &nbsp;
-                                <a href="#"><i class="feather-facebook"></i></a>
-                                <a href="#"><i class="feather-twitter"></i></a>
-                                <a href="#"><i class="feather-instagram"></i></a>
+                            <span class="badge badge-success">{{ $blog->category }}</span>
+                            <h2>{{ $blog->title }}</h2>
+                            <h6 class="small text-muted mb-3"><i class="feather-calendar"></i>
+                                {{ $blog->created_at->format('F d, Y') }}
+                            </h6>
+                            <div style="font-size: 17px; white-space: normal; word-wrap: break-word;"
+                                id="content-blog-wrapper">
+                                {!! $blog->content !!}
                             </div>
                         </div>
-
                     </div>
+                    <div class="sidebar-card box mb-3 rounded border-0 bg-white shadow-sm">
+                        <div class="padding-card reviews-card box mb-3 rounded border-0 bg-white shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4"><span id="review-count">0</span> Reviews</h5>
+                                <div class="media mb-4"id="comments-container" style="max-height: 300px; overflow-y: auto;">
+                                    <!-- isi dari komen setelah di submit -->
+                                    {{-- <a class="d-inline-block u-text-muted" href="#" id="viewMore">
+                                        <span>+</span> View More
+                                    </a> --}}
 
-                    <div class="padding-card reviews-card box mb-3 rounded border-0 bg-white shadow-sm">
-
-                        <div class="card-body">
-                            <h5 class="card-title mb-4">3 Reviews</h5>
-                            <div class="media mb-4">
-                                <img class="d-flex mr-3 rounded" src="img/user/1.jpg" alt="">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Stave Martin <small>Feb 12, 2020</small>
-                                        {{-- <span class="star-rating float-right">
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i><small class="text-success">5/2</small>
-                                        </span> --}}
-                                    </h5>
-                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                                        sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                                        Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in
-                                        faucibus.</p>
                                 </div>
                             </div>
-                            <div class="media">
-                                <img class="d-flex mr-3 rounded" src="img/user/2.jpg" alt="">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Mark Smith <small>Feb 09, 2020</small>
-                                        {{-- <span
-                                            class="star-rating float-right">
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i><small class="text-success">5/1</small>
-                                        </span> --}}
-                                    </h5>
-                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                                        sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                                        Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in
-                                        faucibus.</p>
-
-                                    <div class="media mt-4">
-                                        <img class="d-flex mr-3 rounded" src="img/user/3.jpg" alt="">
-                                        <div class="media-body">
-                                            <h5 class="mt-0">Ryan Printz <small>Nov 13, 2020</small>
-                                                {{-- <span
-                                                    class="star-rating float-right">
-                                                    <i class="feather-star text-warning"></i>
-                                                    <i class="feather-star text-warning"></i>
-                                                    <i class="feather-star text-warning"></i>
-                                                    <i class="feather-star text-warning"></i>
-                                                    <i class="feather-star text-warning"></i><small
-                                                        class="text-success">5/5</small>
-                                                </span> --}}
-                                            </h5>
-                                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                                                sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-                                                congue felis in faucibus.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="media mt-4">
-                                <img class="d-flex mr-3 rounded" src="img/user/5.jpg" alt="">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Stave Mark <small>Feb 12, 2020</small>
-                                        {{-- <span class="star-rating float-right">
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i>
-                                            <i class="feather-star text-warning"></i><small class="text-success">5/2</small>
-                                        </span> --}}
-                                    </h5>
-                                    <p class="mb-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-                                        scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus
-                                        viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-                                        congue felis in faucibus.</p>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
+                    <!-- input komentar -->
                     <div class="padding-card box mb-3 rounded border-0 bg-white shadow-sm">
-
                         <div class="card-body">
                             <h5 class="card-title mb-4">Leave a Comment</h5>
-
-
                             <form name="sentMessage">
-                                <div class="row">
-                                    <div class="control-group form-group col-lg-6 col-md-6">
-                                        <div class="controls">
-                                            <label>Your Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" required="">
-                                        </div>
-                                    </div>
-                                    <div class="control-group form-group col-lg-6 col-md-6">
-                                        <div class="controls">
-                                            <label>Your Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" required="">
-                                        </div>
-                                    </div>
-
-                                </div>
-
                                 <div class="control-group form-group">
                                     <div class="controls">
                                         <label>Review <span class="text-danger">*</span></label>
-                                        <textarea rows="10" cols="100" class="form-control"></textarea>
+                                        <textarea rows="5" cols="100" name="content" class="form-control"></textarea>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">SUBMIT</button>
                             </form>
-
-
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-4 col-md-4">
                     <div class="sidebar-card box mb-3 rounded border-0 bg-white shadow-sm">
                         <div class="card-body">
@@ -238,15 +187,15 @@
                         </div>
                     </div>
                     {{-- <div class="sidebar-card box shadow-sm rounded bg-white mb-3 border-0">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">Archives</h5>
-                            <ul class="sidebar-card-list">
-                                <li><a href="#"><i class="feather-arrow-right-circle"></i> December, 2017</a></li>
-                                <li><a href="#"><i class="feather-arrow-right-circle"></i> November, 2017</a></li>
-                                <li><a href="#"><i class="feather-arrow-right-circle"></i> October, 2017</a></li>
-                            </ul>
-                        </div>
-                    </div> --}}
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Archives</h5>
+                                <ul class="sidebar-card-list">
+                                    <li><a href="#"><i class="feather-arrow-right-circle"></i> December, 2017</a></li>
+                                    <li><a href="#"><i class="feather-arrow-right-circle"></i> November, 2017</a></li>
+                                    <li><a href="#"><i class="feather-arrow-right-circle"></i> October, 2017</a></li>
+                                </ul>
+                            </div>
+                        </div> --}}
 
                     <div class="sidebar-card box mb-3 rounded border-0 bg-white shadow-sm">
 
@@ -263,7 +212,8 @@
                                         <div class="job-item rounded border bg-white">
                                             <div class="d-flex align-items-center job-item-header p-3">
                                                 <div class="mr-2 overflow-hidden">
-                                                    <h6 class="font-weight-bold text-dark text-truncate mb-0">Product
+                                                    <h6 class="font-weight-bold text-dark text-truncate mb-0">
+                                                        Product
                                                         Director</h6>
                                                     <div class="text-truncate text-primary">Spotify Inc.</div>
                                                     <div class="small text-gray-500"><i class="feather-map-pin"></i>
@@ -290,7 +240,8 @@
                                                 <span class="font-weight-bold text-muted">18 connections</span>
                                             </div>
                                             <div class="job-item-footer p-3">
-                                                <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days
+                                                <small class="text-gray-500"><i class="feather-clock"></i> Posted
+                                                    3 Days
                                                     ago</small>
                                             </div>
                                         </div>
@@ -299,7 +250,8 @@
                                         <div class="job-item rounded border bg-white">
                                             <div class="d-flex align-items-center job-item-header p-3">
                                                 <div class="mr-2 overflow-hidden">
-                                                    <h6 class="font-weight-bold text-dark text-truncate mb-0">Product
+                                                    <h6 class="font-weight-bold text-dark text-truncate mb-0">
+                                                        Product
                                                         Director</h6>
                                                     <div class="text-truncate text-primary">Spotify Inc.</div>
                                                     <div class="small text-gray-500"><i class="feather-map-pin"></i>
@@ -326,7 +278,8 @@
                                                 <span class="font-weight-bold text-muted">18 connections</span>
                                             </div>
                                             <div class="job-item-footer p-3">
-                                                <small class="text-gray-500"><i class="feather-clock"></i> Posted 3 Days
+                                                <small class="text-gray-500"><i class="feather-clock"></i> Posted
+                                                    3 Days
                                                     ago</small>
                                             </div>
                                         </div>
@@ -336,9 +289,117 @@
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
         </div>
     </div>
+
+    <script>
+        let blogId = "{{ $blog->id }}";
+        let commentsContainer = document.querySelector('#comments-container');
+        let reviewCountElement = document.querySelector('#review-count');
+
+        function createCommentMoreElement(data) {
+            //
+        }
+
+        function createCommentElement(data) {
+            let commentsContainer = document.querySelector('#comments-container');
+            let currentDate = new Date(data.created_at);
+            let formattedDate = currentDate.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit"
+            });
+
+            let newComment = `
+                    <div class="media mb-4">
+                        <img class="d-flex mr-3 rounded" src="${data.user.profile_photo_url}" alt="">
+                        <div class="media-body">
+                            <h5 class="mt-0">${data.user.name} <small>${formattedDate}</small></h5>
+                            <p>${data.content}</p>
+                        </div>
+                    </div>
+                `;
+
+            commentsContainer.insertAdjacentHTML("afterbegin",
+                newComment);
+
+            return;
+        }
+
+        function fetchComments() {
+
+            fetch(`/api/blogs/comments/${blogId}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    reviewCountElement.textContent = data.data.length;
+
+                    commentsContainer.innerHTML = '';
+                    data.data.forEach(comment => {
+                        createCommentElement(comment);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchComments();
+
+            document.querySelector('form[name="sentMessage"]').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                let content = document.querySelector('textarea').value;
+
+                if (content.trim() === "") {
+                    alert("Komentar tidak boleh kosong!");
+                    return;
+                }
+
+                fetch(`/api/blogs/comments/${blogId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({
+                            content: content
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        fetchComments();
+
+                        document.querySelector('textarea').value =
+                            ''; // Kosongkan textarea setelah sukses
+
+                        // Perbarui jumlah review
+                        let currentCount = parseInt(reviewCountElement.textContent);
+                        reviewCountElement.textContent = currentCount + 1;
+
+                        // alert("Komentar berhasil dikirim!");
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("Terjadi kesalahan saat mengirim komentar.");
+                    });
+
+            });
+
+            const contentBlogWrapper = document.querySelector('#content-blog-wrapper')
+            contentBlogWrapper.querySelectorAll('a[href^="http"]').forEach((a) => {
+                a.setAttribute('target', '_blank');
+                a.setAttribute('rel', 'noopener noreferrer');
+            });
+        });
+    </script>
+
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

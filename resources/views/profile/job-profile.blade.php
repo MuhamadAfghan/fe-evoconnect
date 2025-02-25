@@ -110,12 +110,9 @@
                             <div>
                                 <!-- Menampilkan Foto Job -->
                                 <div class="profile-photo-container">
-                                    <img id="jobPhoto"
-                                        src="{{ $job->job_photo_path ? asset('storage/' . $job->job_photo_path) : auth()->user()->getProfileImage() }}"
-                                        class="img-fluid rounded-circle job-photo" alt="Job Image">
-                                    <div class="camera-icon">
-                                        <i class="feather-camera"></i>
-                                    </div>
+                                    <img src="{{ $job->job_photo ? asset('storage/' . $job->job_photo) : auth()->user()->getProfileImage() }}"
+                                        class="img-fluid rounded-circle job-photo ml-auto" alt="Job Image">
+
                                 </div>
                                 <div class="p-3 text-center">
                                     <button type="button" class="btn btn-light btn-sm follow-btn text-nowrap"
@@ -124,49 +121,15 @@
                                     </button>
                                 </div>
                             </div>
-
-                            <!-- Modal untuk Menampilkan Gambar -->
-                            <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="photoModalLabel">Job Photo</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body text-center">
-                                            <img id="modalJobPhoto" src="" class="img-fluid rounded"
-                                                alt="Job Image">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form action="{{ route('job.update.photo', ['job' => $job->id]) }}"
-                                                method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                @method('PUT')
-                                                <input type="file" id="fileAttachmentBtn" name="job_photo"
-                                                    style="display: none;">
-                                                <button type="button" class="btn btn-primary"
-                                                    onclick="document.getElementById('fileAttachmentBtn').click();">
-                                                    Upload
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('job.delete.photo', ['job' => $job->id]) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Hapus</button>
-                                            </form>
-                                            <a id="downloadPhoto" class="btn btn-success" download>Unduh</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="border-top border-bottom p-3">
-                            <h5 class="font-weight-bold text-dark mb-1 mt-0">{{ $job->company->name }}</h5>
+                            <h5 class="font-weight-bold text-dark mb-1 mt-0">
+                                <a href="{{ route('company.profile', $job->company->id) }}"
+                                    class="text-dark text-decoration-none">
+                                    {{ $job->company->name }}
+                                </a>
+                            </h5>
                             <p class="text-muted mb-0">{{ $job->location }}</p>
                         </div>
 
@@ -241,6 +204,11 @@
                                         <th class="p-3">Job Functions</th>
                                         <td class="p-3">{{ $jobDetails['Job Functions'] }}</td>
                                     </tr>
+                                    <tr class="border-bottom">
+                                        <th class="p-3">Salary</th>
+                                        <td class="p-3">Rp {{ number_format($job->salary, 0, ',', '.') }}</td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -249,12 +217,12 @@
                         <div class="d-flex align-items-center border-bottom osahan-post-header p-3">
                             <div class="dropdown-list-image mr-3">
                                 <img class="rounded-circle"
-                                    src="{{ $job->job_photo_path ? asset('storage/' . $job->job_photo_path) : auth()->user()->getProfileImage() }}"
+                                    src="{{ $job->company->logo ? asset('storage/' . $job->company->logo) : asset('img/default-logo.png') }}"
                                     alt="">
                             </div>
                             <div class="font-weight-bold">
-                                <div class="text-truncate">Envato</div>
-                                <div class="small text-gray-500">Internet | 24,044 followers</div>
+                                <div class="text-truncate">{{ $job->company->name }}</div>
+                                <div class="small text-gray-500">{{ $job->company->industry }} | 24,044 followers</div>
                             </div>
                         </div>
                         <img src="img/post1.png" class="img-fluid" alt="Responsive image">

@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->text('description');
             $table->string('industry');
-            $table->json('location');
+            $table->string('location');
             $table->string('website');
             $table->integer('company_size');
             $table->string('headquarters');

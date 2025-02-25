@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmailVerificationJob;
+use App\Jobs\SendForgotPasswordJob;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
@@ -57,16 +59,17 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        // if (env('APP_ENV') == 'local') {
+        // // if (env('APP_ENV') == 'local') {
         $user->email_verified_at = now();
         $user->save();
 
         Auth::login($user);
 
         return redirect()->route('home');
-        // }
+        // // }
 
-        event(new Registered($user));
+        // event(new Registered($user));
+        dispatch(new SendEmailVerificationJob($user));
 
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
@@ -88,17 +91,16 @@ class AuthController extends Controller
 
     public function storeForgotPassword(Request $request)
     {
+        // $request->validate(['email' => 'required|email|exists:users'], [
+        //     'email.exists' => 'We can\'t find a user with that email address.'
+        // ]);
+        $request->validate([
+            'email' => 'required|email'
+        ]);
 
-        // return $request;
-        $request->validate(['email' => 'required|email']);
+        dispatch(new SendForgotPasswordJob($request->email));
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('success', __($status))
-            : back()->withErrors(['email' => __($status)]);
+        return back()->with('success', 'If an account exists with this email, a password reset link will be sent.');
     }
 
     public function resetPassword($token)
@@ -119,6 +121,7 @@ class AuthController extends Controller
             function (User $user, string $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
+
                 ])->setRememberToken(Str::random(60));
 
                 $user->save();

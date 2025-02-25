@@ -28,8 +28,16 @@ class JobController extends Controller
             'location' => 'required|string',
             'description' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
+            'salary' => 'required',
             'company_id' => 'required|uuid|exists:companies,id',
+            'job_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('job_photo')) {
+            $path = $request->file('job_photo')->store('job-photos', 'public');
+        } else {
+            return response()->json(['error' => 'Job photo is required.'], 422);
+        }
 
         $job_details = [
             "Seniority Level" => $request->seniority_level,
@@ -44,9 +52,11 @@ class JobController extends Controller
             'location' => $request->location,
             'description' => $request->description,
             'rating' => $request->rating,
+            'salary' => $request->salary,
             'industry' => $request->industry,
             'company_id' => $request->company_id,
             'job_details' => json_encode($job_details),
+            'job_photo' => $path,
         ]);
 
         return response()->json([
@@ -63,6 +73,8 @@ class JobController extends Controller
         $job->load('company');
         return view('profile.job-profile', compact('job'));
     }
+
+
 
     // Mengupdate foto pekerjaan
     public function updatePhotoJob(Request $request, Job $job)

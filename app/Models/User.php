@@ -16,15 +16,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'name',
         'email',
         'phone',
         'password',
-        'google_i d',
+        'google_id',
         'profile_photo_path',
         'provider',
         'email_verified_at',
@@ -40,17 +37,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'skills',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_seen' => 'datetime',
@@ -59,17 +50,26 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'medsos' => 'array',
     ];
 
-    /**
-     * Append custom attributes.
-     */
     protected $appends = [
         'profile_photo_url',
         'is_online',
+        // 'friends',
     ];
 
-    /**
-     * Get profile image URL.
-     */
+    // public function getFriendsAttribute()
+    // {
+    //     $friends = auth()->user()->connections->map(function ($connection) {
+    //         return $connection->toUser;
+    //     });
+
+    //     $receivedFriends = auth()->user()->receivedConnections->map(function ($connection) {
+    //         return $connection->fromUser;
+    //     });
+
+    //     return $friends->merge($receivedFriends);
+    // }
+
+
     public function getProfileImage()
     {
         if ($this->profile_photo_path) {
@@ -80,9 +80,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name);
     }
 
-    /**
-     * Get the full URL of the profile photo.
-     */
     public function getProfilePhotoUrlAttribute()
     {
         if ($this->provider === 'google') {
@@ -94,9 +91,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         }
     }
 
-    /**
-     * Check if the user is online.
-     */
     public function isOnline()
     {
         return $this->last_seen && $this->last_seen->diffInMinutes(Carbon::now('Asia/Jakarta')) < 10;
@@ -107,22 +101,15 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->isOnline();
     }
 
-    /**
-     * Relasi ke tabel Job (pekerjaan yang dibuat oleh user).
-     */
     public function jobs()
     {
         return $this->hasMany(Job::class);
     }
 
-    /**
-     * Relasi many-to-many untuk pekerjaan yang disimpan oleh user.
-     */
     public function savedJobs()
     {
         return $this->hasMany(JobUserSaved::class, 'user_id');
     }
-
 
     public function educations()
     {
@@ -132,5 +119,35 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function experiences()
     {
         return $this->hasMany(Experience::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function toUser()
+    {
+        return $this->hasMany(RequestConnection::class, 'to_user_id');
+    }
+
+    public function fromUser()
+    {
+        return $this->hasMany(RequestConnection::class, 'from_user_id');
+    }
+
+    public function connections()
+    {
+        return $this->hasMany(MasterConnection::class, 'from_user_id');
+    }
+
+    public function receivedConnections()
+    {
+        return $this->hasMany(MasterConnection::class, 'to_user_id');
+    }
+
+    public function groupConnections()
+    {
+        return $this->belongsToMany(GroupConnection::class, 'group_members', 'user_id', 'group_connection_id');
     }
 }

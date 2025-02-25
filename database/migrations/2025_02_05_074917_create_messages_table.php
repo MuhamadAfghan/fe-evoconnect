@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('from_user_id')->constrained('users');
             $table->foreignUuid('to_user_id')->constrained('users');
             $table->text('content');
-            $table->string('document');
+            $table->string('document')->nullable();
             $table->timestamps();
         });
     }

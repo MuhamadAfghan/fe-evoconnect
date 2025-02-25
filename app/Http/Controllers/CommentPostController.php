@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiFormatter;
 use App\Models\CommentPost;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentPostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($post_id)
     {
-        //
+        $post = Post::findOrFail($post_id);
+        $comments = $post->comments()->with('user')->get();
+        return ApiFormatter::sendResponse('success', 200, 'Comments retrieved successfully.', $comments);
     }
 
     /**
@@ -26,9 +31,20 @@ class CommentPostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $post_id)
     {
-        //
+        $request->validate([
+            'content' => 'required|string|max:1000'
+        ]);
+
+        $post = Post::findOrFail($post_id);
+        $comment = CommentPost::create([
+            'content' => $request->content,
+            'user_id' => Auth::id(),
+            'post_id' => $post->id
+        ]);
+
+        return ApiFormatter::sendResponse('success', 201, 'Comment posted successfully.', $comment);
     }
 
     /**
@@ -58,8 +74,32 @@ class CommentPostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CommentPost $commentPost)
+    public function destroy($comment_id)
     {
-        //
+        $comment = CommentPost::findOrFail($comment_id);
+        $comment->delete();
+
+        return ApiFormatter::sendResponse('success', 200, 'Comment deleted successfully.');
+    }
+
+    public function storeReply(Request $request, CommentPost $commentPost)
+    {
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        // return [
+        //     'user_id' => auth()->id(),
+        //     'post_id' => $commentPost->post_id,
+        //     'content' => $request->content,
+        // ];
+
+        $reply = $commentPost->replies()->create([
+            'user_id' => auth()->id(),
+            'post_id' => $commentPost->post_id,
+            'content' => $request->content,
+        ]);
+
+        return ApiFormatter::sendResponse('success', 201, 'Reply posted successfully.', $reply->load('user'));
     }
 }

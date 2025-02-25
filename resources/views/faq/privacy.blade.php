@@ -1,184 +1,178 @@
 @extends('errors.templates')
-
-@section('content')
-    <div class="bg-primary py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <h1 class="font-weight-light text-white">KEBIJAKAN <span class="font-weight-bold">PRIVASI</span>
-                        EVOCONNECT</h1>
-                    <p class="text-white-50 mb-2">Terakhir diperbarui: Maret 2024</p>
-                </div>
+<div class="bg-primary p-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="mx-auto">
+                <h1 class="font-weight-light text-center text-white"><span class="font-weight-bold">PRIVACY POLICY</span>
+                    OF
+                    EVOCONNECT</h1>
             </div>
         </div>
     </div>
-    <div class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <div class="box rounded border bg-white p-5 shadow-sm">
-                        <div id="intro" class="mb-4">
-                            <div class="mb-3">
-                                <h2 class="h5 text-primary">Pendahuluan</h2>
-                            </div>
-                            <p>EVOConnect menghargai privasi Anda dan berkomitmen untuk melindungi data pribadi Anda.
-                                Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, menyimpan, dan
-                                melindungi data pribadi pengguna sesuai dengan Undang-Undang Perlindungan Data Pribadi No.
-                                27 Tahun 2022.</p>
+</div>
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto">
+                <div class="box rounded border bg-white p-5 shadow-sm">
+                    <div id="intro" class="mb-4">
+                        <div class="mb-3">
+                            <h2 class="h5 text-primary">Introduction</h2>
                         </div>
+                        <p>EVOConnect respects your privacy and is committed to protecting your personal data.
+                            This policy explains how we collect, use, store, and
+                            protect users' personal data in accordance with the Personal Data Protection Law No.
+                            27 of 2022.</p>
+                    </div>
 
-                        <div id="legal-basis" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Dasar Hukum Pengolahan Data</h3>
-                            </div>
-                            <p>Kami mengumpulkan dan menggunakan data pribadi berdasarkan prinsip-prinsip berikut:</p>
-                            <ul class="text-secondary">
-                                <li class="pb-2">Persetujuan Pengguna: Data dikumpulkan dengan izin eksplisit dari
-                                    pengguna.</li>
-                                <li class="pb-2">Pelaksanaan Kontrak: Data diperlukan untuk memberikan layanan pencarian
-                                    kerja dan rekrutmen.</li>
-                                <li class="pb-2">Kewajiban Hukum: Data diproses sesuai dengan ketentuan hukum yang
-                                    berlaku.</li>
-                                <li class="pb-2">Kepentingan Sah: EVOConnect dapat memproses data untuk meningkatkan
-                                    layanan dan pengalaman pengguna.</li>
-                            </ul>
+                    <div id="legal-basis" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Legal Basis for Data Processing</h3>
                         </div>
+                        <p>We collect and use personal data based on the following principles: </p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">User Consent: Data is collected with the explicit permission of the user.
+                            </li>
+                            <li class="pb-2">Contract Performance: Data is required to provide job search and
+                                recruitment services.</li>
+                            <li class="pb-2">Legal Obligations: Data is processed in accordance with applicable legal
+                                provisions.</li>
+                            <li class="pb-2">Legitimate Interests: EVOConnect may process data to improve its services
+                                and user experience.</li>
+                        </ul>
+                    </div>
 
-                        <div id="data-collection" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Data yang Kami Kumpulkan</h3>
-                            </div>
-                            <p>Kami mengumpulkan data pribadi yang diberikan oleh pengguna saat mendaftar atau menggunakan
-                                layanan EVOConnect, termasuk tetapi tidak terbatas pada:</p>
-                            <ul class="text-secondary">
-                                <li class="pb-2">Nama lengkap</li>
-                                <li class="pb-2">Alamat email</li>
-                                Photos Respect Obama. <li class="pb-2">Nomor telepon</li>
-                                <li class="pb-2">Informasi profil profesional (pengalaman kerja, keterampilan, pendidikan,
-                                    dan CV)</li>
-                                <li class="pb-2">Konten yang diunggah dalam platform sosial media EVOConnect</li>
-                                <li class="pb-2">Data aktivitas pengguna dalam platform</li>
-                            </ul>
+                    <div id="data-collection" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Data We Collect</h3>
                         </div>
+                        <p>We collect personal data provided by users when registering or using EVOConnect services,
+                            including but not limited to:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Full name</li>
+                            <li class="pb-2">Email address</li>
+                            <li class="pb-2">Phone number</li>
+                            <li class="pb-2">Professional profile information (work experience, skills, education, and
+                                CV)</li>
+                            <li class="pb-2">Content uploaded on EVOConnect social media platforms</li>
+                            <li class="pb-2">User activity data within the platform</li>
+                        </ul>
+                    </div>
 
-                        <!-- Continue with other sections... -->
-                        <div id="data-usage" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Tujuan Penggunaan Data</h3>
-                            </div>
-                            <p>Kami menggunakan data pribadi pengguna untuk:</p>
-                            <ul class="text-secondary">
-                                <li class="pb-2">Memfasilitasi proses pencarian kerja dan rekrutmen</li>
-                                <li class="pb-2">Mengelola interaksi pengguna dalam fitur sosial media</li>
-                                <li class="pb-2">Menyediakan pengalaman pengguna yang lebih baik dengan rekomendasi konten
-                                    dan pekerjaan</li>
-                                <li class="pb-2">Meningkatkan keamanan dan mencegah penyalahgunaan platform</li>
-                                <li class="pb-2">Menjawab pertanyaan dan permintaan dukungan</li>
-                                <li class="pb-2">Mematuhi kewajiban hukum yang berlaku</li>
-                            </ul>
+                    <!-- Continue with other sections... -->
+                    <div id="data-usage" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Purpose of Data Use</h3>
                         </div>
+                        <p>We use user personal data to:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Facilitating the job search and recruitment process</li>
+                            <li class="pb-2">Managing user interactions in social media features</li>
+                            <li class="pb-2">Providing a better user experience with content and job recommendations
+                            </li>
+                            <li class="pb-2">Improving security and preventing platform abuse</li>
+                            <li class="pb-2">Answering questions and support requests</li>
+                            <li class="pb-2">Comply with applicable legal obligations</li>
+                        </ul>
+                    </div>
 
-                        <div id="user-obligations" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Kewajiban Pengguna</h3>
-                            </div>
-                            <ul class="text-secondary">
-                                <li class="pb-2">Pengguna bertanggung jawab untuk memberikan informasi yang akurat dan
-                                    tidak menyesatkan di dalam platform Evoconnect.</li>
-                                <li class="pb-2">Pengguna wajib menjaga kerahasiaan data akun mereka dan tidak membagikan
-                                    kredensial login kepada pihak lain.</li>
-                                <li class="pb-2">Pengguna dilarang mengunggah konten yang bersifat diskriminatif,
-                                    menyesatkan, atau melanggar norma etika profesional.</li>
-                                <li class="pb-2">Pengguna setuju untuk tidak menyalahgunakan informasi pribadi pengguna
-                                    lain yang diperoleh melalui platform.</li>
-                            </ul>
+                    <div id="user-obligations" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">User Obligations</h3>
                         </div>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Users are responsible for providing accurate and non-misleading
+                                information on the Evoconnect platform.</li>
+                            <li class="pb-2">Users are required to maintain the confidentiality of their account data
+                                and not share their login credentials with any other party.</li>
+                            <li class="pb-2">Users are prohibited from uploading content that is discriminatory,
+                                misleading, or violates professional ethical norms.</li>
+                            <li class="pb-2">Users agree not to misuse other users' personal information obtained
+                                through the platform.</li>
+                        </ul>
+                    </div>
 
-                        <div id="user-rights" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Hak Pengguna</h3>
-                            </div>
-                            <p>Pengguna memiliki hak sebagai berikut:</p>
-                            <ul class="text-secondary">
-                                <li class="pb-2">Mengakses, memperbarui, atau menghapus data pribadi mereka</li>
-                                <li class="pb-2">Menarik persetujuan penggunaan data</li>
-                                <li class="pb-2">Meminta informasi tentang bagaimana data mereka digunakan</li>
-                            </ul>
+                    <div id="user-rights" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">User Rights</h3>
                         </div>
+                        <p>Users have the following rights:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Access, update, or delete their personal data</li>
+                            <li class="pb-2">Withdraw consent for data usage</li>
+                            <li class="pb-2">Request information on how their data is used</li>
+                        </ul>
+                    </div>
 
-                        <div id="employer-obligations" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Kewajiban Perusahaan Pemberi Kerja</h3>
-                            </div>
-                            <ul class="text-secondary">
-                                <li class="pb-2">Perusahaan yang menggunakan layanan Evoconnect wajib menghormati privasi
-                                    kandidat dan tidak menyalahgunakan data pribadi mereka.</li>
-                                <li class="pb-2">Perusahaan dilarang mendistribusikan atau menjual data kandidat kepada
-                                    pihak ketiga tanpa izin eksplisit.</li>
-                                <li class="pb-2">Perusahaan wajib menggunakan informasi kandidat hanya untuk keperluan
-                                    rekrutmen dan evaluasi yang sesuai dengan hukum ketenagakerjaan yang berlaku.</li>
-                                <li class="pb-2">Perusahaan bertanggung jawab untuk menjaga keamanan data kandidat yang
-                                    diterima melalui platform.</li>
-                            </ul>
+                    <div id="employer-obligations" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Employer Obligations</h3>
                         </div>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Companies using the Evoconnect service must respect candidate privacy and
+                                not misuse their personal data.</li>
+                            <li class="pb-2">Companies are prohibited from distributing or selling candidate data to
+                                third parties without explicit permission.</li>
+                            <li class="pb-2">Companies must use candidate information solely for recruitment and
+                                evaluation purposes in accordance with labor laws.</li>
+                            <li class="pb-2">Companies are responsible for ensuring the security of candidate data
+                                received through the platform.</li>
+                        </ul>
+                    </div>
 
-                        <div id="third-party" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Pembagian Data dengan Pihak Ketiga</h3>
-                            </div>
-                            <p>Kami dapat membagikan data pengguna kepada pihak ketiga dengan ketentuan:</p>
-                            <ul class="text-secondary">
-                                <li class="pb-2">Dengan persetujuan pengguna</li>
-                                <li class="pb-2">Untuk keperluan rekrutmen oleh perusahaan yang menggunakan layanan
-                                    EVOConnect</li>
-                                <li class="pb-2">Untuk keperluan analisis dan peningkatan layanan dengan tetap menjaga
-                                    anonimitas data</li>
-                                <li class="pb-2">Jika diwajibkan oleh hukum atau permintaan pemerintah yang sah</li>
-                            </ul>
+                    <div id="third-party" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Data Sharing with Third Parties</h3>
                         </div>
+                        <p>We may share user data with third parties under the following conditions:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">With user consent</li>
+                            <li class="pb-2">For recruitment purposes by companies using the EVOConnect service</li>
+                            <li class="pb-2">For analysis and service improvements while maintaining data anonymity
+                            </li>
+                            <li class="pb-2">If required by law or a legitimate government request</li>
+                        </ul>
+                    </div>
 
-                        <div id="data-protection" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Perlindungan Data</h3>
-                            </div>
-                            <p>Kami menerapkan langkah-langkah keamanan teknis dan administratif untuk melindungi data
-                                pengguna dari akses, perubahan, atau pengungkapan yang tidak sah.</p>
+                    <div id="data-protection" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Data Protection</h3>
                         </div>
+                        <p>We implement technical and administrative security measures to protect user data from
+                            unauthorized access, alteration, or disclosure.</p>
+                    </div>
 
-                        <div id="data-storage" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Penyimpanan Data</h3>
-                            </div>
-                            <p>Data pengguna akan disimpan selama akun tetap aktif atau sesuai dengan kebutuhan hukum dan
-                                operasional EVOConnect. Jika pengguna menghapus akun mereka, data pribadi akan dihapus
-                                kecuali jika diperlukan untuk keperluan hukum.</p>
+                    <div id="data-storage" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Data Storage</h3>
                         </div>
+                        <p>User data will be stored as long as the account remains active or as required for legal and
+                            operational purposes of EVOConnect. If users delete their accounts, personal data will be
+                            erased unless necessary for legal purposes.</p>
+                    </div>
 
-                        <div id="policy-changes" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Perubahan Kebijakan Privasi</h3>
-                            </div>
-                            <p>EVOConnect dapat memperbarui kebijakan privasi ini dari waktu ke waktu. Perubahan akan
-                                diberitahukan melalui email atau pemberitahuan di platform.</p>
+                    <div id="policy-changes" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Privacy Policy Changes</h3>
                         </div>
-                        <!-- Note: I've shown the first few sections. You should continue with the rest following the same pattern -->
+                        <p>EVOConnect may update this privacy policy from time to time. Changes will be notified via
+                            email or announcements on the platform.</p>
+                    </div>
 
-                        <div id="contact" class="mb-4">
-                            <div class="mb-3">
-                                <h3 class="h5 text-primary">Kontak</h3>
-                            </div>
-                            <p>Untuk pertanyaan atau permintaan terkait kebijakan privasi ini, silakan hubungi kami melalui:
-                            </p>
-                            <ul class="text-secondary">
-                                <li class="pb-2">Email: privasi@evoconnect.id</li>
-                                <li class="pb-2">Jam Operasional: Senin - Jumat, 09:00 - 17:00 WIB</li>
-                            </ul>
-                            <p class="mt-4">Dengan menggunakan layanan EVOConnect, pengguna dianggap telah membaca,
-                                memahami, dan menyetujui kebijakan privasi ini.</p>
+                    <div id="contact" class="mb-4">
+                        <div class="mb-3">
+                            <h3 class="h5 text-primary">Contact</h3>
                         </div>
+                        <p>For inquiries or requests related to this privacy policy, please contact us via:</p>
+                        <ul class="text-secondary">
+                            <li class="pb-2">Email: privacy@evoconnect.id</li>
+                            <li class="pb-2">Operating Hours: Monday - Friday, 09:00 - 17:00 WIB</li>
+                        </ul>
+                        <p class="mt-4">By using the EVOConnect service, users are deemed to have read, understood,
+                            and agreed to this privacy policy.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+</div>

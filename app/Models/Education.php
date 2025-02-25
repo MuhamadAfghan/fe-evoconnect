@@ -8,14 +8,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class Education extends Model
 {
+    use HasFactory, HasUuids;
+
+    protected $table = 'educations';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
         'user_id',
         'school_name',
         'major',
-        'period',
+        'start_month',
+        'start_year',
+        'end_month',
+        'end_year',
         'caption',
         'photo'
     ];
+
+    protected $appends = ['photo_url'];
+
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo ? asset('storage/' . $this->photo) : null;
+    }
 
     public function user()
     {

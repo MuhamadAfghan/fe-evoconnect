@@ -21,7 +21,8 @@ return new class extends Migration
             $table->integer('rating')->default(0);
             $table->json('job_details'); // ✅ Ubah menjadi JSON
             $table->string('industry');
-            $table->string('job_photo_path')->nullable();
+            $table->string('job_photo')->nullable();
+            $table->string('salary');
             $table->timestamps();
         });
     }

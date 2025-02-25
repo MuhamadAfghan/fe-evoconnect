@@ -9,15 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('education', function (Blueprint $table) {
+        Schema::create('educations', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->string('school_name');
             $table->string('major');
-            $table->string('period');
-            $table->text('caption');
+            $table->integer('start_month');
+            $table->integer('start_year');
+            $table->integer('end_month')->nullable();
+            $table->integer('end_year')->nullable();
+            $table->text('caption')->nullable();
             $table->string('photo')->nullable();
             $table->timestamps();
         });
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('education');
+        Schema::dropIfExists('educations');
     }
 };

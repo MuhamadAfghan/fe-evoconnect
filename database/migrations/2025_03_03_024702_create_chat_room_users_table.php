@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('master_connections', function (Blueprint $table) {
+        Schema::create('chat_room_users', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('to_user_id')->constrained('users');
-            $table->foreignUuid('users_id')->constrained('users');
+            $table->uuid('chat_room_id');
+            $table->uuid('user_id');
             $table->timestamps();
+
+            $table->foreign('chat_room_id')->references('id')->on('chat_rooms')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('master_connections');
+        Schema::dropIfExists('chat_room_users');
     }
 };
