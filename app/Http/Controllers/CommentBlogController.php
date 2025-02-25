@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiFormatter;
 use App\Models\CommentBlog;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,10 @@ class CommentBlogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($blog_id)
     {
-        //
+        $comments = CommentBlog::where('blog_id', $blog_id)->with('user')->get();
+        return ApiFormatter::sendResponse('success', 200, 'Comments retrieved successfully.', $comments);
     }
 
     /**
@@ -26,9 +28,19 @@ class CommentBlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $blog_id)
     {
-        //
+        $request->validate([
+            'content' => 'required|string|max:1000'
+        ]);
+
+        $comment = CommentBlog::create([
+            'content' => $request->content,
+            'user_id' => auth()->id(),
+            'blog_id' => $blog_id
+        ]);
+
+        return ApiFormatter::sendResponse('success', 201, 'Comment posted successfully.', $comment);
     }
 
     /**
@@ -60,6 +72,7 @@ class CommentBlogController extends Controller
      */
     public function destroy(CommentBlog $commentBlog)
     {
-        //
+        $commentBlog->delete();
+        return ApiFormatter::sendResponse('success', 200, 'Comment deleted successfully.');
     }
 }

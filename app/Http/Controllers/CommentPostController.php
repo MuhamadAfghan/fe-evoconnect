@@ -100,6 +100,6 @@ class CommentPostController extends Controller
             'content' => $request->content,
         ]);
 
-        return ApiFormatter::sendResponse('success', 201, 'Reply posted successfully.', $reply);
+        return ApiFormatter::sendResponse('success', 201, 'Reply posted successfully.', $reply->load('user'));
     }
 }

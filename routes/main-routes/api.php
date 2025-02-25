@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentBlogController;
 use App\Http\Controllers\CommentPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConnectController;
@@ -20,13 +21,20 @@ Route::group(['prefix' => 'api'], function () {
         Route::get('/{blog}', [BlogController::class, 'show']);
         Route::put('/{blog}', [BlogController::class, 'update']);
         Route::delete('/{blog}', [BlogController::class, 'destroy']);
+
+        //comment blog
+        Route::group(['prefix' => 'comments'], function () {
+            Route::get('/{blog_id}', [CommentBlogController::class, 'index']);
+            Route::post('/{blog_id}', [CommentBlogController::class, 'store']);
+            Route::delete('/{comment_id}', [CommentBlogController::class, 'destroy']);
+        });
     });
 
     //post
     Route::group(['prefix' => 'posts'], function () {
         Route::get('/', [PostController::class, 'index'])->name('posts.index');
         Route::get('/my-posts', [PostController::class, 'myPosts'])->name('posts.my-posts');
-        Route::get('/{id}', [PostController::class, 'userPosts'])->name('posts.user-posts');
+        // Route::get('/{id}', [PostController::class, 'userPosts'])->name('posts.user-posts');
         Route::post('/', [PostController::class, 'store'])->name('posts.store');
         Route::get('/{post}', [PostController::class, 'show'])->name('posts.show');
         Route::put('/{post}', [PostController::class, 'update'])->name('posts.update');
@@ -63,6 +71,8 @@ Route::group(['prefix' => 'api'], function () {
             Route::put('/{education}', [EducationController::class, 'update'])->name('education.update');
             Route::delete('/{education}', [EducationController::class, 'destroy'])->name('education.destroy');
         });
+
+        Route::get('/posts/all', [PostController::class, 'allPosts']);
 
         Route::group(['prefix' => 'experience'], function () {
             Route::get('/', [ExperienceController::class, 'index'])->name('experience.index');

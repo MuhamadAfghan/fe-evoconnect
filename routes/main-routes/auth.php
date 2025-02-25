@@ -17,6 +17,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RequestConnectionController;
 use App\Http\Controllers\MasterConnectionController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\GroupConnectionController;
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -54,6 +55,7 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
     Route::get('/blog', [ConnectController::class, 'blog'])->name('blogs');
     Route::get('/blog-single', [ConnectController::class, 'blogSingle'])->name('blog-single');
     Route::get('/create-blog', [ConnectController::class, 'createBlog'])->name('create-blog');
+    Route::get('/write-blog', [ConnectController::class, 'writeBlog'])->name('write-blog');
     Route::get('/form-blog', [ConnectController::class, 'formBlog'])->name('form-blog');
     Route::get('/components', [ConnectController::class, 'components'])->name('components');
     Route::get('/pricing', [ConnectController::class, 'pricing'])->name('pricing');
@@ -96,8 +98,17 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/connections/list', [MasterConnectionController::class, 'index'])->name('connection.list');
-        Route::get('/messages', [MessagesController::class, 'index'])->name('messages.index');
+        // Route::get('/messages', [MessagesController::class, 'index'])->name('messages.index');
         Route::get('/messages/{id}', [MessagesController::class, 'show'])->name('messages.show');
+    });
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/groups', [GroupConnectionController::class, 'index'])->name('groups.index');
+        Route::post('/groups', [GroupConnectionController::class, 'store'])->name('groups.store');
+        Route::get('/groups/{group}', [GroupConnectionController::class, 'show'])->name('groups.show');
+        Route::post('/groups/{group}/join', [GroupConnectionController::class, 'join'])->name('groups.join');
+        Route::post('/groups/{group}/leave', [GroupConnectionController::class, 'leave'])->name('groups.leave');
+        Route::delete('/groups/{group}', [GroupConnectionController::class, 'destroy'])->name('groups.destroy');
     });
 
     Route::middleware(['auth'])->group(function () {
@@ -116,4 +127,10 @@ Route::middleware(['auth', 'verified', 'isFilledUsername'])->group(function () {
     Route::delete('/experience/{experience}', [ExperienceController::class, 'destroy'])->name('experience.destroy');
 
     Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+    Route::get('/posts/all', function () {
+        return view('posts.all');
+    });
+
+    require __DIR__ . '/message.php';
 });

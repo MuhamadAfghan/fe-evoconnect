@@ -16,7 +16,7 @@ class EducationController extends Controller
     public function index()
     {
         $educations = Education::where('user_id', auth()->id())->get();
-        return ApiFormatter::sendResponse('success', 200, 'Education list', $educations);
+        return view('educations.index', compact('educations'));
     }
 
     /**
@@ -33,33 +33,38 @@ class EducationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'schoolName' => 'required|string|max:255',
+            'school_name' => 'required|string|max:255',
             'major' => 'required|string|max:255',
-            'startMonth' => 'required|string|between:1,12',
-            'startYear' => 'required|string',
-            'endMonth' => 'nullable|string|between:1,12',
-            'endYear' => 'nullable|string',
+            'start_month' => 'required|integer|between:1,12',
+            'start_year' => 'required|integer|min:1900|max:' . date('Y'),
+            'end_month' => 'nullable|integer|between:1,12',
+            'end_year' => 'nullable|integer|min:1900|max:' . date('Y'),
             'caption' => 'nullable|string|max:500',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-
+        $photoPath = null;
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('education_photos', 'public');
         }
 
         $education = Education::create([
             'user_id' => Auth::id(),
-            'school_name' => $request->input('schoolName'),
+            'school_name' => $request->input('school_name'),
             'major' => $request->input('major'),
-            'start_month' => $request->input('startMonth'),
-            'start_year' => $request->input('startYear'),
-            'end_month' => $request->input('endMonth'),
-            'end_year' => $request->input('endYear'),
-            'caption' => $request->input('caption'),
-            'photo' => $photoPath ?? null,
+            'start_month' => $request->input('start_month'),
+            'start_year' => $request->input('start_year'),
+            'end_month' => $request->input('end_month') ?? null,
+            'end_year' => $request->input('end_year') ?? null,
+            'caption' => $request->input('caption') ?? null,
+            'photo' => $photoPath,
         ]);
-        return ApiFormatter::sendResponse('success', 202, 'Education added successfully.', $education);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Education added successfully.',
+            'education' => $education
+        ], 201);
     }
 
     /**
@@ -68,7 +73,7 @@ class EducationController extends Controller
     public function destroy(Education $education)
     {
         if ($education->user_id !== auth()->id()) {
-            return redirect()->route('educations.index')->with('error', 'Unauthorized');
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         if ($education->photo) {
@@ -76,6 +81,6 @@ class EducationController extends Controller
         }
 
         $education->delete();
-        return redirect()->route('educations.index')->with('success', 'Education deleted successfully.');
+        return response()->json(['success' => true, 'message' => 'Education deleted successfully.']);
     }
 }

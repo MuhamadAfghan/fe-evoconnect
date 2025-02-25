@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('group_members', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('from_user_id')->constrained('users');
-            $table->foreignUuid('to_user_id')->constrained('users');
-            $table->text('content');
-            $table->string('document')->nullable();
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('group_connection_id')->constrained()->onDelete('cascade');
+            $table->enum('role', ['admin', 'member'])->default('member');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('group_members');
     }
 };

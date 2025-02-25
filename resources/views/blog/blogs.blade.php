@@ -12,10 +12,13 @@
             <h1 class="font-weight-light text-white"><span class="font-weight-bold">EVOConnect Blog</span></h1>
             <h2 class="font-weight-light text-white">Blog Your Way to a Better
                 Career</h2>
-            <a href="create-blog" class="btn btn-light mt-1">Write Your Career Story</a>
+            {{-- multiple modal --}}
+            <div class="mt-1">
+                <a href="create-blog" class="btn btn-primary">Write Your Career Story</a>
+            </div>
         </div>
     </div>
-    <!-- </div> -->
+
     {{-- ini bagian konten di dalam nya ada gambar, category, title, deskripsi  --}}
     <div class="py-5">
         <div class="">
@@ -196,7 +199,23 @@
             </div>
         </div>
     </div>
+    <script>
+        document.querySelectorAll('.next-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                let nextModal = this.getAttribute('data-next');
+                let currentModal = this.closest('.modal');
+
+                let modalHide = new bootstrap.Modal(currentModal);
+                let modalShow = new bootstrap.Modal(document.getElementById(nextModal));
+
+                modalHide.hide();
+                setTimeout(() => modalShow.show(), 500);
+            });
+        });
+    </script>
     <!-- Bootstrap core JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- slick Slider JS-->

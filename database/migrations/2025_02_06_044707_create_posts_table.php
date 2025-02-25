@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('group_connections_id')->nullable(); // Make this column nullable
             $table->json('image')->nullable();
             $table->enum('type', ['article', 'story']);
             $table->text('content');

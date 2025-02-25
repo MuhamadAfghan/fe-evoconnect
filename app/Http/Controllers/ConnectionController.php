@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Connection;
+use App\Models\GroupConnection;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,9 @@ class ConnectionController extends Controller
 
         $notifications = auth()->user()->notifications;
 
-        return view('connections.index', compact('users', 'notifications'));
+        $groups = GroupConnection::all();
+
+        return view('connections.index', compact('users', 'notifications', 'groups'));
     }
 
     /**

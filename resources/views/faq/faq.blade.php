@@ -25,9 +25,9 @@
                 <p class="text-white">
                     Popular help topics:
                     <a class="text-info ml-1" href="pricing">pricing,</a>
-                    <a class="text-info ml-1" href="#">upgrade,</a>
+                    <!-- <a class="text-info ml-1" href="#">upgrade,</a>
                     <a class="text-info ml-1" href="#">hosting,</a>
-                    <a class="text-info ml-1" href="pricing">membership</a>
+                    <a class="text-info ml-1" href="pricing">membership</a> -->
                 </p>
                 <!-- End Text/Links -->
             </div>
@@ -55,7 +55,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#basicsCollapseOne" aria-expanded="false"
                                         aria-controls="basicsCollapseOne">
-                                        Do you have any built-in caching?
+                                        Is my data safe on this platform?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -65,14 +65,8 @@
                             <div id="basicsCollapseOne" class="collapse" aria-labelledby="basicsHeadingOne"
                                 data-parent="#basicsAccordion" style="">
                                 <div class="card-body border-top text-muted p-3">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terryf
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    Yes, we are committed to keeping your data secure. We use a variety of protection
+                                    measures to ensure that your personal information and data remain safe.
                                 </div>
                             </div>
                         </div>
@@ -85,7 +79,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#basicsCollapseTwo" aria-expanded="false"
                                         aria-controls="basicsCollapseTwo">
-                                        Can I add/upgrade my plan at any time?
+                                        What are the requirements for using this service?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -95,14 +89,8 @@
                             <div id="basicsCollapseTwo" class="collapse" aria-labelledby="basicsHeadingTwo"
                                 data-parent="#basicsAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    Anda hanya memerlukan perangkat dengan koneksi internet dan akun terdaftar untuk
+                                    mulai menggunakan layanan kami.
                                 </div>
                             </div>
                         </div>
@@ -115,7 +103,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#basicsCollapseThree" aria-expanded="false"
                                         aria-controls="basicsCollapseThree">
-                                        What access comes with my hosting plan?
+                                        How do I update my profile?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -125,14 +113,8 @@
                             <div id="basicsCollapseThree" class="collapse" aria-labelledby="basicsHeadingThree"
                                 data-parent="#basicsAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    You can update your profile by going to edit profile, then editing information such
+                                    as name, profile photo, and other details.
                                 </div>
                             </div>
                         </div>
@@ -145,7 +127,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#basicsCollapseFour" aria-expanded="false"
                                         aria-controls="basicsCollapseFour">
-                                        How do I change my password?
+                                        Is this service free or paid?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -155,14 +137,9 @@
                             <div id="basicsCollapseFour" class="collapse" aria-labelledby="basicsHeadingFour"
                                 data-parent="#basicsAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    We provide a free package with basic features, as well as paid packages with
+                                    additional features for broader needs. You can choose the package that suits your
+                                    needs.
                                 </div>
                             </div>
                         </div>
@@ -186,7 +163,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn p-3 shadow-none"
                                         data-toggle="collapse" data-target="#syncingCollapseOne"
                                         aria-expanded="false" aria-controls="syncingCollapseOne">
-                                        How to apply for jobs on LinkedIn?
+                                        How to apply for a job on this website?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -212,7 +189,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#syncingCollapseTwo"
                                         aria-expanded="false" aria-controls="syncingCollapseTwo">
-                                        How to connect with others on LinkedIn?
+                                        How do I connect with other people on this website?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -236,7 +213,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#syncingCollapseThree"
                                         aria-expanded="false" aria-controls="syncingCollapseThree">
-                                        How do I link to a file or folder?
+                                        Do I need to create an account to apply for a job?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -246,14 +223,8 @@
                             <div id="syncingCollapseThree" class="collapse" aria-labelledby="syncingHeadingThree"
                                 data-parent="#syncingAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    Yes, to access the full features, including applying for jobs, saving openings, and
+                                    getting notifications, you need to create an account and log in to the platform.
                                 </div>
                             </div>
                         </div>
@@ -271,7 +242,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn p-3 shadow-none"
                                         data-toggle="collapse" data-target="#syncingCollapseOne"
                                         aria-expanded="false" aria-controls="syncingCollapseOne">
-                                        How to apply for jobs on LinkedIn?
+                                        Is there a fee to apply for a job?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -281,10 +252,8 @@
                             <div id="syncingCollapseOne" class="show collapse" aria-labelledby="syncingHeadingOne"
                                 data-parent="#syncingAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Click the "Jobs" tab at the top of EVOConnect, use keywords or category filters,
-                                    click
-                                    on a job or save it for later, and enable the "Notifications" feature to receive
-                                    updates from companies.
+                                    No, applying for jobs on this platform is completely free. However, beware of job
+                                    scams that ask for payment.
                                 </div>
                             </div>
                         </div>
@@ -297,7 +266,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#syncingCollapseTwo"
                                         aria-expanded="false" aria-controls="syncingCollapseTwo">
-                                        How to connect with others on LinkedIn?
+                                        How do I know if I am qualified for a job?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -307,8 +276,9 @@
                             <div id="syncingCollapseTwo" class="collapse" aria-labelledby="syncingHeadingTwo"
                                 data-parent="#syncingAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Search for the person's name you want to connect with, click "Connect," and add a
-                                    short message if needed. You can also follow someone without connecting.
+                                    Each job posting lists requirements, such as experience, skills,
+                                    and education needed. Make sure you read the job description carefully before
+                                    applying.
                                 </div>
                             </div>
                         </div>
@@ -321,7 +291,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#syncingCollapseThree"
                                         aria-expanded="false" aria-controls="syncingCollapseThree">
-                                        How do I link to a file or folder?
+                                        How do I make my profile stand out to make it more attractive to recruiters?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -331,14 +301,8 @@
                             <div id="syncingCollapseThree" class="collapse" aria-labelledby="syncingHeadingThree"
                                 data-parent="#syncingAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    Use a professional photo, write an attractive profile summary, add relevant work
+                                    experience and skills.
                                 </div>
                             </div>
                         </div>
@@ -387,7 +351,7 @@
                                         class="btn btn-block d-flex justify-content-between card-btn collapsed p-3 shadow-none"
                                         data-toggle="collapse" data-target="#accountCollapseTwo"
                                         aria-expanded="false" aria-controls="accountCollapseTwo">
-                                        How do I delete my account?
+                                        How to log out?
                                         <span class="card-btn-arrow">
                                             <span class="feather-chevron-down"></span>
                                         </span>
@@ -397,14 +361,8 @@
                             <div id="accountCollapseTwo" class="collapse" aria-labelledby="accountHeadingTwo"
                                 data-parent="#accountAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    Click "profile" then select the "logout" description, and after that you will return
+                                    to the login page.
                                 </div>
                             </div>
                         </div>
@@ -450,14 +408,11 @@
                             <div id="accountCollapseFour" class="collapse" aria-labelledby="accountHeadingFour"
                                 data-parent="#accountAccordion">
                                 <div class="card-body border-top text-muted p-3">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                    brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-                                    aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                                    ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-                                    accusamus labore sustainable VHS.
+                                    1. On the login page, click "Forgot Password" <br>
+                                    2. Enter your registered email address, then click "send". <br>
+                                    3. Check your email, and click "reset password" <br>
+                                    4. Enter your new password, then confirm the change. <br>
+                                    5. Once done, try logging in again with the new password.
                                 </div>
                             </div>
                         </div>

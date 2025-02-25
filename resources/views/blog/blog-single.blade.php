@@ -4,7 +4,7 @@
     <div class="bg-primary py-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 mx-auto">
+                <div class="col-md-12 mt-3">
                     <h1 class="font-weight-light text-white"><span class="font-weight-bold">Blog
                         </span> Single</h1>
                     <p class="text-white-50 mb-2">Last modified: March 27, 202 (view archived versions)

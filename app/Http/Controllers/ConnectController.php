@@ -96,7 +96,7 @@ class ConnectController extends Controller
 
     public function maintenance()
     {
-        return view('error.maintence');
+        return view('errors.templates');
     }
 
     public function blog()
@@ -112,6 +112,11 @@ class ConnectController extends Controller
     public function createBlog()
     {
         return view('blog.create-blog');
+    }
+
+    public function writeBlog()
+    {
+        return view('blog.write-blog');
     }
 
     public function formBlog()

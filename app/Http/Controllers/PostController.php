@@ -7,6 +7,7 @@ use App\Models\CommentPost;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -58,6 +59,32 @@ class PostController extends Controller
 
         return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
     }
+
+    //     public function getPosts(Request $request, $id = null)
+    // {
+    //     $perPage = $request->limit ?? 10;
+    //     $page = $request->page ?? 1;
+
+    //     // Jika tidak ada ID, ambil postingan user yang sedang login
+    //     $userId = $id ?? Auth::id();
+
+    //     $posts = Post::where('user_id', $userId)
+    //         ->search($request->query('search'))
+    //         ->latest()
+    //         ->with('user', 'likes', 'user.educations')
+    //         ->paginate($perPage, ['*'], 'page', $page);
+
+    //     // Tambahkan status is_liked hanya untuk postingan pengguna yang login
+    //     if (!$id) {
+    //         $posts->getCollection()->transform(function ($post) {
+    //             $post->is_liked = $post->isLikedBy(Auth::user());
+    //             return $post;
+    //         });
+    //     }
+
+    //     return ApiFormatter::sendResponse('success', 200, 'Posts retrieved successfully.', $posts);
+    // }
+
 
     /**
      * Show the form for creating a new resource.
@@ -162,7 +189,7 @@ class PostController extends Controller
             'content' => $request->content,
         ]);
 
-        return ApiFormatter::sendResponse('success', 201, 'Comment posted successfully.', $comment);
+        return ApiFormatter::sendResponse('success', 201, 'Comment posted successfully.', $comment->load('user'));
     }
 
     public function getComments(Post $post)
@@ -184,5 +211,30 @@ class PostController extends Controller
         ]);
 
         return ApiFormatter::sendResponse('success', 201, 'Reply posted successfully.', $reply);
+    }
+
+    public function allPosts(Request $request)
+    {
+        $query = Post::with('user');
+
+        // Filter berdasarkan search
+        if ($request->has('search')) {
+            $query->where('content', 'like', '%' . $request->search . '%');
+        }
+
+        // Sorting
+        if ($request->sort === 'oldest') {
+            $query->oldest(); // Urutkan dari yang terlama
+        } else {
+            $query->latest(); // Urutkan dari yang terbaru (default)
+        }
+
+        // Pagination
+        $posts = $query->paginate(12);
+
+        return response()->json([
+            'success' => true,
+            'data' => $posts
+        ]);
     }
 }

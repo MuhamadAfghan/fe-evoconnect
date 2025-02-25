@@ -6,23 +6,19 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CommentBlog extends Model
+class GroupMember extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [
-        'content',
-        'user_id',
-        'blog_id',
-    ];
+    protected $fillable = ['user_id', 'group_connection_id', 'role'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function blog()
+    public function groupConnection()
     {
-        return $this->belongsTo(Blog::class);
+        return $this->belongsTo(GroupConnection::class);
     }
 }

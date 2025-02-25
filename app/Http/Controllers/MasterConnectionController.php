@@ -18,6 +18,11 @@ class MasterConnectionController extends Controller
         return view('connections.list_connection', compact('connections'));
     }
 
+    public function group()
+    {
+        return view('connections.group');
+    }
+
     public function disconnect($id)
     {
         $connection = MasterConnection::findOrFail($id);

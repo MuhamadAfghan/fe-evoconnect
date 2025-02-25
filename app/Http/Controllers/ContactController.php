@@ -46,7 +46,7 @@ class ContactController extends Controller
             'email' => $request->email,
             'message' => $request->message
         ];
-        Mail::to('muhamadafghanalzena@smkwikrama.sch.id')->send(new ContactMail($mailData));
+        Mail::to('diknastianfaturohman@smkwikrama.sch.id')->send(new ContactMail($mailData));
 
 
         return redirect()->back()->with('success', 'Pesan berhasil dikirim.');

@@ -145,4 +145,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return $this->hasMany(MasterConnection::class, 'to_user_id');
     }
+
+    public function groupConnections()
+    {
+        return $this->belongsToMany(GroupConnection::class, 'group_members', 'user_id', 'group_connection_id');
+    }
 }

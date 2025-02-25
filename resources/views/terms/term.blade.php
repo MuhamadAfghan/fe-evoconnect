@@ -1,14 +1,11 @@
 @extends('errors.templates')
-
-
 <div class="bg-primary p-5">
     <div class="container-fluid">
         <div class="row">
-            <div class="mx-auto">
+            <div class="mx-auto text-center">
                 <h1 class="font-weight-light text-white"><span class="font-weight-bold">REGULATIONS </span> AND <span
                         class="font-weight-bold">TERMS </span>
                     OF EVOConnect</h1>
-                <p class="text-white-50 mb-2">Last updated: March 2024</p>
             </div>
         </div>
     </div>

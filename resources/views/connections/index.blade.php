@@ -141,15 +141,10 @@
                                         class="feather-book text-dark mr-2"></i> Contacts <span
                                         class="font-weight-bold ml-auto">869</span></li>
                             </a>
-                            <a href="#">
-                                <li class="list-group-item d-flex align-items-center text-dark pl-3 pr-3"><i
-                                        class="feather-user-check text-dark mr-2"></i> People I Follow <span
-                                        class="font-weight-bold ml-auto">156</span></li>
-                            </a>
-                            <a href="#">
+                            <a href="{{ route('groups.index') }}">
                                 <li class="list-group-item d-flex align-items-center text-dark pl-3 pr-3"><i
                                         class="feather-message-circle text-dark mr-2"></i> Groups <span
-                                        class="font-weight-bold ml-auto">15</span></li>
+                                        class="font-weight-bold ml-auto">{{ $groups->count() }}</span></li>
                             </a>
                             <a href="#">
                                 <li class="list-group-item d-flex align-items-center text-dark pl-3 pr-3"><i
@@ -200,10 +195,6 @@
                             <div class="d-flex align-items-center">
                                 <img src="${request.sender_profile_image}" class="rounded-circle mr-2" width="40" height="40">
                                 <span>${request.sender_name}</span>
-                            </div>
-                            <div>
-                                <button class="btn btn-success btn-sm accept-btn" data-id="${request.id}">Accept</button>
-                                <button class="btn btn-danger btn-sm reject-btn" data-id="${request.id}">Reject</button>
                             </div>
                         </li>
                     `);
@@ -323,7 +314,7 @@
                                 </div>
                             </div>
                             <div class="btn-group">
-                                <button class="btn btn-success btn-sm accept-invitation" data-id="${request.id}">
+                                <button class="btn btn-success btn-sm accept-invitation mr-1" data-id="${request.id}">
                                     <i class="fas fa-check mr-1"></i> Accept
                                 </button>
                                 <button class="btn btn-danger btn-sm reject-invitation" data-id="${request.id}">

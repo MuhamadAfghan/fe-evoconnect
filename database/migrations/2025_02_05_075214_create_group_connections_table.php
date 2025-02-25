@@ -11,21 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('group_connections', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('from_user_id')->constrained('users');
-            $table->foreignUuid('to_user_id')->constrained('users');
-            $table->text('content');
-            $table->string('document')->nullable();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('image')->nullable(); // Untuk foto grup
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('group_connections');
     }
 };

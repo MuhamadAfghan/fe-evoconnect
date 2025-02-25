@@ -475,21 +475,21 @@
                         <!-- Experience List -->
                         <div id="experienceList" class="box-body p-3">
                             @foreach (isset($user) ? $user->experiences : auth()->user()->experiences as $experience)
-                                <div class="experience-item mb-3">
-                                    <div class="experience-content d-flex">
+                                <div class="experience-item bg-light mb-3 rounded border p-3 shadow-sm">
+                                    <div class="experience-content d-flex align-items-center">
                                         <div class="experience-photo mr-3">
                                             @if ($experience->photo)
                                                 <img src="{{ $experience->photo_url }}" alt="Company Logo" class="rounded"
                                                     style="width: 60px; height: 60px; object-fit: cover;">
                                             @else
-                                                <div class="bg-light d-flex align-items-center justify-content-center rounded"
+                                                <div class="d-flex align-items-center justify-content-center rounded border bg-white"
                                                     style="width: 60px; height: 60px;">
                                                     <i class="fas fa-building text-secondary"></i>
                                                 </div>
                                             @endif
                                         </div>
                                         <div class="experience-info">
-                                            <h5 class="font-weight-bold mb-1">{{ $experience->job_title }}</h5>
+                                            <h5 class="font-weight-bold text-dark mb-1">{{ $experience->job_title }}</h5>
                                             <h6 class="text-primary mb-1">{{ $experience->company_name }}</h6>
                                             <p class="text-muted mb-1">
                                                 {{ date('F', mktime(0, 0, 0, $experience->start_month, 1)) }}
@@ -502,11 +502,10 @@
                                                 @endif
                                             </p>
                                             @if ($experience->caption)
-                                                <p class="mb-0">{{ $experience->caption }}</p>
+                                                <p class="text-dark mb-0">{{ $experience->caption }}</p>
                                             @endif
                                         </div>
                                     </div>
-                                    <hr class="my-3">
                                 </div>
                             @endforeach
                         </div>
@@ -602,6 +601,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Education Section -->
                     <div class="box mb-3 rounded border bg-white shadow-sm">
                         <div class="box-title border-bottom d-flex justify-content-between align-items-center p-3">
                             <h6 class="m-0">Education</h6>
@@ -612,42 +612,135 @@
                                 </a>
                             @endif
                         </div>
-                    </div>
-                    <!-- Education List -->
-                    <div id="educationList" class="box-body p-3">
-                        @foreach (isset($user) ? $user->educations : auth()->user()->educations as $education)
-                            <div class="education-item mb-3">
-                                <div class="education-content d-flex">
-                                    <div class="education-photo mr-3">
-                                        @if ($education->photo)
-                                            <img src="{{ $education->photo_url }}" alt="School" class="rounded"
-                                                style="width: 60px; height: 60px; object-fit: cover;">
-                                        @else
-                                            <div class="bg-light d-flex align-items-center justify-content-center rounded"
-                                                style="width: 60px; height: 60px;">
-                                                <i class="fas fa-university text-secondary"></i>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="education-info">
-                                        <h5 class="font-weight-bold mb-1">{{ $education->school_name }}</h5>
-                                        <h6 class="text-primary mb-1">{{ $education->major }}</h6>
-                                        <p class="text-muted mb-1">
-                                            {{ $education->start_month }}/{{ $education->start_year }} -
-                                            @if ($education->end_month && $education->end_year)
-                                                {{ $education->end_month }}/{{ $education->end_year }}
+
+                        <!-- Education List -->
+                        <div id="educationList" class="box-body p-3">
+                            @foreach (isset($user) ? $user->educations : auth()->user()->educations as $education)
+                                <div class="education-item bg-light mb-3 rounded border p-3 shadow-sm">
+                                    <div class="education-content d-flex align-items-center">
+                                        <div class="education-photo mr-3">
+                                            @if ($education->photo)
+                                                <img src="{{ $education->photo_url }}" alt="School Logo" class="rounded"
+                                                    style="width: 60px; height: 60px; object-fit: cover;">
                                             @else
-                                                Present
+                                                <div class="d-flex align-items-center justify-content-center rounded border bg-white"
+                                                    style="width: 60px; height: 60px;">
+                                                    <i class="fas fa-university text-secondary"></i>
+                                                </div>
                                             @endif
-                                        </p>
-                                        @if ($education->caption)
-                                            <p class="mb-0">{{ $education->caption }}</p>
-                                        @endif
+                                        </div>
+                                        <div class="education-info">
+                                            <h5 class="font-weight-bold text-dark mb-1">{{ $education->school_name }}</h5>
+                                            <h6 class="text-primary mb-1">{{ $education->major }}</h6>
+                                            <p class="text-muted mb-1">
+                                                {{ date('F', mktime(0, 0, 0, $education->start_month, 1)) }}
+                                                {{ $education->start_year }} -
+                                                @if ($education->end_month && $education->end_year)
+                                                    {{ date('F', mktime(0, 0, 0, $education->end_month, 1)) }}
+                                                    {{ $education->end_year }}
+                                                @else
+                                                    Present
+                                                @endif
+                                            </p>
+                                            @if ($education->caption)
+                                                <p class="text-dark mb-0">{{ $education->caption }}</p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                                <hr class="my-3">
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Education Modal -->
+                    <div class="modal fade" id="addEducationModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Education</h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span>&times;</span>
+                                    </button>
+                                </div>
+                                <form id="educationForm" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>School Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="schoolName"
+                                                name="school_name" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Major <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="major" name="major"
+                                                required>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Start Date <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="eduStartMonth" name="start_month"
+                                                        required>
+                                                        <option value="" disabled selected>Month</option>
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <option value="{{ $i }}">
+                                                                {{ date('F', mktime(0, 0, 0, $i, 10)) }}</option>
+                                                        @endfor
+                                                    </select>
+                                                    <select class="form-control" id="eduStartYear" name="start_year"
+                                                        required>
+                                                        <option value="" disabled selected>Year</option>
+                                                        @for ($i = date('Y'); $i >= 1950; $i--)
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>End Date</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="eduEndMonth" name="end_month">
+                                                        <option value="" disabled selected>Month</option>
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <option value="{{ $i }}">
+                                                                {{ date('F', mktime(0, 0, 0, $i, 10)) }}</option>
+                                                        @endfor
+                                                    </select>
+                                                    <select class="form-control" id="eduEndYear" name="end_year">
+                                                        <option value="" disabled selected>Year</option>
+                                                        @for ($i = date('Y'); $i >= 1950; $i--)
+                                                            <option value="{{ $i }}">{{ $i }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea class="form-control" id="eduCaption" name="caption" rows="3"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>School Logo</label>
+                                            <input type="file" class="form-control-file" id="educationPhoto"
+                                                name="photo" accept="image/*">
+                                            <img id="educationPhotoPreview" src="#" alt="Preview"
+                                                style="display: none; max-width: 200px; margin-top: 10px;">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save Education</button>
+                                    </div>
+                                </form>
                             </div>
-                        @endforeach
+                        </div>
                     </div>
                     <div class="container mt-4">
 
@@ -730,6 +823,23 @@
                             let currentPage = 1;
                             let posts = [];
                             let currentIndex = 0;
+                            let currentUserId = null;
+
+                            // Tambahkan tombol View All Posts di dekat tombol Load More
+                            addViewAllButton();
+
+                            function addViewAllButton() {
+                                // Pastikan tombol Load More ada
+                                if (loadMoreBtn) {
+                                    // Buat tombol View All Posts
+                                    const viewAllBtn = document.createElement("a");
+                                    viewAllBtn.href = "/posts/all";
+                                    viewAllBtn.className = ""; // Tambahkan margin left untuk jarak
+                                    viewAllBtn.textContent = "";
+                                    // Masukkan tombol di samping tombol Load More
+                                    loadMoreBtn.parentNode.insertBefore(viewAllBtn, loadMoreBtn.nextSibling);
+                                }
+                            }
 
                             function fetchPosts(page) {
                                 axios
@@ -737,6 +847,7 @@
                                     .then((response) => {
                                         posts = response.data.data.data;
                                         loadingText.style.display = "none";
+                                        renderPosts();
 
                                         if (!posts.length && page === 1) {
                                             postContainer.innerHTML =
@@ -744,13 +855,7 @@
                                             return;
                                         }
 
-                                        renderPosts();
-
-                                        if (response.data.data.next_page_url) {
-                                            loadMoreBtn.classList.remove("d-none");
-                                        } else {
-                                            loadMoreBtn.classList.add("d-none");
-                                        }
+                                        toggleLoadMoreButton(response.data.data.next_page_url);
                                     })
                                     .catch((error) => {
                                         console.error("Error fetching posts:", error);
@@ -758,12 +863,35 @@
                                     });
                             }
 
+                            function fetchUserPosts(userId) {
+                                currentUserId = userId;
+                                currentPage = 1;
+                                axios
+                                    .get(`/api/posts/user/${userId}?page=${currentPage}`)
+                                    .then((response) => {
+                                        posts = response.data.data.data;
+                                        loadingText.style.display = "none";
+                                        renderPosts();
+
+                                        if (!posts.length) {
+                                            postContainer.innerHTML =
+                                                "<p class='text-muted text-center'>No posts available.</p>";
+                                            return;
+                                        }
+
+                                        toggleLoadMoreButton(response.data.data.next_page_url);
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error fetching user posts:", error);
+                                        loadingText.innerText = "Failed to load user posts!";
+                                    });
+                            }
+
                             function renderPosts() {
                                 const sliderContent = posts
                                     .map((post) => {
                                         const image = post.image ?
-                                            `<img class='post-image' src='${post.image}' alt='Post Image'>` :
-                                            "";
+                                            `<img class='post-image' src='${post.image}' alt='Post Image'>` : "";
                                         const formattedDate = new Date(post.created_at).toLocaleDateString("en-GB", {
                                             day: "numeric",
                                             month: "short",
@@ -771,267 +899,80 @@
                                         });
 
                                         return `
-                                                                <div class="post-card">
-                                                                    <h6 class="font-weight-bold mt-2">${post.content}</h6>
-                                                                    <p class="text-primary mb-1">${post.user.name}</p>
-                                                                    <small class="text-muted"><i class="feather-clock"></i> Posted on ${formattedDate}</small>
-                                                                    ${image}
-                                                                    <a href="/posts/${post.id}" class="btn btn-primary view-post-btn">View Full Post</a>
-                                                                </div>
-                                                            `;
+                <div class="post-card">
+                    <h6 class="font-weight-bold mt-2">${post.content}</h6>
+                    <p class="text-primary mb-1">${post.user.name}</p>
+                    <small class="text-muted"><i class="feather-clock"></i> Posted on ${formattedDate}</small>
+                    ${image}
+                    <a href="/posts/all" class="btn btn-primary view-post-btn">View Full Post</a>
+                </div>
+            `;
                                     })
                                     .join("");
 
                                 postContainer.innerHTML = `
-                                                        <div class="post-wrapper">
-                                                            <button class="slider-button left" onclick="prevPost()">&#10094;</button>
-                                                            <div class="post-card-container" style="transform: translateX(-${currentIndex * 100}%);">
-                                                                ${sliderContent}
-                                                            </div>
-                                                            <button class="slider-button right" onclick="nextPost()">&#10095;</button>
-                                                        </div>
-                                                    `;
+        <div class="post-wrapper">
+            <button class="slider-button left" onclick="prevPost()">&#10094;</button>
+            <div class="post-card-container" style="transform: translateX(-${currentIndex * 100}%);">
+                ${sliderContent}
+            </div>
+            <button class="slider-button right" onclick="nextPost()">&#10095;</button>
+        </div>
+    `;
+                            }
+
+                            function toggleLoadMoreButton(nextPageUrl) {
+                                if (nextPageUrl) {
+                                    loadMoreBtn.classList.remove("d-none");
+                                } else {
+                                    loadMoreBtn.classList.add("d-none");
+                                }
                             }
 
                             window.nextPost = function() {
                                 if (currentIndex < posts.length - 1) {
                                     currentIndex++;
-                                    document.querySelector(
-                                        ".post-card-container"
-                                    ).style.transform = `translateX(-${currentIndex * 100}%)`;
+                                    document.querySelector(".post-card-container").style.transform =
+                                        `translateX(-${currentIndex * 100}%)`;
                                 }
                             };
 
                             window.prevPost = function() {
                                 if (currentIndex > 0) {
                                     currentIndex--;
-                                    document.querySelector(
-                                        ".post-card-container"
-                                    ).style.transform = `translateX(-${currentIndex * 100}%)`;
+                                    document.querySelector(".post-card-container").style.transform =
+                                        `translateX(-${currentIndex * 100}%)`;
                                 }
                             };
 
                             loadMoreBtn.addEventListener("click", function() {
                                 currentPage++;
-                                fetchPosts(currentPage);
+                                if (currentUserId) {
+                                    fetchUserPosts(currentUserId);
+                                } else {
+                                    fetchPosts(currentPage);
+                                }
                             });
 
+                            window.fetchUserPosts = fetchUserPosts; // Buat fungsi bisa dipanggil dari luar
                             fetchPosts(currentPage);
                         });
                     </script>
+
             </div>
-            {{-- <div class="row d-flex flex-row-reverse">
-                <aside class="col col-xl-3 order-xl-3 col-lg-12 order-lg-3 col-12 d-flex">
-                    <div class="box mb-3 rounded border bg-white shadow-sm" style="width: 100%;">
-                        <div class="box-title border-bottom">
-                            <h6 class="m-0">Who viewed your profile</h6>
-                        </div>
-                        <div class="box-body p-3">
-                            <div class="d-flex align-items-center osahan-post-header people-list mb-3">
-                                <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="img/p4.png" alt="">
-                                    <div class="status-indicator bg-success"></div>
-                                </div>
-                                <div class="font-weight-bold mr-2">
-                                    <div class="text-truncate">Sophia Lee</div>
-                                    <div class="small text-gray-500">@Harvard
-                                    </div>
-                                </div>
-                                <span class="ml-auto"><button type="button"
-                                        class="btn btn-light btn-sm">Connent</button>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="box ads-box mb-3 overflow-hidden rounded bg-white text-center shadow-sm">
-                            <img src="img/ads1.png" class="img-fluid" alt="Responsive image">
-                            <div class="border-bottom p-3">
-                                <h6 class="font-weight-bold text-gold">Osahanin Premium</h6>
-                                <p class="text-muted mb-0">Grow &amp; nurture your network</p>
-                            </div>
-                            <div class="p-3">
-                                <button type="button" class="btn btn-outline-gold pl-4 pr-4"> ACTIVATE </button>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-            </div> --}}
-
-            <!-- Education Modal -->
-            <div class="modal fade" id="addEducationModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Add Education</h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <form id="educationForm" enctype="multipart/form-data">
-                            @csrf
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>School Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="schoolName" name="school_name"
-                                        required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Major <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="major" name="major" required>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label>Start Date <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <select class="form-control" id="eduStartMonth" name="start_month" required>
-                                                <option value="" disabled selected>Month</option>
-                                                @for ($i = 1; $i <= 12; $i++)
-                                                    <option value="{{ $i }}">
-                                                        {{ date('F', mktime(0, 0, 0, $i, 10)) }}</option>
-                                                @endfor
-                                            </select>
-                                            <select class="form-control" id="eduStartYear" name="start_year" required>
-                                                <option value="" disabled selected>Year</option>
-                                                @for ($i = date('Y'); $i >= 1950; $i--)
-                                                    <option value="{{ $i }}">{{ $i }}
-                                                    </option>
-                                                @endfor
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>End Date</label>
-                                        <div class="input-group">
-                                            <select class="form-control" id="eduEndMonth" name="end_month">
-                                                <option value="" disabled selected>Month</option>
-                                                @for ($i = 1; $i <= 12; $i++)
-                                                    <option value="{{ $i }}">
-                                                        {{ date('F', mktime(0, 0, 0, $i, 10)) }}</option>
-                                                @endfor
-                                            </select>
-                                            <select class="form-control" id="eduEndYear" name="end_year">
-                                                <option value="" disabled selected>Year</option>
-                                                @for ($i = date('Y'); $i >= 1950; $i--)
-                                                    <option value="{{ $i }}">{{ $i }}
-                                                    </option>
-                                                @endfor
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Caption/Description</label>
-                                    <textarea class="form-control" id="eduCaption" name="caption" rows="3"></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>School Photo</label>
-                                    <input type="file" class="form-control-file" id="educationPhoto" name="photo"
-                                        accept="image/*">
-                                    <img id="educationPhotoPreview" src="#" alt="Preview"
-                                        style="display: none; max-width: 200px; margin-top: 10px;">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" id="saveEducation">Save
-                                    Education</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-
             </main>
-
-
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
-                // Initialize form elements
-                const startMonth = document.getElementById("startMonth");
-                const startYear = document.getElementById("startYear");
-                const endMonth = document.getElementById("endMonth");
-                const endYear = document.getElementById("endYear");
-                const photoInput = document.getElementById('photo');
-                const photoPreview = document.getElementById('photoPreview');
-                const experienceList = document.getElementById('experienceList');
                 const experienceForm = document.getElementById('experienceForm');
+                const experienceList = document.getElementById('experienceList');
 
-                // Initialize months
-                const months = [
-                    "January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"
-                ];
-
-                // Add month options
-                months.forEach((month, index) => {
-                    const optionStart = document.createElement("option");
-                    optionStart.value = index + 1;
-                    optionStart.text = month;
-                    startMonth.add(optionStart);
-
-                    const optionEnd = document.createElement("option");
-                    optionEnd.value = index + 1;
-                    optionEnd.text = month;
-                    endMonth.add(optionEnd);
-                });
-
-                // Add year options
-                const currentYear = new Date().getFullYear();
-                for (let year = currentYear; year >= 1950; year--) {
-                    const optionStartYear = document.createElement("option");
-                    optionStartYear.value = year;
-                    optionStartYear.text = year;
-                    startYear.add(optionStartYear);
-
-                    const optionEndYear = document.createElement("option");
-                    optionEndYear.value = year;
-                    optionEndYear.text = year;
-                    endYear.add(optionEndYear);
-                }
-
-                // Enable/disable end date based on start date selection
-                function enableEndDate() {
-                    if (startMonth.value && startYear.value) {
-                        endMonth.disabled = false;
-                        endYear.disabled = false;
-                    } else {
-                        endMonth.disabled = true;
-                        endYear.disabled = true;
-                    }
-                }
-
-                startMonth.addEventListener("change", enableEndDate);
-                startYear.addEventListener("change", enableEndDate);
-
-                // Handle photo preview
-                photoInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            photoPreview.src = event.target.result;
-                            photoPreview.style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        photoPreview.style.display = 'none';
-                        photoPreview.src = '#';
-                    }
-                });
-
-                // Handle form submission with API integration
                 experienceForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
 
                     try {
                         const formData = new FormData(this);
 
-                        // Send data to API
                         const response = await fetch('/api/users/experience', {
                             method: 'POST',
                             headers: {
@@ -1044,40 +985,42 @@
                         const result = await response.json();
 
                         if (result.success) {
-                            // Create experience HTML with returned data
                             const experience = result.data;
-                            const newExperience = `
-                    <div class="experience-item mb-3">
-                        <div class="experience-content d-flex">
-                            <div class="experience-photo mr-3">
-                                ${experience.photo_url ?
-                                    `<img src="${experience.photo_url}" alt="Company Logo" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">` :
-                                    `<div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="fas fa-building text-secondary"></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>`
-                                }
-                            </div>
-                            <div class="experience-info">
-                                <h5 class="font-weight-bold mb-1">${experience.job_title}</h5>
-                                <h6 class="text-primary mb-1">${experience.company_name}</h6>
-                                <p class="text-muted mb-1">
-                                    ${months[experience.start_month - 1]} ${experience.start_year} -
-                                    ${experience.end_month && experience.end_year ?
-                                        `${months[experience.end_month - 1]} ${experience.end_year}` :
-                                        'Present'
-                                    }
-                                </p>
-                                ${experience.caption ? `<p class="mb-0">${experience.caption}</p>` : ''}
-                            </div>
-                        </div>
-                        <hr class="my-3">
-                    </div>
-                `;
+                            const months = [
+                                "January", "February", "March", "April", "May", "June", "July",
+                                "August", "September", "October", "November", "December"
+                            ];
 
-                            // Add new experience to the list
+                            const newExperience = `
+                                <div class="experience-item mb-3">
+                                    <div class="experience-content d-flex">
+                                        <div class="experience-photo mr-3">
+                                            ${experience.photo ?
+                                                `<img src="${experience.photo}" alt="Company Logo" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">` :
+                                                `<div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
+                                                                                                                                                                                                                                            <i class="fas fa-building text-secondary"></i>
+                                                                                                                                                                                                                                        </div>`
+                                            }
+                                        </div>
+                                        <div class="experience-info">
+                                            <h5 class="font-weight-bold mb-1">${experience.job_title}</h5>
+                                            <h6 class="text-primary mb-1">${experience.company_name}</h6>
+                                            <p class="text-muted mb-1">
+                                                ${months[experience.start_month - 1]} ${experience.start_year} -
+                                                ${experience.end_month && experience.end_year ?
+                                                    `${months[experience.end_month - 1]} ${experience.end_year}` :
+                                                    'Present'
+                                                }
+                                            </p>
+                                            ${experience.caption ? `<p class="mb-0">${experience.caption}</p>` : ''}
+                                        </div>
+                                    </div>
+                                    <hr class="my-3">
+                                </div>
+                            `;
+
                             experienceList.insertAdjacentHTML('afterbegin', newExperience);
 
-                            // Show success message
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Success!',
@@ -1086,18 +1029,11 @@
                                 showConfirmButton: false
                             });
 
-                            // Reset form
                             experienceForm.reset();
-                            photoPreview.style.display = 'none';
-                            photoPreview.src = '#';
-                            endMonth.disabled = true;
-                            endYear.disabled = true;
 
-                            // Close modal
                             $('#addExperienceModal').modal('hide');
                             $('.modal-backdrop').remove();
                             $('body').removeClass('modal-open');
-
                         } else {
                             throw new Error(result.message || 'Failed to save experience');
                         }
@@ -1105,7 +1041,6 @@
                     } catch (error) {
                         console.error('Error:', error);
 
-                        // Show error message
                         Swal.fire({
                             icon: 'error',
                             title: 'Error!',
@@ -1115,361 +1050,150 @@
                 });
             });
         </script>
+
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const educationList = document.getElementById("educationList");
-                const eduStartMonth = document.getElementById("eduStartMonth");
-                const eduStartYear = document.getElementById("eduStartYear");
-                const eduEndMonth = document.getElementById("eduEndMonth");
-                const eduEndYear = document.getElementById("eduEndYear");
+                const educationForm = document.getElementById("educationForm");
                 const educationPhoto = document.getElementById("educationPhoto");
                 const photoPreview = document.getElementById("educationPhotoPreview");
-                const caption = document.getElementById("eduCaption");
 
-                // Inisialisasi bulan
-                const months = [
-                    "January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"
-                ];
+                function createEducationHTML(education) {
+                    const months = [
+                        "January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                    ];
 
-                function populateMonths() {
-                    eduStartMonth.innerHTML = '<option selected disabled>Month</option>';
-                    eduEndMonth.innerHTML = '<option selected disabled>Month</option>';
-
-                    months.forEach((month, index) => {
-                        const optionStart = new Option(month, index + 1);
-                        const optionEnd = new Option(month, index + 1);
-                        eduStartMonth.add(optionStart);
-                        eduEndMonth.add(optionEnd);
-                    });
+                    return `
+                    <div class="education-item mb-3">
+                        <div class="education-content d-flex">
+                            <div class="education-photo mr-3">
+                                ${education.photo_url
+                                    ? `<img src="${education.photo_url}" alt="School" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">`
+                                    : `<div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
+                                                                                                                                                                                                                                                                                        <i class="fas fa-university text-secondary"></i>
+                                                                                                                                                                                                                                                                                       </div>`
+                                }
+                            </div>
+                            <div class="education-info">
+                                <h5 class="font-weight-bold mb-1">${education.school_name}</h5>
+                                <h6 class="text-primary mb-1">${education.major}</h6>
+                                <p class="text-muted mb-1">
+                                    ${months[education.start_month - 1]} ${education.start_year} -
+                                    ${education.end_month && education.end_year
+                                        ? `${months[education.end_month - 1]} ${education.end_year}`
+                                        : 'Present'
+                                    }
+                                </p>
+                                ${education.caption ? `<p class="mb-0">${education.caption}</p>` : ''}
+                            </div>
+                        </div>
+                        <hr class="my-3">
+                    </div>
+                `;
                 }
 
-                function populateYears() {
-                    eduStartYear.innerHTML = '<option selected disabled>Year</option>';
-                    eduEndYear.innerHTML = '<option selected disabled>Year</option>';
+                // Handle education form submission
+                educationForm.addEventListener("submit", async function(e) {
+                    e.preventDefault();
 
-                    const currentYear = new Date().getFullYear();
-                    for (let year = currentYear; year >= 1950; year--) {
-                        const optionStart = new Option(year, year);
-                        const optionEnd = new Option(year, year);
-                        eduStartYear.add(optionStart);
-                        eduEndYear.add(optionEnd);
-                    }
-                }
+                    const formData = new FormData(this);
+                    formData.append("school_name", document.getElementById("schoolName").value);
+                    formData.append("major", document.getElementById("major").value);
+                    formData.append("start_month", document.getElementById("eduStartMonth").value);
+                    formData.append("start_year", document.getElementById("eduStartYear").value);
+                    formData.append("end_month", document.getElementById("eduEndMonth").value || "");
+                    formData.append("end_year", document.getElementById("eduEndYear").value || "");
+                    formData.append("caption", document.getElementById("eduCaption").value);
 
-                function handleDateFields() {
-                    const startDateSelected = eduStartMonth.value && eduStartYear.value;
-                    eduEndMonth.disabled = !startDateSelected;
-                    eduEndYear.disabled = !startDateSelected;
-
-                    if (startDateSelected) {
-                        const startYear = parseInt(eduStartYear.value);
-                        const startMonth = parseInt(eduStartMonth.value);
-
-                        if (eduEndYear.value && eduEndMonth.value) {
-                            const endYear = parseInt(eduEndYear.value);
-                            const endMonth = parseInt(eduEndMonth.value);
-
-                            if (endYear < startYear || (endYear === startYear && endMonth < startMonth)) {
-                                eduEndMonth.selectedIndex = 0;
-                                eduEndYear.selectedIndex = 0;
+                    try {
+                        const response = await axios.post('/api/users/education', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .content
                             }
-                        }
-                    }
-                }
+                        });
 
-                function handlePhotoPreview(e) {
+                        if (response.data.success) {
+                            const education = response.data.data;
+                            const newEducationHTML = createEducationHTML(education);
+
+                            if (educationList) {
+                                educationList.insertAdjacentHTML('afterbegin', newEducationHTML);
+                            } else {
+                                console.error("Error: #educationList tidak ditemukan!");
+                            }
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Education has been added successfully.',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+
+                            educationForm.reset();
+                            photoPreview.style.display = "none";
+                            photoPreview.src = "#";
+
+                            $('#addEducationModal').modal('hide');
+                            $('.modal-backdrop').remove();
+                            $('body').removeClass('modal-open');
+                        } else {
+                            throw new Error(response.data.message || 'Failed to save education');
+                        }
+                    } catch (error) {
+                        console.error("Error:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Failed to save education. Please try again.',
+                        });
+                    }
+                });
+
+                // Handle photo preview
+                educationPhoto.addEventListener("change", function(e) {
                     const file = e.target.files[0];
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = function(event) {
                             photoPreview.src = event.target.result;
                             photoPreview.style.display = "block";
-                            photoPreview.style.maxWidth = "200px";
-                            photoPreview.style.marginTop = "10px";
                         };
                         reader.readAsDataURL(file);
                     } else {
                         photoPreview.style.display = "none";
-                        photoPreview.src = "";
+                        photoPreview.src = "#";
                     }
-                }
-
-                function addEducationToDOM(data) {
-                    const educationItem = document.createElement("div");
-                    educationItem.classList.add("education-item", "mb-3");
-                    educationItem.innerHTML = `
-                <div class="education-content d-flex">
-                    <div class="education-photo mr-3">
-                        ${data.photo ? `<img src="${data.photo}" alt="School" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">` :
-                        `<div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="fas fa-university text-secondary"></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>`}
-                    </div>
-                    <div class="education-info">
-                        <h5 class="font-weight-bold mb-1">${data.schoolName}</h5>
-                        <h6 class="text-primary mb-1">${data.major}</h6>
-                        <p class="text-muted mb-1">
-                            ${months[data.startMonth - 1]} ${data.startYear} -
-                            ${data.endMonth && data.endYear ? `${months[data.endMonth - 1]} ${data.endYear}` : 'Present'}
-                        </p>
-                        ${data.caption ? `<p class="mb-0">${data.caption}</p>` : ''}
-                    </div>
-                </div>
-                <hr class="my-3">
-            `;
-
-                    educationList.appendChild(educationItem);
-                }
-
-                document.getElementById("educationForm").addEventListener("submit", async function(e) {
-                    e.preventDefault();
-
-                    const formData = new FormData();
-                    formData.append("schoolName", document.getElementById("schoolName").value);
-                    formData.append("major", document.getElementById("major").value);
-                    formData.append("startMonth", document.getElementById("eduStartMonth").value);
-                    formData.append("startYear", document.getElementById("eduStartYear").value);
-                    formData.append("endMonth", document.getElementById("eduEndMonth").value);
-                    formData.append("endYear", document.getElementById("eduEndYear").value);
-                    formData.append("caption", document.getElementById("eduCaption").value);
-
-                    const photoInput = document.getElementById("educationPhoto");
-                    if (photoInput.files[0]) {
-                        formData.append("photo", photoInput.files[0]);
-                    }
-
-                    try {
-                        const response = await fetch("/api/users/education", {
-                            method: "POST",
-                            headers: {
-                                "X-CSRF-TOKEN": document.querySelector("meta[name='csrf-token']")
-                                    .content
-                            },
-                            body: formData
-                        });
-
-                        if (response.ok) {
-                            const data = await response.json();
-                            addEducationToDOM(data);
-                            $("#addEducationModal").modal("hide");
-                            document.getElementById("educationForm").reset();
-                            photoPreview.style.display = "none";
-                        } else {
-                            alert("Gagal menyimpan data. Coba lagi!");
-                        }
-                    } catch (error) {
-                        console.error("Error:", error);
-                        alert("Terjadi kesalahan!");
-                    }
-                });
-
-                function init() {
-                    populateMonths();
-                    populateYears();
-
-                    eduStartMonth.addEventListener("change", handleDateFields);
-                    eduStartYear.addEventListener("change", handleDateFields);
-                    educationPhoto.addEventListener("change", handlePhotoPreview);
-
-                    eduEndMonth.disabled = true;
-                    eduEndYear.disabled = true;
-                }
-
-                init();
-
-                document.addEventListener("DOMContentLoaded", function() {
-                    const educationForm = document.getElementById("educationForm");
-                    const educationPhoto = document.getElementById("educationPhoto");
-                    const photoPreview = document.getElementById("educationPhotoPreview");
-
-                    educationPhoto.addEventListener("change", function(e) {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(event) {
-                                photoPreview.src = event.target.result;
-                                photoPreview.style.display = "block";
-                            };
-                            reader.readAsDataURL(file);
-                        } else {
-                            photoPreview.style.display = "none";
-                            photoPreview.src = "";
-                        }
-                    });
-
-                    $(document).ready(function() {
-                        // Ambil data pendidikan saat halaman dimuat
-                        fetchEducations();
-
-                        // Tambah Pendidikan
-                        $('#educationForm').on('submit', function(e) {
-                            e.preventDefault();
-                            let formData = new FormData(this);
-
-                            $.ajax({
-                                url: '/api/users/education',
-                                type: 'POST',
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                beforeSend: function() {
-                                    $('#submitBtn').prop('disabled', true).text(
-                                        'Saving...');
-                                },
-                                success: function(response) {
-                                    $('#educationForm')[0].reset();
-                                    $('#educationModal').modal('hide');
-                                    fetchEducations();
-                                    showToast('success',
-                                        'Education added successfully!');
-                                },
-                                error: function(xhr) {
-                                    showToast('error', 'Failed to add education.');
-                                },
-                                complete: function() {
-                                    $('#submitBtn').prop('disabled', false).text(
-                                        'Save');
-                                }
-                            });
-                        });
-
-                        // Hapus Pendidikan
-                        $(document).on('click', '.delete-education', function() {
-                            let educationId = $(this).data('id');
-
-                            if (!confirm('Are you sure you want to delete this education?'))
-                                return;
-
-                            $.ajax({
-                                url: '/educations/' + educationId,
-                                type: 'DELETE',
-                                data: {
-                                    _token: $('meta[name="csrf-token"]').attr('content')
-                                },
-                                success: function(response) {
-                                    fetchEducations();
-                                    showToast('success',
-                                        'Education deleted successfully!');
-                                },
-                                error: function(xhr) {
-                                    showToast('error',
-                                        'Failed to delete education.');
-                                }
-                            });
-                        });
-
-                        // Ambil Data Pendidikan
-                        function fetchEducations() {
-                            $.ajax({
-                                url: '/educations',
-                                type: 'GET',
-                                success: function(response) {
-                                    let educationList = '';
-                                    response.educations.forEach(function(edu) {
-                                        educationList += `
-                        <div class="card my-3">
-                            <div class="card-body">
-                                <h4>${edu.school_name} (${edu.start_year} - ${edu.end_year ?? 'Present'})</h4>
-                                <p><strong>Major:</strong> ${edu.major}</p>
-                                <p>${edu.caption ?? ''}</p>
-                                ${edu.photo ? `<img src="/storage/${edu.photo}" width="100" class="img-thumbnail">` : ''}
-                                <button class="btn btn-danger delete-education" data-id="${edu.id}">Delete</button>
-                            </div>
-                        </div>
-                    `;
-                                    });
-                                    $('#educationContainer').html(educationList);
-                                },
-                                error: function(xhr) {
-                                    showToast('error', 'Failed to fetch educations.');
-                                }
-                            });
-                        }
-
-                        // Tampilkan Notifikasi Toast
-                        function showToast(type, message) {
-                            let bgColor = type === 'success' ? 'bg-success' : 'bg-danger';
-                            $('#toastMessage').removeClass('bg-success bg-danger').addClass(bgColor)
-                                .text(message);
-                            $('#toastContainer').fadeIn().delay(3000).fadeOut();
-                        }
-                    });
-
                 });
             });
         </script>
-        {{-- ngehit api annjai --}}
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                fetchMyPosts();
-            });
 
-            function fetchMyPosts() {
-                axios.get('/api/posts/my-posts', {
-                        params: {
-                            limit: 10,
-                            page: 1
-                        }
+        {{-- ini js buat ngeliat postingan orang lain --}}
+
+        {{-- <script>
+            function fetchPosts(userId = null) {
+                let url = userId ? `/users/${userId}/posts` : `/posts`;
+
+                axios.get(url)
+                    .then((response) => {
+                        const posts = response.data.data.data;
+                        const container = userId ? document.getElementById("user-post-container") : document.getElementById(
+                            "my-post-container");
+                        renderPosts(posts, container);
                     })
-                    .then(response => {
-                        console.log("Response:", response.data.data.data);
-                        let posts = response.data.data.data;
-
-                        if (!Array.isArray(posts.data)) {
-                            console.error("Error: Expected an array but got", typeof posts.data);
-                            return;
-                        }
-
-                        displayPosts(posts.data);
-                    })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error("Error fetching posts:", error);
                     });
             }
 
-            function displayPosts(posts) {
-                const postContainer = document.getElementById("postContainer");
+            // Panggil sesuai kebutuhan
+            fetchPosts(); // Ambil postingan sendiri
+            fetchPosts(5); // Ambil postingan user lain dengan ID 5
+        </script> --}}
 
-                // Cek apakah `postContainer` ditemukan
-                if (!postContainer) {
-                    console.error("Error: Element #postContainer not found!");
-                    return;
-                }
-
-                postContainer.innerHTML = "";
-
-                posts.forEach(post => {
-                    const postElement = document.createElement("div");
-                    postElement.classList.add("post");
-                    postElement.innerHTML = `
-                <div class="post-content">
-                    <p>${post.content}</p>
-                    <small>By: ${post.user?.name || "Unknown"}</small>
-                    <br>
-                    <button onclick="toggleLike(${post.id}, this)">
-                        ${post.is_liked ? "Unlike" : "Like"}
-                    </button>
-                </div>
-            `;
-                    postContainer.appendChild(postElement);
-                });
-            }
-
-            function toggleLike(postId, btn) {
-                axios.post(`/api/posts/${postId}/like`)
-                    .then(response => {
-                        if (response.data.status === "liked") {
-                            btn.textContent = "Unlike";
-                        } else {
-                            btn.textContent = "Like";
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error liking/unliking post:", error);
-                    });
-            }
-        </script>
         <script src="vendor/jquery/jquery.min.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- slick Slider JS-->

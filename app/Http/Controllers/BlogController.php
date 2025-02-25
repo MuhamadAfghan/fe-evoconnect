@@ -41,12 +41,13 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title' => 'required',
+            'category' => 'required|in:Fashion,Beauty,Travel,Lifestyle,Personal,Technology,Health,Fitness,Healthcare,SaaS Services,Business,Education,Food & Recipes,Love & Relationships,Alternative Topics,Eco-Friendly Living,Music,Automotive,Marketing,Internet Services,Finance,Sports,Entertainment,Productivity,Hobbies,Parenting,Pets,Photography,Farming,Art,Homemade,Science,Games,History,Self-Development,News & Current Affairs',
             'content' => 'required',
         ]);
 
-        $blog = Blog::create($request->all());
+        $blog = Blog::create($data);
 
         return ApiFormatter::sendResponse('success', 201, 'Blog created successfully.', $blog);
     }

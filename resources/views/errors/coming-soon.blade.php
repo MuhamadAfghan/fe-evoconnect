@@ -1,4 +1,4 @@
-@extends('layouts.templates')
+{{-- @extends('layouts.templates')
 
 @section('content')
     <div class="vh-100 bg-white">
@@ -299,11 +299,77 @@
             </div>
         </div>
     </footer>
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- slick Slider JS-->
-    <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/osahan.js"></script>
-@endsection
+    @endsection --}}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        /* Agar form memenuhi layar */
+        .full-screen {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+            /* Warna background */
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <div class="container-fluid full-screen">
+            <div class="row w-100 justify-content-center">
+                <div class="col-md-6 col-lg-4 rounded bg-white p-5 shadow">
+                    <h2 class="mb-4 text-center">Submit Your Information</h2>
+
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter your name"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-control" id="category" required>
+                                <option value="" disabled selected>-- Choose a Category --</option>
+                                <option value="Fashion">Fashion</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Health">Health</option>
+                                <option value="Business">Business</option>
+                                <option value="Education">Education</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- slick Slider JS-->
+        <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/osahan.js"></script>
+    </body>
+
+</html>

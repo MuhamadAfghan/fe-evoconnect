@@ -29,7 +29,7 @@
                                                     {{ $connection->created_at->diffForHumans() }}</small>
                                             </div>
                                             <div class="ml-auto">
-                                                <a href="{{ route('connections.messages', $connection->fromUser->id != auth()->user()->id ? $connection->fromUser->id : $connection->toUser->id) }}"
+                                                <a href="{{ route('messages.show', $connection->fromUser->id != auth()->user()->id ? $connection->fromUser->id : $connection->toUser->id) }}"
                                                     class="btn btn-sm btn-primary message-btn">
                                                     Message
                                                 </a>
@@ -68,7 +68,9 @@
 
                     if (confirm('Are you sure you want to disconnect?')) {
                         $.ajax({
-                            url: `/connections/disconnect/${connectionId}`,
+                            url: /connections/disconnect / $ {
+                                connectionId
+                            },
                             type: 'DELETE',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
