@@ -58,12 +58,12 @@ class AuthController extends Controller
         ]);
 
         // if (env('APP_ENV') == 'local') {
-        $user->email_verified_at = now();
-        $user->save();
+        // $user->email_verified_at = now();
+        // $user->save();
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect()->route('home');
+        // return redirect()->route('home');
         // }
 
         event(new Registered($user));
